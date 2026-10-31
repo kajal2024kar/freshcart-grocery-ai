@@ -1,16 +1,16 @@
 {
-  "total_orders": 3421083,
-  "total_users": 206209,
-  "total_products": 49688,
-  "overall_reorder_rate": 0.5897,
+  "orders": 3421083,
+  "users": 206209,
+  "products": 49688,
+  "reorder_rate": 0.5897,
   "orders_by_weekday": {
-    "Saturday": 600905,
-    "Sunday": 587478,
-    "Monday": 467260,
-    "Tuesday": 436972,
-    "Wednesday": 426339,
-    "Thursday": 453368,
-    "Friday": 448761
+    "0": 600905,
+    "1": 587478,
+    "2": 467260,
+    "3": 436972,
+    "4": 426339,
+    "5": 453368,
+    "6": 448761
   },
   "orders_by_hour": {
     "0": 22758,
@@ -40,65 +40,91 @@
   },
   "top_10_products": [
     {
+      "product_id": 24852,
       "product_name": "Banana",
+      "department": "produce",
+      "aisle": "fresh fruits",
       "order_count": 472565
     },
     {
+      "product_id": 13176,
       "product_name": "Bag of Organic Bananas",
+      "department": "produce",
+      "aisle": "fresh fruits",
       "order_count": 379450
     },
     {
+      "product_id": 21137,
       "product_name": "Organic Strawberries",
+      "department": "produce",
+      "aisle": "fresh fruits",
       "order_count": 264683
     },
     {
+      "product_id": 21903,
       "product_name": "Organic Baby Spinach",
+      "department": "produce",
+      "aisle": "packaged vegetables fruits",
       "order_count": 241921
     },
     {
+      "product_id": 47209,
       "product_name": "Organic Hass Avocado",
+      "department": "produce",
+      "aisle": "fresh fruits",
       "order_count": 213584
     },
     {
+      "product_id": 47766,
       "product_name": "Organic Avocado",
+      "department": "produce",
+      "aisle": "fresh fruits",
       "order_count": 176815
     },
     {
+      "product_id": 47626,
       "product_name": "Large Lemon",
+      "department": "produce",
+      "aisle": "fresh fruits",
       "order_count": 152657
     },
     {
+      "product_id": 16797,
       "product_name": "Strawberries",
+      "department": "produce",
+      "aisle": "fresh fruits",
       "order_count": 142951
     },
     {
+      "product_id": 26209,
       "product_name": "Limes",
+      "department": "produce",
+      "aisle": "fresh fruits",
       "order_count": 140627
     },
     {
+      "product_id": 27845,
       "product_name": "Organic Whole Milk",
+      "department": "dairy eggs",
+      "aisle": "milk",
       "order_count": 137905
     }
   ],
   "feature_importance": {
-    "up_purchase_count": 38455.15,
-    "up_orders_since_last": 170889.55,
-    "up_days_since_last": 45872.24,
-    "up_reorder_rate": 35921.78,
-    "up_avg_cart_pos": 5527.08,
-    "up_purchase_ratio": 173807.79,
-    "user_total_orders": 7045.55,
-    "user_avg_gap": 7822.28,
-    "prod_popularity": 9444.11,
-    "prod_reorder_rate": 29040.81,
-    "prod_total_purchases": 2155.56,
-    "prod_avg_cart_pos": 6201.04
+    "purchase_count": 82018.89,
+    "orders_since_last_purchase": 247197.56,
+    "days_since_last_purchase": 47094.45,
+    "reorder_rate": 212952.02,
+    "avg_position_in_cart": 4232.46,
+    "user_avg_order_gap": 8908.98,
+    "product_popularity": 11320.81,
+    "product_reorder_rate": 37464.2
   },
   "metrics": {
-    "precision_at_10": 0.2988,
-    "recall_at_10": 0.5815,
-    "num_val_users": 2000,
-    "num_features": 12,
-    "num_boost_rounds": 180
+    "precision_at_10": 0.3131,
+    "recall_at_10": 0.5846,
+    "precision_at_10_percent": 31.31,
+    "recall_at_10_percent": 58.46,
+    "unseen_validation_users": 2809
   }
 }

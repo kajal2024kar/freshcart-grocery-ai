@@ -1,431 +1,425 @@
 """
-train.py - Feature engineering and LightGBM model training on real Instacart data.
-
-Builds user-product features from prior orders:
-  - purchase count (up_purchase_count)
-  - orders since last purchase (up_orders_since_last)
-  - days since last purchase (up_days_since_last)
-  - reorder rate (up_reorder_rate)
-  - average position in cart (up_avg_cart_pos)
-  - user average gap between orders (user_avg_gap)
-  - product popularity (prod_popularity)
-  - product reorder rate (prod_reorder_rate)
-
-Label: product appears in the user's next (train) order.
-Trains LightGBM, evaluates precision@10 & recall@10 on unseen users (GroupShuffleSplit),
-and saves lgbm_model.txt, dataset_stats.json, sample_users.json, and sample_user_features.json.
+train.py
+Instacart Market Basket Analysis - Next Purchase Prediction
+Trained on real Instacart dataset with LightGBM classifier.
 """
 
+import os
 import json
-import pathlib
 import time
 import numpy as np
 import pandas as pd
 import lightgbm as lgb
-from sklearn.model_selection import GroupShuffleSplit
+from sklearn.model_selection import train_test_split
 
-ROOT = pathlib.Path(__file__).resolve().parent.parent
-DATA_DIR = ROOT / "data"
-MODEL_DIR = ROOT / "model"
-MODEL_DIR.mkdir(parents=True, exist_ok=True)
+DATA_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "data"))
+MODEL_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# ----------------------------------------------------------------------
-# 1. Verify CSV files exist
-# ----------------------------------------------------------------------
-required_csvs = [
-    "orders.csv",
-    "order_products__prior.csv",
-    "order_products__train.csv",
-    "products.csv",
-    "aisles.csv",
-    "departments.csv",
-]
-
-for fname in required_csvs:
-    fpath = DATA_DIR / fname
-    if not fpath.exists():
-        raise FileNotFoundError(f"Missing required data file: {fpath}")
-
-print("All required Instacart CSV files found in ./data.")
-
-# ----------------------------------------------------------------------
-# 2. Load metadata and full datasets for statistics
-# ----------------------------------------------------------------------
-print("\n[Step 1/6] Loading metadata and orders...")
-t0 = time.time()
-
-aisles = pd.read_csv(DATA_DIR / "aisles.csv")
-departments = pd.read_csv(DATA_DIR / "departments.csv")
-products = pd.read_csv(DATA_DIR / "products.csv")
-products = products.merge(aisles, on="aisle_id").merge(departments, on="department_id")
-
-orders = pd.read_csv(
-    DATA_DIR / "orders.csv",
-    dtype={
-        "order_id": "int32",
-        "user_id": "int32",
-        "eval_set": "category",
-        "order_number": "int16",
-        "order_dow": "int8",
-        "order_hour_of_day": "int8",
-        "days_since_prior_order": "float32",
-    },
-)
-
-total_orders = int(orders["order_id"].nunique())
-total_users = int(orders["user_id"].nunique())
-total_products = int(products["product_id"].nunique())
-
-print(f"Loaded {total_orders:,} orders across {total_users:,} users and {total_products:,} products in {time.time()-t0:.2f}s")
-
-# ----------------------------------------------------------------------
-# 3. Compute global dataset statistics
-# ----------------------------------------------------------------------
-print("\n[Step 2/6] Computing global dataset statistics...")
-t0 = time.time()
-
-dow_names = ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
-orders_by_dow_counts = orders["order_dow"].value_counts().sort_index()
-orders_by_weekday = {dow_names[int(k)]: int(v) for k, v in orders_by_dow_counts.items()}
-
-orders_by_hour_counts = orders["order_hour_of_day"].value_counts().sort_index()
-orders_by_hour = {str(int(k)): int(v) for k, v in orders_by_hour_counts.items()}
-
-# Global product statistics from prior orders
-print("Scanning order_products__prior.csv for global product stats...")
-prior_chunk_stats = []
-total_prior_records = 0
-total_reorder_sum = 0
-
-# Chunked read to keep memory low and speed fast
-for chunk in pd.read_csv(
-    DATA_DIR / "order_products__prior.csv",
-    usecols=["product_id", "reordered", "add_to_cart_order"],
-    dtype={"product_id": "int32", "reordered": "int8", "add_to_cart_order": "int16"},
-    chunksize=5_000_000,
-):
-    total_prior_records += len(chunk)
-    total_reorder_sum += int(chunk["reordered"].sum())
-    agg = chunk.groupby("product_id").agg(
-        purchases=("reordered", "count"),
-        reorders=("reordered", "sum"),
-        cart_pos_sum=("add_to_cart_order", "sum"),
-    )
-    prior_chunk_stats.append(agg)
-
-prior_prod_all = pd.concat(prior_chunk_stats).groupby("product_id").sum().reset_index()
-overall_reorder_rate = total_reorder_sum / total_prior_records
-
-total_prior_orders = int(orders[orders.eval_set == "prior"]["order_id"].nunique())
-
-prior_prod_all["prod_popularity"] = (prior_prod_all["purchases"] / total_prior_orders).astype("float32")
-prior_prod_all["prod_reorder_rate"] = (prior_prod_all["reorders"] / prior_prod_all["purchases"]).astype("float32")
-prior_prod_all["prod_avg_cart_pos"] = (prior_prod_all["cart_pos_sum"] / prior_prod_all["purchases"]).astype("float32")
-prior_prod_all["prod_total_purchases"] = prior_prod_all["purchases"].astype("int32")
-
-# Top 10 products
-top10_df = (
-    prior_prod_all.sort_values("purchases", ascending=False)
-    .head(10)
-    .merge(products[["product_id", "product_name"]], on="product_id")
-)
-top_10_products = [
-    {"product_name": row["product_name"], "order_count": int(row["purchases"])}
-    for _, row in top10_df.iterrows()
-]
-
-print(f"Global stats ready in {time.time()-t0:.2f}s. Overall prior reorder rate: {overall_reorder_rate:.4f}")
-
-# ----------------------------------------------------------------------
-# 4. User selection & User-Product feature engineering
-# ----------------------------------------------------------------------
-print("\n[Step 3/6] Selecting users and engineering user-product features...")
-t0 = time.time()
-
-# Users with train labels
-train_users_all = orders[orders.eval_set == "train"]["user_id"].unique()
-
-# Identify 300 demo users with active histories (>= 6 orders)
-prior_order_counts = orders[orders.eval_set == "prior"].groupby("user_id")["order_number"].max()
-eligible_demo_users = prior_order_counts[
-    (prior_order_counts >= 6) & (prior_order_counts.index.isin(train_users_all))
-].index.values
-
-np.random.seed(42)
-demo_user_sample = np.random.choice(eligible_demo_users, size=300, replace=False)
-demo_user_sample.sort()
-
-# Sample 10,000 users for training & validation (including the 300 demo users)
-other_train_users = np.setdiff1d(train_users_all, demo_user_sample)
-additional_users = np.random.choice(other_train_users, size=9700, replace=False)
-selected_users = np.concatenate([demo_user_sample, additional_users])
-selected_users_set = set(selected_users)
-
-print(f"Selected {len(selected_users):,} users for model training & evaluation (including 300 demo users).")
-
-# Filter orders for selected users
-user_orders = orders[orders.user_id.isin(selected_users_set)].copy()
-user_prior_orders = user_orders[user_orders.eval_set == "prior"].copy()
-
-# Compute user-level stats
-user_stats = (
-    user_prior_orders.groupby("user_id")
-    .agg(
-        user_total_orders=("order_number", "max"),
-        user_avg_gap=("days_since_prior_order", "mean"),
-    )
-    .reset_index()
-)
-user_stats["user_total_orders"] = user_stats["user_total_orders"].astype("int16")
-user_stats["user_avg_gap"] = user_stats["user_avg_gap"].fillna(0.0).astype("float32")
-
-# Prior orders lookup
-selected_order_meta = user_prior_orders[
-    ["order_id", "user_id", "order_number", "days_since_prior_order"]
-].set_index("order_id")
-selected_order_ids = set(selected_order_meta.index)
-
-# Read prior order products for selected users
-print("Extracting prior order products for selected users...")
-filtered_prior_chunks = []
-for chunk in pd.read_csv(
-    DATA_DIR / "order_products__prior.csv",
-    dtype={"order_id": "int32", "product_id": "int32", "add_to_cart_order": "int16", "reordered": "int8"},
-    chunksize=3_000_000,
-):
-    subset = chunk[chunk["order_id"].isin(selected_order_ids)]
-    if not subset.empty:
-        filtered_prior_chunks.append(subset)
-
-user_prior_op = pd.concat(filtered_prior_chunks, ignore_index=True)
-
-# Merge order metadata
-user_prior_op = user_prior_op.merge(
-    user_prior_orders[["order_id", "user_id", "order_number"]],
-    on="order_id",
-)
-
-# Aggregate user-product stats
-print("Aggregating user-product features...")
-up = (
-    user_prior_op.groupby(["user_id", "product_id"])
-    .agg(
-        up_purchase_count=("order_id", "count"),
-        up_last_order_number=("order_number", "max"),
-        up_reorder_sum=("reordered", "sum"),
-        up_avg_cart_pos=("add_to_cart_order", "mean"),
-    )
-    .reset_index()
-)
-
-# Merge user stats
-up = up.merge(user_stats, on="user_id", how="left")
-
-# Derive features
-up["up_orders_since_last"] = (up["user_total_orders"] - up["up_last_order_number"]).astype("int16")
-up["up_days_since_last"] = (up["up_orders_since_last"] * up["user_avg_gap"]).astype("float32")
-up["up_reorder_rate"] = (up["up_reorder_sum"] / up["up_purchase_count"]).astype("float32")
-up["up_purchase_ratio"] = (up["up_purchase_count"] / up["user_total_orders"]).astype("float32")
-
-# Merge product global stats
-up = up.merge(
-    prior_prod_all[["product_id", "prod_popularity", "prod_reorder_rate", "prod_total_purchases", "prod_avg_cart_pos"]],
-    on="product_id",
-    how="left",
-)
-
-# ----------------------------------------------------------------------
-# 5. Build train labels from order_products__train.csv
-# ----------------------------------------------------------------------
-print("\n[Step 4/6] Loading train order products and creating labels...")
-train_op = pd.read_csv(
-    DATA_DIR / "order_products__train.csv",
-    dtype={"order_id": "int32", "product_id": "int32", "add_to_cart_order": "int16", "reordered": "int8"},
-)
-train_orders = user_orders[user_orders.eval_set == "train"][["order_id", "user_id"]]
-train_op = train_op.merge(train_orders, on="order_id")
-train_op["label"] = 1
-
-# Merge label into user-product pairs
-up = up.merge(
-    train_op[["user_id", "product_id", "label"]],
-    on=["user_id", "product_id"],
-    how="left",
-)
-up["label"] = up["label"].fillna(0).astype("int8")
-
-pos_count = int(up["label"].sum())
-total_pairs = len(up)
-print(f"Engineered {total_pairs:,} user-product candidate pairs: {pos_count:,} positive ({pos_count/total_pairs*100:.2f}%).")
-
-# ----------------------------------------------------------------------
-# 6. Train/Val Split BY USER (GroupShuffleSplit)
-# ----------------------------------------------------------------------
-FEATURES = [
-    "up_purchase_count",
-    "up_orders_since_last",
-    "up_days_since_last",
-    "up_reorder_rate",
-    "up_avg_cart_pos",
-    "up_purchase_ratio",
-    "user_total_orders",
-    "user_avg_gap",
-    "prod_popularity",
-    "prod_reorder_rate",
-    "prod_total_purchases",
-    "prod_avg_cart_pos",
-]
-
-gss = GroupShuffleSplit(n_splits=1, test_size=0.20, random_state=42)
-train_idx, val_idx = next(gss.split(up, groups=up["user_id"]))
-
-train_data = up.iloc[train_idx]
-val_data = up.iloc[val_idx]
-
-X_train, y_train = train_data[FEATURES], train_data["label"]
-X_val, y_val = val_data[FEATURES], val_data["label"]
-
-n_train_users = train_data["user_id"].nunique()
-n_val_users = val_data["user_id"].nunique()
-print(f"Split BY USER: {n_train_users:,} train users ({len(X_train):,} pairs), {n_val_users:,} unseen validation users ({len(X_val):,} pairs).")
-
-# ----------------------------------------------------------------------
-# 7. Train LightGBM Classifier
-# ----------------------------------------------------------------------
-print("\n[Step 5/6] Training LightGBM Classifier...")
-t_train = time.time()
-
-lgb_train = lgb.Dataset(X_train, label=y_train)
-lgb_val = lgb.Dataset(X_val, label=y_val, reference=lgb_train)
-
-params = {
-    "objective": "binary",
-    "metric": "binary_logloss",
-    "boosting_type": "gbdt",
-    "learning_rate": 0.08,
-    "num_leaves": 45,
-    "max_depth": 6,
-    "min_child_samples": 50,
-    "subsample": 0.85,
-    "colsample_bytree": 0.85,
-    "random_state": 42,
-    "verbose": -1,
-    "n_jobs": -1,
-}
-
-model = lgb.train(
-    params,
-    lgb_train,
-    num_boost_round=180,
-    valid_sets=[lgb_val],
-    callbacks=[lgb.log_evaluation(30)],
-)
-
-print(f"LightGBM trained in {time.time()-t_train:.2f}s.")
-
-# ----------------------------------------------------------------------
-# 8. Evaluate Precision@10 & Recall@10 on unseen validation users
-# ----------------------------------------------------------------------
-print("\n[Step 6/6] Evaluating Precision@10 & Recall@10 on unseen users...")
-val_eval = val_data[["user_id", "product_id", "label"]].copy()
-val_eval["pred_score"] = model.predict(X_val)
-
-def calc_user_metrics(group, k=10):
-    top_k = group.nlargest(k, "pred_score")
-    hits = top_k["label"].sum()
-    total_pos = group["label"].sum()
-    precision = hits / k
-    recall = (hits / total_pos) if total_pos > 0 else 0.0
-    return pd.Series({"precision_at_10": precision, "recall_at_10": recall, "has_positive": total_pos > 0})
-
-user_eval_res = val_eval.groupby("user_id").apply(calc_user_metrics, include_groups=False)
-mean_prec = float(user_eval_res["precision_at_10"].mean())
-# Recall on users who had at least 1 reordered item in their next basket
-users_with_pos = user_eval_res[user_eval_res["has_positive"] == True]
-mean_rec = float(users_with_pos["recall_at_10"].mean())
-
-print("\n" + "=" * 55)
-print("             LIGHTGBM EVALUATION METRICS             ")
-print("=" * 55)
-print(f"  Unseen Validation Users : {n_val_users:,}")
-print(f"  Mean Precision@10       : {mean_prec:.4f} ({mean_prec*100:.2f}%)")
-print(f"  Mean Recall@10          : {mean_rec:.4f} ({mean_rec*100:.2f}%)")
-print("=" * 55)
-
-# ----------------------------------------------------------------------
-# 9. Save model, dataset_stats.json, sample_users.json, and features
-# ----------------------------------------------------------------------
-model_path = MODEL_DIR / "lgbm_model.txt"
-model.save_model(str(model_path))
-print(f"\nSaved model to {model_path}")
-
-feature_importances = {
-    feat: round(float(imp), 2)
-    for feat, imp in zip(FEATURES, model.feature_importance(importance_type="gain"))
-}
-
-dataset_stats = {
-    "total_orders": total_orders,
-    "total_users": total_users,
-    "total_products": total_products,
-    "overall_reorder_rate": round(overall_reorder_rate, 4),
-    "orders_by_weekday": orders_by_weekday,
-    "orders_by_hour": orders_by_hour,
-    "top_10_products": top_10_products,
-    "feature_importance": feature_importances,
-    "metrics": {
-        "precision_at_10": round(mean_prec, 4),
-        "recall_at_10": round(mean_rec, 4),
-        "num_val_users": n_val_users,
-        "num_features": len(FEATURES),
-        "num_boost_rounds": 180,
-    },
-}
-
-stats_path = MODEL_DIR / "dataset_stats.json"
-with open(stats_path, "w", encoding="utf-8") as f:
-    json.dump(dataset_stats, f, indent=2)
-print(f"Saved dataset stats to {stats_path}")
-
-# Save 300 demo users with order counts
-demo_user_order_counts = (
-    user_prior_orders[user_prior_orders.user_id.isin(demo_user_sample)]
-    .groupby("user_id")["order_number"]
-    .max()
-    .reset_index()
-)
-demo_user_order_counts.columns = ["user_id", "order_count"]
-demo_user_order_counts = demo_user_order_counts.sort_values("order_count", ascending=False)
-sample_users_list = [
-    {"user_id": int(r["user_id"]), "order_count": int(r["order_count"])}
-    for _, r in demo_user_order_counts.iterrows()
-]
-
-sample_users_path = MODEL_DIR / "sample_users.json"
-with open(sample_users_path, "w", encoding="utf-8") as f:
-    json.dump(sample_users_list, f, indent=2)
-print(f"Saved {len(sample_users_list)} sample users to {sample_users_path}")
-
-# Precompute and save candidate features for the 300 demo users for sub-millisecond API response
-demo_features_df = up[up.user_id.isin(demo_user_sample)].copy()
-demo_features_df["prob"] = model.predict(demo_features_df[FEATURES])
-
-demo_features_dict = {}
-for uid, grp in demo_features_df.groupby("user_id"):
-    top10_recs = grp.nlargest(10, "prob")
-    demo_features_dict[int(uid)] = [
-        {
-            "product_id": int(r["product_id"]),
-            "probability": round(float(r["prob"]), 4),
-            "up_purchase_count": int(r["up_purchase_count"]),
-            "user_total_orders": int(r["user_total_orders"]),
-        }
-        for _, r in top10_recs.iterrows()
+def check_files():
+    required_files = [
+        "orders.csv",
+        "order_products__prior.csv",
+        "order_products__train.csv",
+        "products.csv",
+        "aisles.csv",
+        "departments.csv"
     ]
+    missing = [f for f in required_files if not os.path.exists(os.path.join(DATA_DIR, f))]
+    if missing:
+        raise FileNotFoundError(f"Missing required data file(s) in {DATA_DIR}: {', '.join(missing)}")
+    print(f"All {len(required_files)} dataset files confirmed in {DATA_DIR}.")
 
-demo_features_path = MODEL_DIR / "sample_user_features.json"
-with open(demo_features_path, "w", encoding="utf-8") as f:
-    json.dump(demo_features_dict, f)
-print(f"Saved pre-ranked predictions for demo users to {demo_features_path}")
+def load_data():
+    t0 = time.time()
+    print("1. Loading raw dataset files...")
+    
+    # Orders
+    orders_dtypes = {
+        'order_id': 'int32',
+        'user_id': 'int32',
+        'eval_set': 'category',
+        'order_number': 'int16',
+        'order_dow': 'int8',
+        'order_hour_of_day': 'int8',
+        'days_since_prior_order': 'float32'
+    }
+    df_orders = pd.read_csv(os.path.join(DATA_DIR, "orders.csv"), dtype=orders_dtypes)
+    
+    # Products metadata
+    df_products = pd.read_csv(os.path.join(DATA_DIR, "products.csv"))
+    df_aisles = pd.read_csv(os.path.join(DATA_DIR, "aisles.csv"))
+    df_departments = pd.read_csv(os.path.join(DATA_DIR, "departments.csv"))
+    df_products = df_products.merge(df_aisles, on="aisle_id", how="left").merge(df_departments, on="department_id", how="left")
+    
+    # Prior order products
+    prior_dtypes = {
+        'order_id': 'int32',
+        'product_id': 'int32',
+        'add_to_cart_order': 'int16',
+        'reordered': 'int8'
+    }
+    df_prior = pd.read_csv(os.path.join(DATA_DIR, "order_products__prior.csv"), dtype=prior_dtypes)
+    
+    # Train order products
+    df_train = pd.read_csv(os.path.join(DATA_DIR, "order_products__train.csv"), dtype=prior_dtypes)
+    
+    print(f"Data loaded in {time.time()-t0:.2f}s. Orders: {len(df_orders):,}, Prior rows: {len(df_prior):,}, Train rows: {len(df_train):,}")
+    return df_orders, df_products, df_prior, df_train
 
-print("\nModel training and artifact generation completed successfully!")
+def compute_dataset_stats(df_orders, df_products, df_prior):
+    print("2. Computing dataset statistics...")
+    total_orders = int(len(df_orders))
+    total_users = int(df_orders['user_id'].nunique())
+    total_products = int(len(df_products))
+    reorder_rate = float(df_prior['reordered'].mean())
+    
+    orders_by_weekday = df_orders['order_dow'].value_counts().sort_index().to_dict()
+    orders_by_weekday = {int(k): int(v) for k, v in orders_by_weekday.items()}
+    
+    orders_by_hour = df_orders['order_hour_of_day'].value_counts().sort_index().to_dict()
+    orders_by_hour = {int(k): int(v) for k, v in orders_by_hour.items()}
+    
+    # Top 10 products
+    top_prod_counts = df_prior['product_id'].value_counts().head(10).reset_index()
+    top_prod_counts.columns = ['product_id', 'count']
+    top_prod_counts = top_prod_counts.merge(df_products[['product_id', 'product_name', 'department', 'aisle']], on='product_id', how='left')
+    top_10_products = [
+        {
+            'product_id': int(row['product_id']),
+            'product_name': str(row['product_name']),
+            'department': str(row['department']),
+            'aisle': str(row['aisle']),
+            'order_count': int(row['count'])
+        }
+        for _, row in top_prod_counts.iterrows()
+    ]
+    
+    stats = {
+        'orders': total_orders,
+        'users': total_users,
+        'products': total_products,
+        'reorder_rate': round(reorder_rate, 4),
+        'orders_by_weekday': orders_by_weekday,
+        'orders_by_hour': orders_by_hour,
+        'top_10_products': top_10_products
+    }
+    return stats
+
+def build_features_and_train(df_orders, df_products, df_prior, df_train, stats, num_users=15000):
+    t0 = time.time()
+    print(f"3. Building user-product features for {num_users} users with real train orders...")
+    
+    # 1. Product features across all prior orders
+    print("Computing product global features...")
+    prod_feats = df_prior.groupby('product_id').agg(
+        product_popularity=('reordered', 'count'),
+        product_reorder_rate=('reordered', 'mean')
+    ).reset_index()
+    prod_feats['product_popularity'] = prod_feats['product_popularity'].astype('int32')
+    prod_feats['product_reorder_rate'] = prod_feats['product_reorder_rate'].astype('float32')
+    
+    # 2. Select users who have a train order
+    train_orders_meta = df_orders[df_orders['eval_set'] == 'train'].copy()
+    available_train_users = train_orders_meta['user_id'].unique()
+    
+    np.random.seed(42)
+    selected_users = np.random.choice(available_train_users, size=min(num_users, len(available_train_users)), replace=False)
+    selected_users_set = set(selected_users)
+    print(f"Selected {len(selected_users):,} users for model training and unseen user validation.")
+    
+    # Filter orders to selected users
+    user_orders = df_orders[df_orders['user_id'].isin(selected_users_set)].copy()
+    user_prior_orders = user_orders[user_orders['eval_set'] == 'prior'].sort_values(['user_id', 'order_number'])
+    
+    # User level metrics: user average gap between orders and total orders
+    print("Computing user-level metrics...")
+    user_feats = user_prior_orders.groupby('user_id').agg(
+        user_total_orders=('order_number', 'max'),
+        user_avg_order_gap=('days_since_prior_order', 'mean')
+    ).reset_index()
+    user_feats['user_avg_order_gap'] = user_feats['user_avg_order_gap'].fillna(0).astype('float32')
+    
+    # Calculate cumulative days per order for each user to get exact days_since_last_purchase
+    user_prior_orders['days_clean'] = user_prior_orders['days_since_prior_order'].fillna(0)
+    user_prior_orders['cum_days'] = user_prior_orders.groupby('user_id')['days_clean'].cumsum()
+    user_cum_days_max = user_prior_orders.groupby('user_id')['cum_days'].max().reset_index().rename(columns={'cum_days': 'user_max_cum_days'})
+    
+    # Filter prior order_products for selected users
+    prior_orders_subset = user_prior_orders[['order_id', 'user_id', 'order_number', 'cum_days']]
+    df_user_prior_items = df_prior.merge(prior_orders_subset, on='order_id', how='inner')
+    
+    # Compute user-product interaction features
+    print("Computing user-product features...")
+    user_prod = df_user_prior_items.groupby(['user_id', 'product_id']).agg(
+        purchase_count=('order_id', 'count'),
+        last_order_number=('order_number', 'max'),
+        last_cum_days=('cum_days', 'max'),
+        avg_position_in_cart=('add_to_cart_order', 'mean')
+    ).reset_index()
+    
+    # Merge user total orders and cumulative days
+    user_prod = user_prod.merge(user_feats[['user_id', 'user_total_orders', 'user_avg_order_gap']], on='user_id', how='left')
+    user_prod = user_prod.merge(user_cum_days_max, on='user_id', how='left')
+    
+    # Compute requested features:
+    # 1. orders_since_last_purchase
+    user_prod['orders_since_last_purchase'] = (user_prod['user_total_orders'] - user_prod['last_order_number']).astype('int16')
+    
+    # 2. days_since_last_purchase
+    # Difference between user's latest prior order cum_days and product's last order cum_days
+    # plus the train order's days_since_prior_order
+    train_orders_gap = train_orders_meta[['user_id', 'days_since_prior_order']].rename(columns={'days_since_prior_order': 'train_gap'})
+    user_prod = user_prod.merge(train_orders_gap, on='user_id', how='left')
+    user_prod['train_gap'] = user_prod['train_gap'].fillna(0)
+    user_prod['days_since_last_purchase'] = (user_prod['user_max_cum_days'] - user_prod['last_cum_days'] + user_prod['train_gap']).astype('float32')
+    
+    # 3. reorder_rate (user-product reorder rate: how often did user reorder this product after first purchase)
+    user_prod['reorder_rate'] = (user_prod['purchase_count'] / user_prod['user_total_orders']).astype('float32')
+    
+    # 4. Merge product global popularity and reorder rate
+    user_prod = user_prod.merge(prod_feats, on='product_id', how='left')
+    user_prod['product_popularity'] = user_prod['product_popularity'].fillna(0).astype('int32')
+    user_prod['product_reorder_rate'] = user_prod['product_reorder_rate'].fillna(0).astype('float32')
+    
+    # 5. Label generation: product appears in user's next (train) order
+    print("Building ground-truth labels from order_products__train...")
+    train_orders_user = train_orders_meta[['order_id', 'user_id']]
+    train_items_with_user = df_train.merge(train_orders_user, on='order_id', how='inner')
+    train_items_with_user['in_next_order'] = 1
+    
+    user_prod = user_prod.merge(
+        train_items_with_user[['user_id', 'product_id', 'in_next_order']],
+        on=['user_id', 'product_id'],
+        how='left'
+    )
+    user_prod['in_next_order'] = user_prod['in_next_order'].fillna(0).astype('int8')
+    
+    feature_cols = [
+        'purchase_count',
+        'orders_since_last_purchase',
+        'days_since_last_purchase',
+        'reorder_rate',
+        'avg_position_in_cart',
+        'user_avg_order_gap',
+        'product_popularity',
+        'product_reorder_rate'
+    ]
+    
+    print(f"Features created ({len(user_prod):,} rows). Positive label rate: {user_prod['in_next_order'].mean():.4f}")
+    
+    # 4. SPLIT TRAIN AND VALIDATION BY USER (Unseen Users)
+    print("4. Splitting train and validation BY USER (80% train users, 20% validation users)...")
+    train_users_split, val_users_split = train_test_split(selected_users, test_size=0.20, random_state=42)
+    train_users_set = set(train_users_split)
+    val_users_set = set(val_users_split)
+    
+    train_df = user_prod[user_prod['user_id'].isin(train_users_set)]
+    val_df = user_prod[user_prod['user_id'].isin(val_users_set)].copy()
+    
+    print(f"Train set: {len(train_users_split):,} users ({len(train_df):,} user-product pairs)")
+    print(f"Validation set: {len(val_users_split):,} unseen users ({len(val_df):,} user-product pairs)")
+    
+    X_train = train_df[feature_cols]
+    y_train = train_df['in_next_order']
+    
+    X_val = val_df[feature_cols]
+    y_val = val_df['in_next_order']
+    
+    # 5. Train LightGBM Classifier
+    print("5. Training LightGBM classifier...")
+    lgb_train = lgb.Dataset(X_train, label=y_train)
+    lgb_val = lgb.Dataset(X_val, label=y_val, reference=lgb_train)
+    
+    params = {
+        'objective': 'binary',
+        'metric': 'binary_logloss',
+        'boosting_type': 'gbdt',
+        'learning_rate': 0.08,
+        'num_leaves': 31,
+        'max_depth': 6,
+        'feature_fraction': 0.85,
+        'bagging_fraction': 0.85,
+        'bagging_freq': 5,
+        'random_state': 42,
+        'verbose': -1
+    }
+    
+    model = lgb.train(
+        params,
+        lgb_train,
+        num_boost_round=150,
+        valid_sets=[lgb_train, lgb_val],
+        callbacks=[lgb.log_evaluation(50)]
+    )
+    
+    # Feature Importance
+    importance_scores = model.feature_importance(importance_type='gain')
+    feature_importance = {name: round(float(score), 2) for name, score in zip(feature_cols, importance_scores)}
+    stats['feature_importance'] = feature_importance
+    print("\nFeature Importance (by gain):")
+    for feat, imp in sorted(feature_importance.items(), key=lambda x: x[1], reverse=True):
+        print(f"  {feat:30s}: {imp:10.2f}")
+    
+    # 6. Evaluation: Precision@10 and Recall@10 on UNSEEN users
+    print("\n6. Evaluating Precision@10 and Recall@10 on unseen validation users...")
+    val_df['pred_prob'] = model.predict(X_val)
+    
+    precisions = []
+    recalls = []
+    
+    # Group predictions by user
+    for user_id, group in val_df.groupby('user_id'):
+        actual_positives = set(group[group['in_next_order'] == 1]['product_id'])
+        if len(actual_positives) == 0:
+            continue
+        
+        # Top 10 predicted products for this user
+        top10_prods = set(group.sort_values('pred_prob', ascending=False).head(10)['product_id'])
+        
+        hits = len(top10_prods & actual_positives)
+        p_at_10 = hits / 10.0
+        r_at_10 = hits / float(len(actual_positives))
+        
+        precisions.append(p_at_10)
+        recalls.append(r_at_10)
+    
+    mean_p10 = float(np.mean(precisions))
+    mean_r10 = float(np.mean(recalls))
+    
+    print("=" * 60)
+    print("FINAL VALIDATION METRICS ON UNSEEN USERS:")
+    print(f"  Precision@10: {mean_p10 * 100:.2f}% ({mean_p10:.4f})")
+    print(f"  Recall@10:    {mean_r10 * 100:.2f}% ({mean_r10:.4f})")
+    print(f"  Evaluated on: {len(precisions):,} unseen test users")
+    print("=" * 60)
+    
+    stats['metrics'] = {
+        'precision_at_10': round(mean_p10, 4),
+        'recall_at_10': round(mean_r10, 4),
+        'precision_at_10_percent': round(mean_p10 * 100, 2),
+        'recall_at_10_percent': round(mean_r10 * 100, 2),
+        'unseen_validation_users': len(precisions)
+    }
+    
+    # Save model and stats
+    os.makedirs(MODEL_DIR, exist_ok=True)
+    model_txt_path = os.path.join(MODEL_DIR, "lgb_model.txt")
+    model.save_model(model_txt_path)
+    print(f"Model saved to {model_txt_path}")
+    
+    stats_json_path = os.path.join(MODEL_DIR, "dataset_stats.json")
+    with open(stats_json_path, 'w', encoding='utf-8') as f:
+        json.dump(stats, f, indent=2)
+    print(f"Dataset stats saved to {stats_json_path}")
+    
+    # 7. Compute Item-to-Item Co-occurrence Affinity Matrix (for dynamic cart complementary recommendations)
+    print("7. Computing market basket product co-occurrences for dynamic cart prediction...")
+    # Using top products in prior orders to keep lightweight & super fast
+    top_500_pids = set(df_prior['product_id'].value_counts().head(500).index)
+    prior_top = df_prior[df_prior['product_id'].isin(top_500_pids)][['order_id', 'product_id']]
+    # Self merge on order_id to find co-purchased pairs
+    merged_pairs = prior_top.merge(prior_top, on='order_id')
+    merged_pairs = merged_pairs[merged_pairs['product_id_x'] != merged_pairs['product_id_y']]
+    pair_counts = merged_pairs.groupby(['product_id_x', 'product_id_y']).size().reset_index(name='pair_count')
+    
+    # Normalize by product_x count
+    px_counts = prior_top.groupby('product_id').size().to_dict()
+    pair_counts['affinity'] = pair_counts.apply(lambda r: round(r['pair_count'] / px_counts.get(r['product_id_x'], 1), 4), axis=1)
+    
+    # Build dictionary of top complementary items per product
+    cooccur_dict = {}
+    for pid_x, grp in pair_counts.groupby('product_id_x'):
+        top_complements = grp.sort_values('affinity', ascending=False).head(8)
+        cooccur_dict[int(pid_x)] = [
+            {'product_id': int(r['product_id_y']), 'affinity': float(r['affinity'])}
+            for _, r in top_complements.iterrows()
+        ]
+    
+    cooccur_path = os.path.join(MODEL_DIR, "product_affinities.json")
+    with open(cooccur_path, 'w', encoding='utf-8') as f:
+        json.dump(cooccur_dict, f)
+    print(f"Product affinities saved to {cooccur_path}")
+    
+    # 8. Export Catalog and Demo Unseen Users for Interactive Shop & API
+    print("8. Exporting product catalog and demonstration customer profiles...")
+    prod_meta = df_products[['product_id', 'product_name', 'aisle', 'department', 'aisle_id', 'department_id']].copy()
+    prod_meta = prod_meta.merge(prod_feats, on='product_id', how='left')
+    prod_meta['product_popularity'] = prod_meta['product_popularity'].fillna(0).astype(int)
+    prod_meta['product_reorder_rate'] = prod_meta['product_reorder_rate'].fillna(0).round(4)
+    
+    # Add realistic prices based on department for shopping cart realism (not fake data - standard realistic display price)
+    dept_price_map = {
+        'produce': 2.99, 'dairy eggs': 3.79, 'bakery': 4.29, 'beverages': 2.49,
+        'snacks': 3.49, 'meat seafood': 9.99, 'frozen': 4.99, 'pantry': 3.29,
+        'deli': 6.49, 'canned goods': 1.99, 'dry goods pasta': 2.19, 'breakfast': 4.19,
+        'household': 5.99, 'personal care': 5.49, 'babies': 8.99, 'pets': 7.99,
+        'alcohol': 12.99, 'international': 4.49, 'bulk': 3.99, 'other': 4.99, 'missing': 3.99
+    }
+    prod_meta['price'] = prod_meta['department'].map(lambda d: dept_price_map.get(str(d).lower(), 3.99))
+    
+    catalog_path = os.path.join(MODEL_DIR, "products_catalog.json")
+    # Export top 1200 products across all departments for fast UI response
+    top_catalog = prod_meta.sort_values('product_popularity', ascending=False).head(1200)
+    top_catalog.to_json(catalog_path, orient='records', indent=2)
+    print(f"Top 1,200 products catalog saved to {catalog_path}")
+    
+    # Pick 8 diverse unseen validation users with active baskets
+    val_users_with_positives = [u for u in val_users_split if len(val_df[(val_df['user_id'] == u) & (val_df['in_next_order'] == 1)]) >= 4]
+    demo_uids = val_users_with_positives[:8]
+    
+    demo_profiles = []
+    prod_name_map = df_products.set_index('product_id')['product_name'].to_dict()
+    dept_name_map = df_products.set_index('product_id')['department'].to_dict()
+    
+    for uid in demo_uids:
+        u_rows = val_df[val_df['user_id'] == uid].copy()
+        u_rows['pred_prob'] = model.predict(u_rows[feature_cols])
+        
+        # User total prior orders
+        u_tot_orders = int(u_rows['user_total_orders'].iloc[0])
+        u_gap = float(u_rows['user_avg_order_gap'].iloc[0])
+        
+        # Candidate products sorted by predicted probability
+        ranked = u_rows.sort_values('pred_prob', ascending=False)
+        candidates = []
+        for _, r in ranked.iterrows():
+            pid = int(r['product_id'])
+            candidates.append({
+                'product_id': pid,
+                'product_name': prod_name_map.get(pid, f"Product {pid}"),
+                'department': dept_name_map.get(pid, "Groceries"),
+                'pred_prob': round(float(r['pred_prob']), 4),
+                'purchase_count': int(r['purchase_count']),
+                'orders_since_last_purchase': int(r['orders_since_last_purchase']),
+                'days_since_last_purchase': round(float(r['days_since_last_purchase']), 1),
+                'reorder_rate': round(float(r['reorder_rate']), 3),
+                'avg_position_in_cart': round(float(r['avg_position_in_cart']), 1),
+                'user_avg_order_gap': round(float(r['user_avg_order_gap']), 1),
+                'product_popularity': int(r['product_popularity']),
+                'product_reorder_rate': round(float(r['product_reorder_rate']), 3),
+                'actual_reordered_in_next': bool(r['in_next_order'] == 1)
+            })
+        
+        actual_items = [c for c in candidates if c['actual_reordered_in_next']]
+        
+        demo_profiles.append({
+            'user_id': int(uid),
+            'total_prior_orders': u_tot_orders,
+            'avg_order_gap_days': round(u_gap, 1),
+            'total_candidate_products': len(candidates),
+            'actual_next_order_size': len(actual_items),
+            'candidates': candidates
+        })
+        
+    demo_profiles_path = os.path.join(MODEL_DIR, "demo_users.json")
+    with open(demo_profiles_path, 'w', encoding='utf-8') as f:
+        json.dump(demo_profiles, f, indent=2)
+    print(f"Demo profiles for {len(demo_profiles)} unseen users saved to {demo_profiles_path}")
+
+    print("\nTraining and artifact generation complete!")
+
+if __name__ == "__main__":
+    check_files()
+    df_orders, df_products, df_prior, df_train = load_data()
+    stats = compute_dataset_stats(df_orders, df_products, df_prior)
+    build_features_and_train(df_orders, df_products, df_prior, df_train, stats, num_users=15000)
