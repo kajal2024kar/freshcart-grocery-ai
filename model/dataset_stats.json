@@ -1,0 +1,104 @@
+{
+  "total_orders": 3421083,
+  "total_users": 206209,
+  "total_products": 49688,
+  "overall_reorder_rate": 0.5897,
+  "orders_by_weekday": {
+    "Saturday": 600905,
+    "Sunday": 587478,
+    "Monday": 467260,
+    "Tuesday": 436972,
+    "Wednesday": 426339,
+    "Thursday": 453368,
+    "Friday": 448761
+  },
+  "orders_by_hour": {
+    "0": 22758,
+    "1": 12398,
+    "2": 7539,
+    "3": 5474,
+    "4": 5527,
+    "5": 9569,
+    "6": 30529,
+    "7": 91868,
+    "8": 178201,
+    "9": 257812,
+    "10": 288418,
+    "11": 284728,
+    "12": 272841,
+    "13": 277999,
+    "14": 283042,
+    "15": 283639,
+    "16": 272553,
+    "17": 228795,
+    "18": 182912,
+    "19": 140569,
+    "20": 104292,
+    "21": 78109,
+    "22": 61468,
+    "23": 40043
+  },
+  "top_10_products": [
+    {
+      "product_name": "Banana",
+      "order_count": 472565
+    },
+    {
+      "product_name": "Bag of Organic Bananas",
+      "order_count": 379450
+    },
+    {
+      "product_name": "Organic Strawberries",
+      "order_count": 264683
+    },
+    {
+      "product_name": "Organic Baby Spinach",
+      "order_count": 241921
+    },
+    {
+      "product_name": "Organic Hass Avocado",
+      "order_count": 213584
+    },
+    {
+      "product_name": "Organic Avocado",
+      "order_count": 176815
+    },
+    {
+      "product_name": "Large Lemon",
+      "order_count": 152657
+    },
+    {
+      "product_name": "Strawberries",
+      "order_count": 142951
+    },
+    {
+      "product_name": "Limes",
+      "order_count": 140627
+    },
+    {
+      "product_name": "Organic Whole Milk",
+      "order_count": 137905
+    }
+  ],
+  "feature_importance": {
+    "up_purchase_count": 38455.15,
+    "up_orders_since_last": 170889.55,
+    "up_days_since_last": 45872.24,
+    "up_reorder_rate": 35921.78,
+    "up_avg_cart_pos": 5527.08,
+    "up_purchase_ratio": 173807.79,
+    "user_total_orders": 7045.55,
+    "user_avg_gap": 7822.28,
+    "prod_popularity": 9444.11,
+    "prod_reorder_rate": 29040.81,
+    "prod_total_purchases": 2155.56,
+    "prod_avg_cart_pos": 6201.04
+  },
+  "metrics": {
+    "precision_at_10": 0.2988,
+    "recall_at_10": 0.5815,
+    "num_val_users": 2000,
+    "num_features": 12,
+    "num_boost_rounds": 180
+  }
+}
