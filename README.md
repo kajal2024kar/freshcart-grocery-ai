@@ -1,4 +1,4 @@
-# BlinkMarket AI: Instacart Market Basket Dynamic Recommender
+# freshcart-grocery-ai: Instacart Market Basket Dynamic Recommender
 
 A complete, production-grade quick-commerce grocery shopping web application powered by a LightGBM Next-Purchase Prediction AI model trained on the official **Instacart Market Basket dataset** (3.4+ million real orders across 206,209 shoppers).
 
@@ -8,19 +8,17 @@ A complete, production-grade quick-commerce grocery shopping web application pow
 
 ## 🌟 Key Features
 
-1. **Indian E-Commerce Look & Feel (Blinkit / Zepto / BigBasket Style):**
+1. **Normal Indian E-Commerce Shopping Experience:**
+   - Branded as **`freshcart-grocery-ai`**.
    - Clean top navigation with express delivery badge (10 Mins Delivery).
    - Prominent search bar in header with instant filtering.
    - Products displayed in **Indian Rupees (₹)** with pack weights (`1 kg`, `500 ml`, `250 g`, `6 pcs`), discount badges (`25% OFF`), and strikethrough MRP.
    - Accessible `+ ADD` button that transitions to a green quantity stepper `[-] 1 [+]`.
-2. **Instant Side Recommendation Popup (Every Time a Product is Added):**
-   - Whenever any product is added to the cart, a dynamic side flyout slides in from the right.
-   - Surfaces **"Frequently Bought Together"** items calculated using the item-to-item market basket co-occurrence affinity matrix and the customer's LightGBM purchase probability.
-   - Features 1-click **"+ Add"** and **"Add All"** buttons.
-3. **Dynamic "Predicted Next Basket" Banner:**
-   - Real-time scoring using LightGBM.
-   - Applying dynamic market basket synergy boosts when items are placed in the cart.
-   - Compare mode to view the customer's real future basket from `order_products__train.csv`.
+2. **Instant Side Recommendation Popup (For Every Product Added):**
+   - Whenever any product is added to the cart, a dynamic side flyout pops up.
+   - Surfaces **"Frequently Bought Together"** items calculated using the market basket co-occurrence affinity matrix and the customer's LightGBM purchase probability.
+   - Features 1-click **"+ Add"** buttons.
+   - Uncluttered main store: The static *"Predicted Next Basket"* banner is hidden from the main view as requested, allowing AI suggestions to appear contextually when items are selected.
 4. **Shopper Profile Switcher:**
    - Switch between multiple customer personas from unseen validation data.
 5. **Interactive Dataset & Model Analytics Tab:**

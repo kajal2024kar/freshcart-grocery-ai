@@ -331,9 +331,9 @@ export default function App() {
           gap: '0.5rem',
           letterSpacing: '0.02em'
         }}>
-          <span>⚡ FREE EXPRESS DELIVERY ON ORDERS OVER ₹199</span>
+          <span>⚡ freshcart-grocery-ai • FREE EXPRESS DELIVERY OVER ₹199</span>
           <span style={{ opacity: 0.6 }}>•</span>
-          <span>⚡ INSTANT GROCERIES IN 10 MINUTES</span>
+          <span>⚡ 10 MINUTES DELIVERY TO HOME</span>
         </div>
 
         <div style={{
@@ -362,12 +362,12 @@ export default function App() {
                 fontWeight: 900,
                 boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
               }}>
-                ⚡
+                🛒
               </div>
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-                  <span style={{ fontSize: '1.45rem', fontWeight: 900, color: '#0c831f', letterSpacing: '-0.03em', fontFamily: 'var(--font-display)' }}>
-                    blink<span style={{ color: '#f7c32e' }}>market</span>
+                  <span style={{ fontSize: '1.35rem', fontWeight: 900, color: '#0c831f', letterSpacing: '-0.02em', fontFamily: 'var(--font-display)' }}>
+                    freshcart<span style={{ color: '#f7c32e' }}>-grocery-ai</span>
                   </span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', fontSize: '0.75rem', color: '#1f2937', fontWeight: 700 }}>
@@ -503,262 +503,6 @@ export default function App() {
       <main style={{ maxWidth: '1380px', margin: '0 auto', padding: '1.25rem', width: '100%', flex: 1 }}>
         {activeTab === 'shop' ? (
           <div>
-            {/* DYNAMIC NEXT BASKET AI PREDICTION BANNER */}
-            <section style={{
-              background: 'linear-gradient(135deg, #064e3b 0%, #065f46 60%, #0c831f 100%)',
-              color: '#ffffff',
-              borderRadius: '16px',
-              padding: '1.25rem 1.5rem',
-              marginBottom: '1.5rem',
-              boxShadow: '0 8px 20px -4px rgba(6, 78, 59, 0.25)',
-              position: 'relative'
-            }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '0.75rem', marginBottom: '1rem' }}>
-                <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
-                    <div style={{ backgroundColor: '#f7c32e', color: '#0c831f', padding: '0.25rem 0.5rem', borderRadius: '6px', fontSize: '0.75rem', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-                      <Sparkles size={14} /> AI RECOMMENDED NEXT BASKET
-                    </div>
-                    {isPredicting && (
-                      <span style={{ fontSize: '0.75rem', backgroundColor: 'rgba(255,255,255,0.2)', padding: '0.2rem 0.5rem', borderRadius: '6px', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-                        <RefreshCw size={12} className="spin-animation" /> Recalculating...
-                      </span>
-                    )}
-                  </div>
-                  <h3 style={{ fontSize: '1.25rem', fontWeight: 800, margin: '0.2rem 0' }}>
-                    Predicted for Shopper #{currentUser.user_id}
-                  </h3>
-                  <p style={{ fontSize: '0.825rem', color: '#bbf7d0', maxWidth: '750px', margin: 0 }}>
-                    Based on {currentUser.total_prior_orders} historical orders (orders every ~{currentUser.avg_order_gap_days} days).
-                    {totalCartCount > 0 && (
-                      <span style={{ color: '#fef08a', marginLeft: '0.4rem', fontWeight: 700 }}>
-                        <Zap size={13} style={{ display: 'inline', verticalAlign: '-1px' }} /> Dynamically boosted by items in your cart!
-                      </span>
-                    )}
-                  </p>
-                </div>
-
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-                  <button
-                    onClick={() => setShowGroundTruth(!showGroundTruth)}
-                    style={{
-                      backgroundColor: showGroundTruth ? '#10b981' : 'rgba(255, 255, 255, 0.15)',
-                      color: '#ffffff',
-                      padding: '0.45rem 0.85rem',
-                      borderRadius: '8px',
-                      fontSize: '0.775rem',
-                      fontWeight: 700,
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.35rem',
-                      border: '1px solid rgba(255,255,255,0.25)'
-                    }}
-                  >
-                    <ShieldCheck size={15} />
-                    {showGroundTruth ? 'Hide Ground Truth' : 'Compare Actual Next Basket'}
-                  </button>
-                  <button
-                    onClick={addAllPredictionsToCart}
-                    style={{
-                      backgroundColor: '#f7c32e',
-                      color: '#064e3b',
-                      padding: '0.45rem 1rem',
-                      borderRadius: '8px',
-                      fontSize: '0.825rem',
-                      fontWeight: 800,
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.35rem',
-                      boxShadow: '0 2px 6px rgba(247, 195, 46, 0.4)'
-                    }}
-                  >
-                    <Plus size={15} />
-                    Add All to Basket
-                  </button>
-                </div>
-              </div>
-
-              {/* Ground Truth Compare */}
-              {showGroundTruth && (
-                <div style={{
-                  backgroundColor: 'rgba(0, 0, 0, 0.25)',
-                  border: '1px solid rgba(255, 255, 255, 0.2)',
-                  borderRadius: '10px',
-                  padding: '0.85rem',
-                  marginBottom: '1rem'
-                }}>
-                  <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#4ade80', marginBottom: '0.4rem' }}>
-                    ✓ Real Instacart Next-Order Ground Truth for Customer #{currentUser.user_id}:
-                  </div>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
-                    {currentUser.candidates.filter(c => c.actual_reordered_in_next).map(item => (
-                      <span key={item.product_id} style={{
-                        backgroundColor: '#064e3b',
-                        border: '1px solid #10b981',
-                        borderRadius: '6px',
-                        padding: '0.2rem 0.5rem',
-                        fontSize: '0.725rem',
-                        fontWeight: 600,
-                        color: '#bbf7d0'
-                      }}>
-                        ✓ {item.product_name}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Predicted Products Grid */}
-              <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(215px, 1fr))',
-                gap: '0.85rem'
-              }}>
-                {dynamicPredictions.slice(0, 5).map(pred => {
-                  const probPct = Math.round(pred.dynamic_prob * 100);
-                  const inCartAlready = Boolean(cart[pred.product_id]);
-
-                  return (
-                    <div
-                      key={pred.product_id}
-                      style={{
-                        backgroundColor: '#ffffff',
-                        color: '#1f2937',
-                        borderRadius: '12px',
-                        padding: '0.85rem',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'space-between',
-                        boxShadow: '0 2px 4px rgba(0,0,0,0.06)',
-                        border: inCartAlready ? '2px solid #0c831f' : '1px solid #e5e7eb'
-                      }}
-                    >
-                      <div>
-                        {/* Likelihood bar */}
-                        <div style={{ marginBottom: '0.5rem' }}>
-                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.2rem' }}>
-                            <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#0c831f', textTransform: 'uppercase' }}>
-                              Next Order Match
-                            </span>
-                            <span style={{ fontSize: '0.775rem', fontWeight: 800, color: '#0c831f' }}>
-                              {probPct}%
-                            </span>
-                          </div>
-                          <div style={{ width: '100%', height: '5px', backgroundColor: '#e5e7eb', borderRadius: '9999px', overflow: 'hidden' }}>
-                            <div style={{
-                              width: `${probPct}%`,
-                              height: '100%',
-                              backgroundColor: probPct > 70 ? '#0c831f' : '#f7c32e',
-                              borderRadius: '9999px'
-                            }} />
-                          </div>
-                        </div>
-
-                        {/* Department & Name */}
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', marginBottom: '0.25rem' }}>
-                          <span style={{ fontSize: '1rem' }}>{deptIcons[pred.department.toLowerCase()] || '🛒'}</span>
-                          <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#6b7280', textTransform: 'uppercase' }}>
-                            {pred.unit || '1 pack'}
-                          </span>
-                        </div>
-                        <h4 style={{
-                          fontSize: '0.875rem',
-                          fontWeight: 700,
-                          lineHeight: 1.3,
-                          marginBottom: '0.35rem',
-                          color: '#111827',
-                          height: '2.4rem',
-                          overflow: 'hidden',
-                          display: '-webkit-box',
-                          WebkitLineClamp: 2,
-                          WebkitBoxOrient: 'vertical'
-                        }}>
-                          {pred.product_name}
-                        </h4>
-
-                        {/* Reason chip */}
-                        {pred.reasons?.[0] && (
-                          <span style={{
-                            display: 'inline-block',
-                            fontSize: '0.65rem',
-                            backgroundColor: '#f0fdf4',
-                            color: '#166534',
-                            padding: '0.15rem 0.4rem',
-                            borderRadius: '4px',
-                            fontWeight: 700,
-                            marginBottom: '0.5rem'
-                          }}>
-                            {pred.reasons[0]}
-                          </span>
-                        )}
-                      </div>
-
-                      {/* Card Bottom: Rupee Price and Add button */}
-                      <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        marginTop: '0.5rem',
-                        paddingTop: '0.5rem',
-                        borderTop: '1px solid #f3f4f6'
-                      }}>
-                        <div>
-                          <div style={{ fontSize: '0.95rem', fontWeight: 800, color: '#111827' }}>
-                            ₹{pred.price || 49}
-                          </div>
-                          <div style={{ fontSize: '0.68rem', color: '#9ca3af', textDecoration: 'line-through' }}>
-                            ₹{pred.mrp || Math.round((pred.price || 49) * 1.25)}
-                          </div>
-                        </div>
-
-                        {inCartAlready ? (
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', backgroundColor: '#0c831f', borderRadius: '6px', padding: '0.15rem' }}>
-                            <button
-                              onClick={() => removeFromCart(pred.product_id)}
-                              style={{ width: '22px', height: '22px', color: '#ffffff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                            >
-                              <Minus size={11} />
-                            </button>
-                            <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#ffffff', minWidth: '14px', textAlign: 'center' }}>
-                              {cart[pred.product_id].quantity}
-                            </span>
-                            <button
-                              onClick={() => {
-                                const fullProd = initialCatalog.find(p => p.product_id === pred.product_id) || pred;
-                                addToCart(fullProd);
-                              }}
-                              style={{ width: '22px', height: '22px', color: '#ffffff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                            >
-                              <Plus size={11} />
-                            </button>
-                          </div>
-                        ) : (
-                          <button
-                            onClick={() => {
-                              const fullProd = initialCatalog.find(p => p.product_id === pred.product_id) || pred;
-                              addToCart(fullProd);
-                            }}
-                            style={{
-                              border: '1px solid #0c831f',
-                              backgroundColor: '#ffffff',
-                              color: '#0c831f',
-                              padding: '0.35rem 0.75rem',
-                              borderRadius: '6px',
-                              fontSize: '0.75rem',
-                              fontWeight: 800,
-                              textTransform: 'uppercase'
-                            }}
-                          >
-                            + ADD
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </section>
-
             {/* NORMAL SHOPPING APP CATEGORY TABS & PRODUCT GRID */}
             <section>
               {/* Category Chips Bar */}
@@ -1486,7 +1230,7 @@ export default function App() {
         fontSize: '0.8rem',
         color: '#6b7280'
       }}>
-        <p>BlinkMarket • Instacart Market Basket Next Purchase AI • Prices in Indian Rupees (₹)</p>
+        <p>freshcart-grocery-ai • Instacart Market Basket Next Purchase AI • Prices in Indian Rupees (₹)</p>
       </footer>
     </div>
   );
