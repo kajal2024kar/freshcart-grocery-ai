@@ -1,6 +1,6 @@
 """
-FreshMarket AI - Instacart Market Basket Next Purchase Predictor
-Streamlit Web Application for Live Cloud Deployment
+BlinkMarket AI - Instacart Market Basket Next Purchase Predictor
+Streamlit Web Application for Live Cloud Deployment (INR & Normal Shopping UI)
 """
 
 import os
@@ -11,78 +11,70 @@ import numpy as np
 
 # Page Configuration
 st.set_page_config(
-    page_title="FreshMarket AI - Grocery Next Purchase Predictor",
-    page_icon="🥦",
+    page_title="BlinkMarket - 10 Mins Grocery & AI Recommender",
+    page_icon="⚡",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Custom Styling (Fresh Market Greens & Modern UI)
+# Custom Styling (Normal Shopping App / Blinkit style with Indian Rupee)
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Outfit:wght@600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap');
     
     html, body, [class*="css"] {
         font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
     }
     
     .stApp {
-        background-color: #f8faf9;
+        background-color: #f4f6f8;
+    }
+    
+    .top-banner {
+        background-color: #0c831f;
+        color: white;
+        text-align: center;
+        padding: 0.35rem;
+        font-size: 0.75rem;
+        font-weight: 700;
+        border-radius: 6px;
+        margin-bottom: 1rem;
+        letter-spacing: 0.03em;
     }
     
     .main-header {
-        background: linear-gradient(135deg, #064e3b 0%, #065f46 60%, #047857 100%);
+        background: linear-gradient(135deg, #064e3b 0%, #065f46 60%, #0c831f 100%);
         color: white;
-        padding: 1.5rem 2rem;
-        border-radius: 18px;
-        margin-bottom: 1.5rem;
-        box-shadow: 0 10px 25px -5px rgba(6, 78, 59, 0.25);
+        padding: 1.25rem 1.75rem;
+        border-radius: 16px;
+        margin-bottom: 1.25rem;
+        box-shadow: 0 8px 20px -4px rgba(6, 78, 59, 0.25);
     }
     
-    .metric-card {
-        background: white;
-        padding: 1.25rem;
+    .side-popup {
+        background: #ffffff;
+        border: 2px solid #0c831f;
         border-radius: 14px;
-        border: 1px solid #e2e8f0;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-        text-align: center;
-    }
-    
-    .prediction-card {
-        background: white;
         padding: 1rem;
-        border-radius: 14px;
-        border: 1px solid #cbd5e1;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        box-shadow: 0 8px 25px rgba(12, 131, 31, 0.15);
+        margin-bottom: 1.25rem;
+    }
+    
+    .product-card {
+        background: white;
+        padding: 0.85rem;
+        border-radius: 12px;
+        border: 1px solid #e5e7eb;
         margin-bottom: 0.75rem;
     }
     
-    .badge-dept {
-        background-color: #f1f5f9;
-        color: #475569;
-        font-size: 0.7rem;
-        font-weight: 700;
-        padding: 0.2rem 0.5rem;
-        border-radius: 6px;
-        text-transform: uppercase;
-    }
-    
-    .badge-synergy {
-        background-color: #fef3c7;
-        color: #92400e;
-        font-size: 0.7rem;
-        font-weight: 700;
-        padding: 0.2rem 0.5rem;
-        border-radius: 6px;
-    }
-    
-    .badge-habit {
+    .badge-discount {
         background-color: #ecfdf5;
-        color: #065f46;
-        font-size: 0.7rem;
-        font-weight: 700;
-        padding: 0.2rem 0.5rem;
-        border-radius: 6px;
+        color: #0c831f;
+        font-size: 0.65rem;
+        font-weight: 800;
+        padding: 0.15rem 0.4rem;
+        border-radius: 4px;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -116,7 +108,6 @@ def load_all_artifacts():
 stats, catalog, demo_users, affinities = load_all_artifacts()
 catalog_map = {int(p['product_id']): p for p in catalog}
 
-# Department emoji icons
 dept_icons = {
     'produce': '🥦', 'dairy eggs': '🥛', 'bakery': '🍞', 'beverages': '🧃',
     'snacks': '🥨', 'meat seafood': '🥩', 'frozen': '🧊', 'pantry': '🥫',
@@ -132,71 +123,124 @@ if 'selected_user_id' not in st.session_state:
     st.session_state.selected_user_id = demo_users[0]['user_id']
 if 'show_ground_truth' not in st.session_state:
     st.session_state.show_ground_truth = False
+if 'last_added_product' not in st.session_state:
+    st.session_state.last_added_product = None
 
-# Sidebar Controls
+current_user = next((u for u in demo_users if u['user_id'] == st.session_state.selected_user_id), demo_users[0])
+
+# Top Announcement
+st.markdown('<div class="top-banner">⚡ FREE EXPRESS DELIVERY ON ORDERS OVER ₹199 • 10 MINUTES DELIVERY TO MUMBAI 400001</div>', unsafe_allow_html=True)
+
+# SIDEBAR: Contains User Switcher, Dynamic Side Recommendations Popup for Added Products, & Basket
 with st.sidebar:
-    st.markdown("### 🛒 Demo Customer Selection")
+    st.markdown("## ⚡ **BlinkMarket**")
+    st.caption("10 Mins Grocery • AI Next Purchase Engine")
+    
+    # 1. Customer Selector
     user_options = {
-        u['user_id']: f"Customer #{u['user_id']} ({u['total_prior_orders']} orders • {u['candidates'][0]['product_name'][:20]})"
+        u['user_id']: f"Shopper #{u['user_id']} ({u['total_prior_orders']} orders)"
         for u in demo_users
     }
-    
     chosen_uid = st.selectbox(
-        "Choose Shopper Profile:",
+        "👤 Account Profile:",
         options=list(user_options.keys()),
         format_func=lambda uid: user_options[uid],
         index=0
     )
-    st.session_state.selected_user_id = chosen_uid
-    current_user = next((u for u in demo_users if u['user_id'] == chosen_uid), demo_users[0])
-    
-    st.info(f"""
-    **Shopper Profile Stats:**
-    - **Total Prior Orders:** {current_user['total_prior_orders']} orders
-    - **Order Cadence:** Every ~{current_user['avg_order_gap_days']} days
-    - **Historical Products:** {current_user['total_candidate_products']} candidate items
-    """)
-    
+    if chosen_uid != st.session_state.selected_user_id:
+        st.session_state.selected_user_id = chosen_uid
+        st.rerun()
+
     st.divider()
-    
-    # Shopping Cart Display
+
+    # 2. DYNAMIC SIDE RECOMMENDATION POPUP FOR EVERY PRODUCT ADDED
+    if st.session_state.last_added_product:
+        p_added = st.session_state.last_added_product
+        st.markdown(f"""
+        <div class="side-popup">
+            <div style="font-size: 0.72rem; font-weight: 800; color: #0c831f; text-transform: uppercase;">
+                ✨ Frequently Bought Together
+            </div>
+            <div style="font-size: 0.85rem; font-weight: 700; color: #111827; margin: 0.2rem 0;">
+                Pairs with {p_added['product_name'][:20]}
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        # Look up complementary items
+        p_affs = affinities.get(p_added['product_id'], [])
+        rec_list = []
+        for aff in p_affs[:3]:
+            comp = catalog_map.get(aff['product_id'])
+            if comp and comp['product_id'] not in st.session_state.cart:
+                rec_list.append((comp, int(aff['affinity'] * 100)))
+        
+        # If no direct affinity, show top next-purchase candidates
+        if len(rec_list) < 2:
+            for cand in current_user['candidates'][:3]:
+                if cand['product_id'] != p_added['product_id'] and cand['product_id'] not in st.session_state.cart:
+                    cat_item = catalog_map.get(cand['product_id'])
+                    if cat_item:
+                        rec_list.append((cat_item, int(cand['pred_prob'] * 100)))
+
+        for comp_prod, match_pct in rec_list[:3]:
+            col_r1, col_r2 = st.columns([3, 1])
+            with col_r1:
+                st.write(f"**{comp_prod['product_name'][:22]}**")
+                st.caption(f"₹{comp_prod['price']} • {match_pct}% Match")
+            with col_r2:
+                if st.button("+ Add", key=f"side_add_{comp_prod['product_id']}"):
+                    st.session_state.cart[comp_prod['product_id']] = st.session_state.cart.get(comp_prod['product_id'], 0) + 1
+                    st.session_state.last_added_product = comp_prod
+                    st.rerun()
+
+        if st.button("✕ Dismiss Recommendations", use_container_width=True):
+            st.session_state.last_added_product = None
+            st.rerun()
+
+        st.divider()
+
+    # 3. Shopping Cart Drawer
     st.markdown("### 🛍️ Your Active Basket")
     cart_items = st.session_state.cart
-    cart_pids = list(cart_items.keys())
+    total_cart_count = sum(cart_items.values())
     
     if not cart_items:
-        st.write("Your basket is empty. Add recommended items or browse below!")
+        st.write("Your basket is empty. Add items to see instant AI suggestions!")
     else:
         subtotal = 0.0
         for pid, qty in list(cart_items.items()):
-            p = catalog_map.get(pid, {'product_name': f"Item #{pid}", 'price': 3.49, 'department': 'groceries'})
+            p = catalog_map.get(pid, {'product_name': f"Item #{pid}", 'price': 49, 'department': 'groceries'})
             item_total = p['price'] * qty
             subtotal += item_total
             
-            col_a, col_b = st.columns([3, 1])
-            with col_a:
-                st.write(f"**{p['product_name'][:24]}**")
-                st.caption(f"${p['price']:.2f} × {qty} = ${item_total:.2f}")
-            with col_b:
-                if st.button("🗑️", key=f"del_{pid}"):
+            c_col1, c_col2 = st.columns([3, 1])
+            with c_col1:
+                st.write(f"**{p['product_name'][:20]}**")
+                st.caption(f"₹{p['price']} × {qty} = ₹{item_total}")
+            with c_col2:
+                if st.button("🗑️", key=f"side_del_{pid}"):
                     del st.session_state.cart[pid]
                     st.rerun()
         
-        st.write(f"**Subtotal:** ${subtotal:.2f}")
-        st.write(f"**Total (inc. tax):** ${subtotal * 1.05:.2f}")
+        st.write(f"**Subtotal:** ₹{int(subtotal)}")
+        st.write(f"**Govt. GST (5%):** ₹{int(subtotal * 0.05)}")
+        st.write(f"**Grand Total:** ₹{int(subtotal * 1.05)}")
         
         col_c1, col_c2 = st.columns(2)
         with col_c1:
             if st.button("Clear Basket", use_container_width=True):
                 st.session_state.cart = {}
+                st.session_state.last_added_product = None
                 st.rerun()
         with col_c2:
             if st.button("Checkout 🎉", type="primary", use_container_width=True):
                 st.balloons()
-                st.success("Order placed successfully! Basket cleared.")
+                st.success(f"Order of ₹{int(subtotal * 1.05)} placed successfully! Delivering in 10 mins.")
                 st.session_state.cart = {}
+                st.session_state.last_added_product = None
 
-# Compute Dynamic Predictions
+# Calculate dynamic recommendations based on cart items
 cart_pids_set = set(st.session_state.cart.keys())
 cart_boosts = {}
 if cart_pids_set and affinities:
@@ -210,34 +254,21 @@ for c in current_user['candidates']:
     pid = c['product_id']
     boost = cart_boosts.get(pid, 0.0)
     dynamic_prob = min(0.99, c['pred_prob'] * (1.0 + boost * 1.5))
-    
-    reasons = []
-    if c['purchase_count'] >= 5:
-        reasons.append(f"Frequent habit: ordered {c['purchase_count']}x")
-    elif c['purchase_count'] >= 2:
-        reasons.append(f"Bought {c['purchase_count']} times")
-    if c['orders_since_last_purchase'] == 1:
-        reasons.append("Bought in their last order")
-    if boost > 0.05:
-        reasons.append(f"Pairs with cart item (+{int(boost * 100)}% synergy)")
-        
-    p_info = catalog_map.get(pid, {'price': 3.49, 'department': c['department']})
+    p_info = catalog_map.get(pid, {'price': 49, 'mrp': 65, 'unit': '1 pack', 'department': c['department']})
     
     scored_candidates.append({
         'product_id': pid,
         'product_name': c['product_name'],
         'department': c['department'],
-        'price': p_info.get('price', 3.49),
-        'base_prob': c['pred_prob'],
+        'price': p_info.get('price', 49),
+        'mrp': p_info.get('mrp', 65),
+        'unit': p_info.get('unit', '1 pack'),
         'dynamic_prob': dynamic_prob,
-        'cart_synergy': boost,
-        'reasons': reasons,
-        'in_cart': pid in cart_pids_set,
         'actual_reordered': c.get('actual_reordered_in_next', False)
     })
 
 scored_candidates.sort(key=lambda x: x['dynamic_prob'], reverse=True)
-top_predictions = scored_candidates[:10]
+top_predictions = scored_candidates[:5]
 
 # Main Interface Tabs
 tab_shop, tab_analytics = st.tabs(["🛒 Grocery Store & Dynamic Predictions", "📊 Dataset & Model Performance"])
@@ -246,85 +277,60 @@ with tab_shop:
     # Banner Header
     st.markdown(f"""
     <div class="main-header">
-        <h1 style="margin: 0; font-size: 2rem; font-weight: 800; font-family: Outfit, sans-serif;">
-            🥦 FreshMarket AI • Dynamic Next Basket Recommender
-        </h1>
-        <p style="margin: 0.5rem 0 0 0; font-size: 0.95rem; opacity: 0.9;">
-            Trained on <strong>3.4 Million Real Instacart Orders</strong>. Automatically recalculates next-purchase probabilities when items are added to your cart!
+        <h2 style="margin: 0; font-size: 1.85rem; font-weight: 900;">
+            ⚡ BlinkMarket • Daily Groceries in 10 Minutes
+        </h2>
+        <p style="margin: 0.35rem 0 0 0; font-size: 0.875rem; opacity: 0.95;">
+            Dynamic next-purchase AI trained on <strong>3.4 Million Instacart Orders</strong>. Real-time ₹ prices and cart synergy recommendations.
         </p>
     </div>
     """, unsafe_allow_html=True)
     
     # Next Basket Prediction Section
-    st.markdown("### 🔮 Predicted Next Basket for Customer")
+    st.markdown("### 🔮 Predicted Next Basket (AI Dynamic Model)")
     
     if len(st.session_state.cart) > 0:
-        st.success(f"⚡ Dynamic Synergy Active: Recommendations re-scored based on {len(st.session_state.cart)} item(s) in your basket!")
-    
-    b_col1, b_col2 = st.columns([4, 1])
-    with b_col2:
-        if st.button("➕ Add Top 5 to Cart", use_container_width=True):
-            for pred in top_predictions[:5]:
-                pid = pred['product_id']
-                st.session_state.cart[pid] = st.session_state.cart.get(pid, 0) + 1
-            st.rerun()
-            
-    # Predictions Cards
+        st.success(f"⚡ Synergy Active: {len(st.session_state.cart)} item(s) in cart dynamically boosting complementary recommendations!")
+        
     pred_cols = st.columns(5)
-    for idx, pred in enumerate(top_predictions[:5]):
+    for idx, pred in enumerate(top_predictions):
         with pred_cols[idx]:
             prob_pct = int(pred['dynamic_prob'] * 100)
             icon = dept_icons.get(pred['department'].lower(), '🛒')
             
             st.markdown(f"""
-            <div class="prediction-card">
-                <span class="badge-dept">{icon} {pred['department']}</span>
-                <h4 style="margin: 0.4rem 0 0.2rem 0; font-size: 0.9rem; height: 2.4rem; overflow: hidden; line-height: 1.2;">
+            <div class="product-card">
+                <span class="badge-discount">{pred['unit']}</span>
+                <h4 style="margin: 0.35rem 0 0.15rem 0; font-size: 0.85rem; height: 2.3rem; overflow: hidden; line-height: 1.2;">
                     {pred['product_name']}
                 </h4>
-                <div style="font-size: 0.75rem; font-weight: 700; color: #16a34a; margin-bottom: 0.2rem;">
-                    Likelihood: {prob_pct}%
+                <div style="font-size: 0.72rem; font-weight: 700; color: #0c831f;">
+                    Match: {prob_pct}%
                 </div>
-                <div style="font-size: 0.9rem; font-weight: 800; margin-bottom: 0.5rem;">
-                    ${pred['price']:.2f}
+                <div style="font-size: 1rem; font-weight: 900; color: #111827; margin: 0.25rem 0;">
+                    ₹{pred['price']} <span style="font-size: 0.7rem; color: #9ca3af; text-decoration: line-through;">₹{pred['mrp']}</span>
                 </div>
             </div>
             """, unsafe_allow_html=True)
             
-            # Progress bar
-            st.progress(pred['dynamic_prob'])
-            
-            if pred['reasons']:
-                st.caption(" • ".join(pred['reasons'][:1]))
-                
-            in_cart_now = pred['product_id'] in st.session_state.cart
-            btn_label = f"In Basket ({st.session_state.cart[pred['product_id']]})" if in_cart_now else "Add to Basket"
-            if st.button(btn_label, key=f"btn_pred_{pred['product_id']}", use_container_width=True):
+            p_in_cart = pred['product_id'] in st.session_state.cart
+            btn_lbl = f"Added ({st.session_state.cart[pred['product_id']]})" if p_in_cart else "+ ADD"
+            if st.button(btn_lbl, key=f"btn_p_{pred['product_id']}", use_container_width=True):
                 st.session_state.cart[pred['product_id']] = st.session_state.cart.get(pred['product_id'], 0) + 1
+                st.session_state.last_added_product = catalog_map.get(pred['product_id'], pred)
                 st.rerun()
-
-    # Ground Truth Comparison Expander
-    with st.expander("🔍 Compare with Real Future Basket (Ground Truth from order_products__train.csv)"):
-        actual_items = [c for c in current_user['candidates'] if c.get('actual_reordered_in_next')]
-        st.write(f"In the Instacart dataset, this customer actually reordered **{len(actual_items)}** items in their unseen next basket:")
-        gt_cols = st.columns(4)
-        for i, item in enumerate(actual_items):
-            with gt_cols[i % 4]:
-                st.write(f"✅ **{item['product_name']}**")
-                st.caption(f"Historical: ordered {item['purchase_count']} times")
 
     st.divider()
 
-    # Catalog & Shopping Grid
+    # Catalog & Shopping Grid (Indian Rupee ₹)
     st.markdown("### 🛍️ Browse Grocery Catalog")
     col_s1, col_s2 = st.columns([2, 1])
     with col_s1:
-        search_query = st.text_input("Search catalog items:", placeholder="e.g. Avocado, organic bananas, milk, yogurt...")
+        search_query = st.text_input("Search groceries:", placeholder="Search 'banana', 'milk', 'bread', 'spinach'...")
     with col_s2:
         dept_list = ['All'] + sorted(list({p['department'] for p in catalog if p.get('department')}))
-        selected_dept = st.selectbox("Filter Department:", dept_list)
+        selected_dept = st.selectbox("Category Filter:", dept_list)
 
-    # Filter catalog
     filtered = catalog
     if selected_dept != 'All':
         filtered = [p for p in filtered if p.get('department', '').lower() == selected_dept.lower()]
@@ -332,113 +338,67 @@ with tab_shop:
         q = search_query.lower()
         filtered = [p for p in filtered if q in p['product_name'].lower() or q in p['aisle'].lower()]
 
-    st.caption(f"Showing {min(len(filtered), 24)} of {len(filtered)} products")
+    st.caption(f"Showing {min(len(filtered), 24)} items in catalog")
 
-    # Grid of products (4 per row)
     grid_cols = st.columns(4)
     for i, prod in enumerate(filtered[:24]):
         with grid_cols[i % 4]:
             p_icon = dept_icons.get(prod['department'].lower(), '🛒')
+            discount = int(((prod['mrp'] - prod['price']) / prod['mrp']) * 100)
+            
             st.markdown(f"""
-            <div style="background: white; padding: 0.85rem; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 0.75rem;">
-                <span class="badge-dept">{p_icon} {prod['department']}</span>
-                <h5 style="margin: 0.4rem 0 0.2rem 0; font-size: 0.85rem; height: 2.2rem; overflow: hidden; line-height: 1.2;">
+            <div class="product-card">
+                <span class="badge-discount">{discount}% OFF • {prod['unit']}</span>
+                <h5 style="margin: 0.35rem 0 0.15rem 0; font-size: 0.85rem; height: 2.2rem; overflow: hidden; line-height: 1.2;">
                     {prod['product_name']}
                 </h5>
-                <p style="font-size: 0.75rem; color: #64748b; margin: 0; text-transform: capitalize;">{prod['aisle']}</p>
-                <div style="font-size: 0.95rem; font-weight: 800; color: #0f172a; margin-top: 0.4rem;">
-                    ${prod['price']:.2f}
+                <p style="font-size: 0.7rem; color: #6b7280; margin: 0; text-transform: capitalize;">{prod['aisle']}</p>
+                <div style="font-size: 1.05rem; font-weight: 900; color: #111827; margin: 0.35rem 0;">
+                    ₹{prod['price']} <span style="font-size: 0.72rem; color: #9ca3af; text-decoration: line-through;">₹{prod['mrp']}</span>
                 </div>
             </div>
             """, unsafe_allow_html=True)
             
             p_in_cart = prod['product_id'] in st.session_state.cart
-            btn_txt = f"+ Add ({st.session_state.cart[prod['product_id']]})" if p_in_cart else "+ Add to Basket"
-            if st.button(btn_txt, key=f"cat_btn_{prod['product_id']}", use_container_width=True):
+            btn_txt = f"Added ({st.session_state.cart[prod['product_id']]})" if p_in_cart else "+ ADD"
+            if st.button(btn_txt, key=f"cat_add_{prod['product_id']}", use_container_width=True):
                 st.session_state.cart[prod['product_id']] = st.session_state.cart.get(prod['product_id'], 0) + 1
+                st.session_state.last_added_product = prod
                 st.rerun()
 
 with tab_analytics:
-    st.markdown("## 📊 Dataset Statistics & LightGBM Model Performance")
-    st.caption("Derived directly from the real 3.4M Instacart Market Basket dataset")
-    
-    # Metrics row
+    st.markdown("## 📊 Instacart Dataset Statistics & LightGBM Metrics")
     m1, m2, m3, m4 = st.columns(4)
     with m1:
-        st.metric(
-            label="Precision@10 (Unseen Users)",
-            value=f"{stats['metrics']['precision_at_10_percent']}%",
-            help="Top 10 predicted items that appeared in actual next order"
-        )
+        st.metric("Precision@10 (Unseen Users)", f"{stats['metrics']['precision_at_10_percent']}%")
     with m2:
-        st.metric(
-            label="Recall@10 (Unseen Users)",
-            value=f"{stats['metrics']['recall_at_10_percent']}%",
-            help="Proportion of actual reorders captured in Top 10"
-        )
+        st.metric("Recall@10 (Unseen Users)", f"{stats['metrics']['recall_at_10_percent']}%")
     with m3:
-        st.metric(
-            label="Total Real Orders",
-            value=f"{stats['orders']:,}",
-            help="Full orders in orders.csv"
-        )
+        st.metric("Total Real Orders", f"{stats['orders']:,}")
     with m4:
-        st.metric(
-            label="Dataset Reorder Rate",
-            value=f"{stats['reorder_rate']*100:.1f}%",
-            help="Overall reorder proportion across prior orders"
-        )
+        st.metric("Dataset Reorder Rate", f"{stats['reorder_rate']*100:.1f}%")
 
     st.divider()
 
-    # Visualizations row 1
     c1, c2 = st.columns(2)
     with c1:
         st.markdown("### 📅 Orders by Day of Week")
         day_names = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-        dow_df = pd.DataFrame([
-            {"Day": day_names[int(k)], "Orders": v}
-            for k, v in stats['orders_by_weekday'].items()
-        ])
-        st.bar_chart(dow_df.set_index("Day"), color="#15803d")
-        st.caption("Orders peak heavily on Sunday and Monday.")
+        dow_df = pd.DataFrame([{"Day": day_names[int(k)], "Orders": v} for k, v in stats['orders_by_weekday'].items()])
+        st.bar_chart(dow_df.set_index("Day"), color="#0c831f")
 
     with c2:
         st.markdown("### ⏰ Orders by Hour of Day")
-        hour_df = pd.DataFrame([
-            {"Hour": f"{int(k):02d}:00", "Orders": v}
-            for k, v in stats['orders_by_hour'].items()
-        ])
+        hour_df = pd.DataFrame([{"Hour": f"{int(k):02d}:00", "Orders": v} for k, v in stats['orders_by_hour'].items()])
         st.area_chart(hour_df.set_index("Hour"), color="#0284c7")
-        st.caption("Shopping traffic surges between 9:00 AM and 5:00 PM.")
 
-    # Visualizations row 2
     c3, c4 = st.columns(2)
     with c3:
         st.markdown("### 🏆 Top 10 Most Ordered Products")
-        top10_df = pd.DataFrame([
-            {"Product": p['product_name'], "Orders": p['order_count']}
-            for p in stats['top_10_products']
-        ])
+        top10_df = pd.DataFrame([{"Product": p['product_name'], "Orders": p['order_count']} for p in stats['top_10_products']])
         st.bar_chart(top10_df.set_index("Product"), horizontal=True, color="#ea580c")
-        st.caption("Fresh organic produce and bananas lead total volume.")
 
     with c4:
         st.markdown("### 🌲 LightGBM Feature Importance (Gain)")
-        feat_df = pd.DataFrame([
-            {"Feature": k, "Gain": round(v, 2)}
-            for k, v in stats['feature_importance'].items()
-        ]).sort_values("Gain", ascending=True)
+        feat_df = pd.DataFrame([{"Feature": k, "Gain": round(v, 2)} for k, v in stats['feature_importance'].items()]).sort_values("Gain", ascending=True)
         st.bar_chart(feat_df.set_index("Feature"), horizontal=True, color="#7c3aed")
-        st.caption("Recency (orders since last purchase) and user reorder rate dominate predictions.")
-
-    # Model Architecture and Integrity Note
-    st.info("""
-    **Model Architecture & Data Integrity Verification:**
-    - **No Synthetic Data:** Trained exclusively on official Instacart Market Basket CSVs (`orders.csv`, `order_products__prior.csv`, `order_products__train.csv`, `products.csv`).
-    - **Strict User-Level Split:** Train and validation sets are split strictly by User ID (80% train / 20% validation). Evaluated on 2,809 completely unseen users.
-    - **Dynamic Basket Synergies:** Item-to-item co-occurrence matrix models market basket complementary affinity when users add items into their cart.
-    """)
-
-st.markdown("---")
-st.caption("FreshMarket AI • Trained on real Instacart Market Basket data • Ready for Streamlit Cloud deployment")

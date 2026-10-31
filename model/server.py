@@ -177,7 +177,9 @@ def predict_next_basket(req: PredictRequest):
             "product_id": pid,
             "product_name": c["product_name"],
             "department": c["department"],
-            "price": 3.99,
+            "price": c.get("price", 65),
+            "mrp": c.get("mrp", 85),
+            "unit": c.get("unit", "1 pack"),
         })
 
         scored.append({
@@ -185,7 +187,9 @@ def predict_next_basket(req: PredictRequest):
             "product_name": prod_info.get("product_name", c["product_name"]),
             "department": prod_info.get("department", c["department"]),
             "aisle": prod_info.get("aisle", ""),
-            "price": prod_info.get("price", 3.99),
+            "price": prod_info.get("price", c.get("price", 65)),
+            "mrp": prod_info.get("mrp", c.get("mrp", 85)),
+            "unit": prod_info.get("unit", c.get("unit", "1 pack")),
             "base_prob": base_prob,
             "dynamic_prob": round(dynamic_prob, 4),
             "cart_synergy": round(cart_boost, 3),

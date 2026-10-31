@@ -7,22 +7,20 @@
   --primary-200: #bbf7d0;
   --primary-500: #22c55e;
   --primary-600: #16a34a;
-  --primary-700: #15803d;
+  --primary-700: #0c831f;
   --primary-800: #166534;
   --primary-900: #14532d;
   
+  --accent-yellow: #f7c32e;
   --accent-amber: #f59e0b;
   --accent-blue: #0284c7;
   --accent-purple: #7c3aed;
   
-  --bg-main: #f8faf9;
+  --bg-main: #f4f6f8;
   --bg-card: #ffffff;
-  --text-main: #0f172a;
-  --text-muted: #64748b;
-  --border-color: #e2e8f0;
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.07);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.08);
+  --text-main: #111827;
+  --text-muted: #6b7280;
+  --border-color: #e5e7eb;
 }
 
 * {
@@ -44,7 +42,7 @@ button:focus-visible,
 input:focus-visible,
 select:focus-visible,
 a:focus-visible {
-  outline: 2px solid var(--primary-600);
+  outline: 2px solid var(--primary-700);
   outline-offset: 2px;
 }
 
@@ -70,31 +68,32 @@ input, select {
   to { opacity: 1; }
 }
 
-@keyframes pulseSubtle {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.02); }
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(40px); }
+  to { opacity: 1; transform: translateX(0); }
 }
 
-.animate-fade-in {
-  animation: fadeIn 0.3s ease-out forwards;
+.spin-animation {
+  animation: spin 1s linear infinite;
 }
 
-.animate-slide-down {
-  animation: slideDown 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: #f3f4f6;
 }
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #d1d5db;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #9ca3af;
 }

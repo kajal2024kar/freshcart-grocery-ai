@@ -19,7 +19,10 @@
         "user_avg_order_gap": 13.9,
         "product_popularity": 57640,
         "product_reorder_rate": 0.685,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 55,
+        "mrp": 68,
+        "unit": "250 g"
       },
       {
         "product_id": 38768,
@@ -34,7 +37,10 @@
         "user_avg_order_gap": 13.9,
         "product_popularity": 11362,
         "product_reorder_rate": 0.709,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 85,
+        "mrp": 106,
+        "unit": "1 kg"
       },
       {
         "product_id": 16797,
@@ -49,7 +55,10 @@
         "user_avg_order_gap": 13.9,
         "product_popularity": 142951,
         "product_reorder_rate": 0.698,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 105,
+        "mrp": 131,
+        "unit": "250 g"
       },
       {
         "product_id": 31759,
@@ -64,7 +73,10 @@
         "user_avg_order_gap": 13.9,
         "product_popularity": 7452,
         "product_reorder_rate": 0.655,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 115,
+        "mrp": 143,
+        "unit": "350 g"
       },
       {
         "product_id": 6184,
@@ -79,7 +91,10 @@
         "user_avg_order_gap": 13.9,
         "product_popularity": 30843,
         "product_reorder_rate": 0.76,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 65,
+        "mrp": 81,
+        "unit": "1 kg"
       },
       {
         "product_id": 7131,
@@ -94,7 +109,10 @@
         "user_avg_order_gap": 13.9,
         "product_popularity": 7472,
         "product_reorder_rate": 0.653,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 95,
+        "mrp": 118,
+        "unit": "500 ml"
       },
       {
         "product_id": 12341,
@@ -109,7 +127,10 @@
         "user_avg_order_gap": 13.9,
         "product_popularity": 50221,
         "product_reorder_rate": 0.744,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 100,
+        "mrp": 125,
+        "unit": "1 kg"
       },
       {
         "product_id": 13575,
@@ -124,7 +145,10 @@
         "user_avg_order_gap": 13.9,
         "product_popularity": 12575,
         "product_reorder_rate": 0.779,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 45,
+        "mrp": 56,
+        "unit": "1 kg"
       },
       {
         "product_id": 10685,
@@ -139,7 +163,10 @@
         "user_avg_order_gap": 13.9,
         "product_popularity": 1954,
         "product_reorder_rate": 0.603,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 35199,
@@ -154,7 +181,10 @@
         "user_avg_order_gap": 13.9,
         "product_popularity": 5481,
         "product_reorder_rate": 0.615,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 100,
+        "mrp": 125,
+        "unit": "1 kg"
       },
       {
         "product_id": 26348,
@@ -169,7 +199,10 @@
         "user_avg_order_gap": 13.9,
         "product_popularity": 9955,
         "product_reorder_rate": 0.691,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 80,
+        "mrp": 100,
+        "unit": "150 g"
       },
       {
         "product_id": 33081,
@@ -184,7 +217,10 @@
         "user_avg_order_gap": 13.9,
         "product_popularity": 3517,
         "product_reorder_rate": 0.562,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 13259,
@@ -199,7 +235,10 @@
         "user_avg_order_gap": 13.9,
         "product_popularity": 3097,
         "product_reorder_rate": 0.546,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 21137,
@@ -214,7 +253,10 @@
         "user_avg_order_gap": 13.9,
         "product_popularity": 264683,
         "product_reorder_rate": 0.778,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 55,
+        "mrp": 68,
+        "unit": "250 g"
       },
       {
         "product_id": 11759,
@@ -229,7 +271,10 @@
         "user_avg_order_gap": 13.9,
         "product_popularity": 8957,
         "product_reorder_rate": 0.678,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 110,
+        "mrp": 137,
+        "unit": "150 g"
       },
       {
         "product_id": 35561,
@@ -244,7 +289,10 @@
         "user_avg_order_gap": 13.9,
         "product_popularity": 13776,
         "product_reorder_rate": 0.627,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 95,
+        "mrp": 118,
+        "unit": "150 g"
       },
       {
         "product_id": 9076,
@@ -259,7 +307,10 @@
         "user_avg_order_gap": 13.9,
         "product_popularity": 55946,
         "product_reorder_rate": 0.583,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 145,
+        "mrp": 181,
+        "unit": "250 g"
       },
       {
         "product_id": 20345,
@@ -274,7 +325,10 @@
         "user_avg_order_gap": 13.9,
         "product_popularity": 10386,
         "product_reorder_rate": 0.639,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 165,
+        "mrp": 206,
+        "unit": "1 pack"
       },
       {
         "product_id": 1,
@@ -289,7 +343,10 @@
         "user_avg_order_gap": 13.9,
         "product_popularity": 1852,
         "product_reorder_rate": 0.613,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 8953,
@@ -304,7 +361,10 @@
         "user_avg_order_gap": 13.9,
         "product_popularity": 3361,
         "product_reorder_rate": 0.531,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 38883,
@@ -319,7 +379,10 @@
         "user_avg_order_gap": 13.9,
         "product_popularity": 794,
         "product_reorder_rate": 0.552,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 9434,
@@ -334,7 +397,10 @@
         "user_avg_order_gap": 13.9,
         "product_popularity": 2678,
         "product_reorder_rate": 0.512,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 35269,
@@ -349,7 +415,10 @@
         "user_avg_order_gap": 13.9,
         "product_popularity": 2752,
         "product_reorder_rate": 0.519,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 20796,
@@ -364,7 +433,10 @@
         "user_avg_order_gap": 13.9,
         "product_popularity": 296,
         "product_reorder_rate": 0.514,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 13176,
@@ -379,7 +451,10 @@
         "user_avg_order_gap": 13.9,
         "product_popularity": 379450,
         "product_reorder_rate": 0.833,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 75,
+        "mrp": 93,
+        "unit": "1 kg"
       },
       {
         "product_id": 30633,
@@ -394,7 +469,10 @@
         "user_avg_order_gap": 13.9,
         "product_popularity": 2188,
         "product_reorder_rate": 0.637,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 41400,
@@ -409,7 +487,10 @@
         "user_avg_order_gap": 13.9,
         "product_popularity": 8723,
         "product_reorder_rate": 0.687,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 40,
+        "mrp": 50,
+        "unit": "150 g"
       },
       {
         "product_id": 42506,
@@ -424,7 +505,10 @@
         "user_avg_order_gap": 13.9,
         "product_popularity": 531,
         "product_reorder_rate": 0.588,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 42629,
@@ -439,7 +523,10 @@
         "user_avg_order_gap": 13.9,
         "product_popularity": 1424,
         "product_reorder_rate": 0.435,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       }
     ]
   },
@@ -463,7 +550,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 379450,
         "product_reorder_rate": 0.833,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 75,
+        "mrp": 93,
+        "unit": "1 kg"
       },
       {
         "product_id": 11520,
@@ -478,7 +568,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 40376,
         "product_reorder_rate": 0.776,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 65,
+        "mrp": 81,
+        "unit": "6 pcs"
       },
       {
         "product_id": 46206,
@@ -493,7 +586,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 5708,
         "product_reorder_rate": 0.552,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 75,
+        "mrp": 93,
+        "unit": "1 kg"
       },
       {
         "product_id": 21903,
@@ -508,7 +604,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 241921,
         "product_reorder_rate": 0.773,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 60,
+        "mrp": 75,
+        "unit": "250 g"
       },
       {
         "product_id": 30391,
@@ -523,7 +622,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 80392,
         "product_reorder_rate": 0.697,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 50,
+        "mrp": 62,
+        "unit": "1 kg"
       },
       {
         "product_id": 21137,
@@ -538,7 +640,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 264683,
         "product_reorder_rate": 0.778,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 55,
+        "mrp": 68,
+        "unit": "250 g"
       },
       {
         "product_id": 47626,
@@ -553,7 +658,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 152657,
         "product_reorder_rate": 0.696,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 50,
+        "mrp": 62,
+        "unit": "1 kg"
       },
       {
         "product_id": 49416,
@@ -568,7 +676,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 5022,
         "product_reorder_rate": 0.67,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 170,
+        "mrp": 212,
+        "unit": "1 pack"
       },
       {
         "product_id": 47766,
@@ -583,7 +694,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 176815,
         "product_reorder_rate": 0.758,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 75,
+        "mrp": 93,
+        "unit": "1 kg"
       },
       {
         "product_id": 44359,
@@ -598,7 +712,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 68091,
         "product_reorder_rate": 0.631,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 81,
+        "unit": "400 g"
       },
       {
         "product_id": 36205,
@@ -613,7 +730,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 2375,
         "product_reorder_rate": 0.523,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 19057,
@@ -628,7 +748,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 75165,
         "product_reorder_rate": 0.761,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 80,
+        "mrp": 100,
+        "unit": "1 kg"
       },
       {
         "product_id": 35951,
@@ -643,7 +766,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 57895,
         "product_reorder_rate": 0.758,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 120,
+        "mrp": 150,
+        "unit": "1 L"
       },
       {
         "product_id": 13870,
@@ -658,7 +784,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 24950,
         "product_reorder_rate": 0.628,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 90,
+        "mrp": 112,
+        "unit": "200 g"
       },
       {
         "product_id": 36389,
@@ -673,7 +802,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 7292,
         "product_reorder_rate": 0.534,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 115,
+        "mrp": 143,
+        "unit": "1 kg"
       },
       {
         "product_id": 16759,
@@ -688,7 +820,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 35820,
         "product_reorder_rate": 0.58,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 65,
+        "mrp": 81,
+        "unit": "400 g"
       },
       {
         "product_id": 40480,
@@ -703,7 +838,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 40,
         "product_reorder_rate": 0.325,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 22713,
@@ -718,7 +856,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 3115,
         "product_reorder_rate": 0.57,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 41809,
@@ -733,7 +874,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 267,
         "product_reorder_rate": 0.588,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 20995,
@@ -748,7 +892,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 32887,
         "product_reorder_rate": 0.652,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 190,
+        "mrp": 237,
+        "unit": "1 pack"
       },
       {
         "product_id": 25513,
@@ -763,7 +910,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 9938,
         "product_reorder_rate": 0.631,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 105,
+        "mrp": 131,
+        "unit": "200 g"
       },
       {
         "product_id": 25217,
@@ -778,7 +928,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 454,
         "product_reorder_rate": 0.57,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 10108,
@@ -793,7 +946,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 4794,
         "product_reorder_rate": 0.606,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 110,
+        "mrp": 137,
+        "unit": "1 kg"
       },
       {
         "product_id": 18618,
@@ -808,7 +964,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 4004,
         "product_reorder_rate": 0.587,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 14129,
@@ -823,7 +982,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 8479,
         "product_reorder_rate": 0.529,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 135,
+        "mrp": 168,
+        "unit": "400 g"
       },
       {
         "product_id": 17461,
@@ -838,7 +1000,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 16816,
         "product_reorder_rate": 0.674,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 285,
+        "mrp": 356,
+        "unit": "500 g"
       },
       {
         "product_id": 3849,
@@ -853,7 +1018,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 6258,
         "product_reorder_rate": 0.625,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 90,
+        "mrp": 112,
+        "unit": "400 g"
       },
       {
         "product_id": 6734,
@@ -868,7 +1036,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 920,
         "product_reorder_rate": 0.502,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 14462,
@@ -883,7 +1054,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 10816,
         "product_reorder_rate": 0.578,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 95,
+        "mrp": 118,
+        "unit": "500 g"
       },
       {
         "product_id": 26209,
@@ -898,7 +1072,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 140627,
         "product_reorder_rate": 0.681,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 81,
+        "unit": "1 kg"
       },
       {
         "product_id": 8277,
@@ -913,7 +1090,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 85020,
         "product_reorder_rate": 0.735,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 105,
+        "mrp": 131,
+        "unit": "1 kg"
       },
       {
         "product_id": 6873,
@@ -928,7 +1108,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 14476,
         "product_reorder_rate": 0.571,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 60,
+        "mrp": 75,
+        "unit": "1 kg"
       },
       {
         "product_id": 34262,
@@ -943,7 +1126,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 11945,
         "product_reorder_rate": 0.655,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 50,
+        "mrp": 62,
+        "unit": "200 g"
       },
       {
         "product_id": 41149,
@@ -958,7 +1144,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 8366,
         "product_reorder_rate": 0.481,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 90,
+        "mrp": 112,
+        "unit": "1 pc"
       },
       {
         "product_id": 27521,
@@ -973,7 +1162,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 43067,
         "product_reorder_rate": 0.695,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 100,
+        "mrp": 125,
+        "unit": "1 kg"
       },
       {
         "product_id": 13535,
@@ -988,7 +1180,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 14678,
         "product_reorder_rate": 0.493,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 110,
+        "mrp": 137,
+        "unit": "500 g"
       },
       {
         "product_id": 14267,
@@ -1003,7 +1198,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 4905,
         "product_reorder_rate": 0.513,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 75,
+        "mrp": 93,
+        "unit": "400 g"
       },
       {
         "product_id": 40146,
@@ -1018,7 +1216,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 2806,
         "product_reorder_rate": 0.652,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 40706,
@@ -1033,7 +1234,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 84255,
         "product_reorder_rate": 0.656,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 100,
+        "mrp": 125,
+        "unit": "1 kg"
       },
       {
         "product_id": 27156,
@@ -1048,7 +1252,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 38001,
         "product_reorder_rate": 0.588,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 95,
+        "mrp": 118,
+        "unit": "400 g"
       },
       {
         "product_id": 10749,
@@ -1063,7 +1270,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 57485,
         "product_reorder_rate": 0.66,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 90,
+        "mrp": 112,
+        "unit": "1 kg"
       },
       {
         "product_id": 31562,
@@ -1078,7 +1288,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 7024,
         "product_reorder_rate": 0.498,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 55,
+        "mrp": 68,
+        "unit": "1 kg"
       },
       {
         "product_id": 46667,
@@ -1093,7 +1306,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 52087,
         "product_reorder_rate": 0.573,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 55,
+        "mrp": 68,
+        "unit": "1 kg"
       },
       {
         "product_id": 43928,
@@ -1108,7 +1324,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 2963,
         "product_reorder_rate": 0.577,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 36695,
@@ -1123,7 +1342,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 23892,
         "product_reorder_rate": 0.675,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 70,
+        "mrp": 87,
+        "unit": "1 kg"
       },
       {
         "product_id": 1468,
@@ -1138,7 +1360,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 5512,
         "product_reorder_rate": 0.528,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 110,
+        "mrp": 137,
+        "unit": "1 kg"
       },
       {
         "product_id": 5646,
@@ -1153,7 +1378,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 15302,
         "product_reorder_rate": 0.635,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 310,
+        "mrp": 387,
+        "unit": "500 g"
       },
       {
         "product_id": 21376,
@@ -1168,7 +1396,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 15831,
         "product_reorder_rate": 0.605,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 45,
+        "mrp": 56,
+        "unit": "200 g"
       },
       {
         "product_id": 31893,
@@ -1183,7 +1414,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 2151,
         "product_reorder_rate": 0.44,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 32642,
@@ -1198,7 +1432,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 2024,
         "product_reorder_rate": 0.487,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 18880,
@@ -1213,7 +1450,10 @@
         "user_avg_order_gap": 15.0,
         "product_popularity": 7336,
         "product_reorder_rate": 0.42,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 115,
+        "mrp": 143,
+        "unit": "400 g"
       }
     ]
   },
@@ -1237,7 +1477,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 472565,
         "product_reorder_rate": 0.844,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 105,
+        "mrp": 131,
+        "unit": "1 kg"
       },
       {
         "product_id": 4920,
@@ -1252,7 +1495,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 82689,
         "product_reorder_rate": 0.667,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 45,
+        "mrp": 56,
+        "unit": "1 kg"
       },
       {
         "product_id": 10814,
@@ -1267,7 +1513,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 6925,
         "product_reorder_rate": 0.609,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 350,
+        "mrp": 437,
+        "unit": "1 kg"
       },
       {
         "product_id": 21137,
@@ -1282,7 +1531,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 264683,
         "product_reorder_rate": 0.778,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 55,
+        "mrp": 68,
+        "unit": "250 g"
       },
       {
         "product_id": 27845,
@@ -1297,7 +1549,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 137905,
         "product_reorder_rate": 0.83,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 90,
+        "mrp": 112,
+        "unit": "1 L"
       },
       {
         "product_id": 5876,
@@ -1312,7 +1567,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 87746,
         "product_reorder_rate": 0.69,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 100,
+        "mrp": 125,
+        "unit": "1 kg"
       },
       {
         "product_id": 7559,
@@ -1327,7 +1585,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 12102,
         "product_reorder_rate": 0.594,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 155,
+        "mrp": 193,
+        "unit": "500 g"
       },
       {
         "product_id": 43772,
@@ -1342,7 +1603,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 21552,
         "product_reorder_rate": 0.66,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 55,
+        "mrp": 68,
+        "unit": "1 kg"
       },
       {
         "product_id": 37646,
@@ -1357,7 +1621,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 72846,
         "product_reorder_rate": 0.733,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 100,
+        "mrp": 125,
+        "unit": "1 kg"
       },
       {
         "product_id": 46979,
@@ -1372,7 +1639,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 67283,
         "product_reorder_rate": 0.618,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 115,
+        "mrp": 143,
+        "unit": "1 kg"
       },
       {
         "product_id": 21903,
@@ -1387,7 +1657,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 241921,
         "product_reorder_rate": 0.773,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 60,
+        "mrp": 75,
+        "unit": "250 g"
       },
       {
         "product_id": 47042,
@@ -1402,7 +1675,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 11466,
         "product_reorder_rate": 0.514,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 55,
+        "mrp": 68,
+        "unit": "1 kg"
       },
       {
         "product_id": 19678,
@@ -1417,7 +1693,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 32534,
         "product_reorder_rate": 0.613,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 110,
+        "mrp": 137,
+        "unit": "1 kg"
       },
       {
         "product_id": 28123,
@@ -1432,7 +1711,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 7144,
         "product_reorder_rate": 0.51,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 205,
+        "mrp": 256,
+        "unit": "1 pack"
       },
       {
         "product_id": 18908,
@@ -1447,7 +1729,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 2840,
         "product_reorder_rate": 0.507,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 13646,
@@ -1462,7 +1747,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 16439,
         "product_reorder_rate": 0.727,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 175,
+        "mrp": 218,
+        "unit": "250 g"
       },
       {
         "product_id": 37524,
@@ -1477,7 +1765,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 10101,
         "product_reorder_rate": 0.517,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 110,
+        "mrp": 137,
+        "unit": "500 ml"
       },
       {
         "product_id": 45007,
@@ -1492,7 +1783,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 104823,
         "product_reorder_rate": 0.688,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 80,
+        "mrp": 100,
+        "unit": "1 kg"
       },
       {
         "product_id": 18811,
@@ -1507,7 +1801,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 11666,
         "product_reorder_rate": 0.659,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 60,
+        "mrp": 75,
+        "unit": "1 kg"
       },
       {
         "product_id": 37119,
@@ -1522,7 +1819,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 8010,
         "product_reorder_rate": 0.566,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 165,
+        "mrp": 206,
+        "unit": "250 g"
       },
       {
         "product_id": 651,
@@ -1537,7 +1837,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 15035,
         "product_reorder_rate": 0.598,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 95,
+        "mrp": 118,
+        "unit": "500 ml"
       },
       {
         "product_id": 35921,
@@ -1552,7 +1855,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 13881,
         "product_reorder_rate": 0.702,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 120,
+        "mrp": 150,
+        "unit": "6 pcs"
       },
       {
         "product_id": 49683,
@@ -1567,7 +1873,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 97315,
         "product_reorder_rate": 0.692,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 60,
+        "mrp": 75,
+        "unit": "1 kg"
       },
       {
         "product_id": 45123,
@@ -1582,7 +1891,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 11736,
         "product_reorder_rate": 0.681,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 60,
+        "mrp": 75,
+        "unit": "400 g"
       },
       {
         "product_id": 18370,
@@ -1597,7 +1909,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 18449,
         "product_reorder_rate": 0.604,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 115,
+        "mrp": 143,
+        "unit": "500 ml"
       },
       {
         "product_id": 43961,
@@ -1612,7 +1927,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 55371,
         "product_reorder_rate": 0.631,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 100,
+        "mrp": 125,
+        "unit": "1 kg"
       },
       {
         "product_id": 35004,
@@ -1627,7 +1945,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 8200,
         "product_reorder_rate": 0.525,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 120,
+        "mrp": 150,
+        "unit": "500 g"
       },
       {
         "product_id": 40396,
@@ -1642,7 +1963,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 17960,
         "product_reorder_rate": 0.66,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 125,
+        "mrp": 156,
+        "unit": "250 g"
       },
       {
         "product_id": 19048,
@@ -1657,7 +1981,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 19847,
         "product_reorder_rate": 0.467,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 110,
+        "mrp": 137,
+        "unit": "1 kg"
       },
       {
         "product_id": 38293,
@@ -1672,7 +1999,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 26721,
         "product_reorder_rate": 0.643,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 345,
+        "mrp": 431,
+        "unit": "500 g"
       },
       {
         "product_id": 38266,
@@ -1687,7 +2017,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 2494,
         "product_reorder_rate": 0.349,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 25005,
@@ -1702,7 +2035,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 7299,
         "product_reorder_rate": 0.406,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 75,
+        "mrp": 93,
+        "unit": "500 g"
       },
       {
         "product_id": 8518,
@@ -1717,7 +2053,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 66986,
         "product_reorder_rate": 0.617,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 110,
+        "mrp": 137,
+        "unit": "1 kg"
       },
       {
         "product_id": 27020,
@@ -1732,7 +2071,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 5445,
         "product_reorder_rate": 0.646,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 70,
+        "mrp": 87,
+        "unit": "1 kg"
       },
       {
         "product_id": 3376,
@@ -1747,7 +2089,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 12738,
         "product_reorder_rate": 0.493,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 70,
+        "mrp": 87,
+        "unit": "400 g"
       },
       {
         "product_id": 27913,
@@ -1762,7 +2107,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 341,
         "product_reorder_rate": 0.636,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 40604,
@@ -1777,7 +2125,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 32351,
         "product_reorder_rate": 0.559,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 135,
+        "mrp": 168,
+        "unit": "500 ml"
       },
       {
         "product_id": 26096,
@@ -1792,7 +2143,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 3306,
         "product_reorder_rate": 0.497,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 13431,
@@ -1807,7 +2161,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 6877,
         "product_reorder_rate": 0.511,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 115,
+        "mrp": 143,
+        "unit": "150 g"
       },
       {
         "product_id": 31553,
@@ -1822,7 +2179,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 24130,
         "product_reorder_rate": 0.484,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 85,
+        "mrp": 106,
+        "unit": "1 kg"
       },
       {
         "product_id": 45063,
@@ -1837,7 +2197,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 7118,
         "product_reorder_rate": 0.533,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 60,
+        "mrp": 75,
+        "unit": "1 kg"
       },
       {
         "product_id": 9337,
@@ -1852,7 +2215,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 7522,
         "product_reorder_rate": 0.458,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 100,
+        "mrp": 125,
+        "unit": "500 ml"
       },
       {
         "product_id": 6948,
@@ -1867,7 +2233,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 10060,
         "product_reorder_rate": 0.809,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 80,
+        "mrp": 100,
+        "unit": "1 L"
       },
       {
         "product_id": 40961,
@@ -1882,7 +2251,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 1207,
         "product_reorder_rate": 0.552,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 33043,
@@ -1897,7 +2269,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 8150,
         "product_reorder_rate": 0.524,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 150,
+        "mrp": 187,
+        "unit": "500 g"
       },
       {
         "product_id": 37067,
@@ -1912,7 +2287,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 18583,
         "product_reorder_rate": 0.601,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 55,
+        "mrp": 68,
+        "unit": "1 kg"
       },
       {
         "product_id": 20842,
@@ -1927,7 +2305,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 26154,
         "product_reorder_rate": 0.691,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 100,
+        "mrp": 125,
+        "unit": "500 ml"
       },
       {
         "product_id": 28934,
@@ -1942,7 +2323,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 15458,
         "product_reorder_rate": 0.611,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 210,
+        "mrp": 262,
+        "unit": "1 pack"
       },
       {
         "product_id": 29370,
@@ -1957,7 +2341,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 7517,
         "product_reorder_rate": 0.659,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 40,
+        "mrp": 50,
+        "unit": "200 g"
       },
       {
         "product_id": 27864,
@@ -1972,7 +2359,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 739,
         "product_reorder_rate": 0.618,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 15399,
@@ -1987,7 +2377,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 5431,
         "product_reorder_rate": 0.665,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 110,
+        "mrp": 137,
+        "unit": "1 L"
       },
       {
         "product_id": 27323,
@@ -2002,7 +2395,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 10483,
         "product_reorder_rate": 0.441,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 105,
+        "mrp": 131,
+        "unit": "500 ml"
       },
       {
         "product_id": 7948,
@@ -2017,7 +2413,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 21509,
         "product_reorder_rate": 0.563,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 130,
+        "mrp": 162,
+        "unit": "500 ml"
       },
       {
         "product_id": 21938,
@@ -2032,7 +2431,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 55484,
         "product_reorder_rate": 0.61,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 85,
+        "mrp": 106,
+        "unit": "1 kg"
       },
       {
         "product_id": 48679,
@@ -2047,7 +2449,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 51939,
         "product_reorder_rate": 0.662,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 81,
+        "unit": "1 kg"
       },
       {
         "product_id": 38689,
@@ -2062,7 +2467,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 35663,
         "product_reorder_rate": 0.851,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 85,
+        "mrp": 106,
+        "unit": "1 L"
       },
       {
         "product_id": 24810,
@@ -2077,7 +2485,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 8357,
         "product_reorder_rate": 0.557,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 40,
+        "mrp": 50,
+        "unit": "200 g"
       },
       {
         "product_id": 43713,
@@ -2092,7 +2503,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 18040,
         "product_reorder_rate": 0.568,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 100,
+        "mrp": 125,
+        "unit": "500 g"
       },
       {
         "product_id": 34276,
@@ -2107,7 +2521,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 1087,
         "product_reorder_rate": 0.579,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 781,
@@ -2122,7 +2539,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 8326,
         "product_reorder_rate": 0.673,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 70,
+        "mrp": 87,
+        "unit": "500 ml"
       },
       {
         "product_id": 17795,
@@ -2137,7 +2557,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 14016,
         "product_reorder_rate": 0.591,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 70,
+        "mrp": 87,
+        "unit": "1 kg"
       },
       {
         "product_id": 41950,
@@ -2152,7 +2575,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 64289,
         "product_reorder_rate": 0.657,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 95,
+        "mrp": 118,
+        "unit": "1 kg"
       },
       {
         "product_id": 12872,
@@ -2167,7 +2593,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 9097,
         "product_reorder_rate": 0.535,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 85,
+        "mrp": 106,
+        "unit": "500 g"
       },
       {
         "product_id": 33731,
@@ -2182,7 +2611,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 45238,
         "product_reorder_rate": 0.611,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 120,
+        "mrp": 150,
+        "unit": "500 ml"
       },
       {
         "product_id": 24964,
@@ -2197,7 +2629,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 109778,
         "product_reorder_rate": 0.68,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 81,
+        "unit": "1 kg"
       },
       {
         "product_id": 49235,
@@ -2212,7 +2647,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 76360,
         "product_reorder_rate": 0.781,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 90,
+        "mrp": 112,
+        "unit": "500 ml"
       },
       {
         "product_id": 32734,
@@ -2227,7 +2665,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 15813,
         "product_reorder_rate": 0.513,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 95,
+        "mrp": 118,
+        "unit": "500 g"
       },
       {
         "product_id": 23734,
@@ -2242,7 +2683,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 21540,
         "product_reorder_rate": 0.532,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 85,
+        "mrp": 106,
+        "unit": "500 ml"
       },
       {
         "product_id": 25659,
@@ -2257,7 +2701,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 27255,
         "product_reorder_rate": 0.531,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 110,
+        "mrp": 137,
+        "unit": "1 L"
       },
       {
         "product_id": 16185,
@@ -2272,7 +2719,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 30170,
         "product_reorder_rate": 0.615,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 81,
+        "unit": "500 ml"
       },
       {
         "product_id": 34126,
@@ -2287,7 +2737,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 60621,
         "product_reorder_rate": 0.613,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 50,
+        "mrp": 62,
+        "unit": "400 g"
       },
       {
         "product_id": 30489,
@@ -2302,7 +2755,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 71314,
         "product_reorder_rate": 0.725,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 165,
+        "mrp": 206,
+        "unit": "250 g"
       },
       {
         "product_id": 13113,
@@ -2317,7 +2773,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 5698,
         "product_reorder_rate": 0.624,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 70,
+        "mrp": 87,
+        "unit": "1 kg"
       },
       {
         "product_id": 49006,
@@ -2332,7 +2791,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 444,
         "product_reorder_rate": 0.403,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 31717,
@@ -2347,7 +2809,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 69524,
         "product_reorder_rate": 0.62,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 80,
+        "mrp": 100,
+        "unit": "1 kg"
       },
       {
         "product_id": 30391,
@@ -2362,7 +2827,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 80392,
         "product_reorder_rate": 0.697,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 50,
+        "mrp": 62,
+        "unit": "1 kg"
       },
       {
         "product_id": 26292,
@@ -2377,7 +2845,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 572,
         "product_reorder_rate": 0.304,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 24184,
@@ -2392,7 +2863,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 55280,
         "product_reorder_rate": 0.633,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 81,
+        "unit": "1 kg"
       },
       {
         "product_id": 22395,
@@ -2407,7 +2881,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 12906,
         "product_reorder_rate": 0.452,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 81,
+        "unit": "1 kg"
       },
       {
         "product_id": 44142,
@@ -2422,7 +2899,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 43009,
         "product_reorder_rate": 0.549,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 105,
+        "mrp": 131,
+        "unit": "1 kg"
       },
       {
         "product_id": 29987,
@@ -2437,7 +2917,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 21999,
         "product_reorder_rate": 0.516,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 75,
+        "mrp": 93,
+        "unit": "500 ml"
       },
       {
         "product_id": 37687,
@@ -2452,7 +2935,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 31768,
         "product_reorder_rate": 0.67,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 80,
+        "mrp": 100,
+        "unit": "1 kg"
       },
       {
         "product_id": 27156,
@@ -2467,7 +2953,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 38001,
         "product_reorder_rate": 0.588,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 95,
+        "mrp": 118,
+        "unit": "400 g"
       },
       {
         "product_id": 162,
@@ -2482,7 +2971,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 4919,
         "product_reorder_rate": 0.692,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 200,
+        "mrp": 250,
+        "unit": "1 pack"
       },
       {
         "product_id": 16349,
@@ -2497,7 +2989,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 20217,
         "product_reorder_rate": 0.566,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 115,
+        "mrp": 143,
+        "unit": "1 kg"
       },
       {
         "product_id": 28278,
@@ -2512,7 +3007,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 7545,
         "product_reorder_rate": 0.527,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 90,
+        "mrp": 112,
+        "unit": "500 g"
       },
       {
         "product_id": 42265,
@@ -2527,7 +3025,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 76896,
         "product_reorder_rate": 0.656,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 95,
+        "mrp": 118,
+        "unit": "1 kg"
       },
       {
         "product_id": 15937,
@@ -2542,7 +3043,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 17401,
         "product_reorder_rate": 0.498,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 80,
+        "mrp": 100,
+        "unit": "1 kg"
       },
       {
         "product_id": 34969,
@@ -2557,7 +3061,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 54409,
         "product_reorder_rate": 0.64,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 81,
+        "unit": "1 kg"
       },
       {
         "product_id": 23400,
@@ -2572,7 +3079,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 4091,
         "product_reorder_rate": 0.317,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 1999,
@@ -2587,7 +3097,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 11297,
         "product_reorder_rate": 0.468,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 85,
+        "mrp": 106,
+        "unit": "400 g"
       },
       {
         "product_id": 9092,
@@ -2602,7 +3115,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 11703,
         "product_reorder_rate": 0.477,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 75,
+        "mrp": 93,
+        "unit": "400 g"
       },
       {
         "product_id": 30480,
@@ -2617,7 +3133,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 6213,
         "product_reorder_rate": 0.493,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 81,
+        "unit": "1 kg"
       },
       {
         "product_id": 21019,
@@ -2632,7 +3151,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 17038,
         "product_reorder_rate": 0.55,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 140,
+        "mrp": 175,
+        "unit": "250 g"
       },
       {
         "product_id": 22451,
@@ -2647,7 +3169,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 3694,
         "product_reorder_rate": 0.525,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 9390,
@@ -2662,7 +3187,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 5260,
         "product_reorder_rate": 0.488,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 140,
+        "mrp": 175,
+        "unit": "1 pack"
       },
       {
         "product_id": 17600,
@@ -2677,7 +3205,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 19611,
         "product_reorder_rate": 0.698,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 90,
+        "mrp": 112,
+        "unit": "250 g"
       },
       {
         "product_id": 4799,
@@ -2692,7 +3223,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 36365,
         "product_reorder_rate": 0.643,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 135,
+        "mrp": 168,
+        "unit": "500 ml"
       },
       {
         "product_id": 10644,
@@ -2707,7 +3241,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 12318,
         "product_reorder_rate": 0.412,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 130,
+        "mrp": 162,
+        "unit": "500 g"
       },
       {
         "product_id": 27355,
@@ -2722,7 +3259,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 2863,
         "product_reorder_rate": 0.44,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 44359,
@@ -2737,7 +3277,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 68091,
         "product_reorder_rate": 0.631,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 81,
+        "unit": "400 g"
       },
       {
         "product_id": 24497,
@@ -2752,7 +3295,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 2045,
         "product_reorder_rate": 0.41,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 12204,
@@ -2767,7 +3313,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 2484,
         "product_reorder_rate": 0.451,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 22328,
@@ -2782,7 +3331,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 2595,
         "product_reorder_rate": 0.398,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 37374,
@@ -2797,7 +3349,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 1614,
         "product_reorder_rate": 0.574,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 10243,
@@ -2812,7 +3367,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 3348,
         "product_reorder_rate": 0.172,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 4461,
@@ -2827,7 +3385,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 8408,
         "product_reorder_rate": 0.259,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 115,
+        "mrp": 143,
+        "unit": "1 kg"
       },
       {
         "product_id": 27521,
@@ -2842,7 +3403,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 43067,
         "product_reorder_rate": 0.695,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 100,
+        "mrp": 125,
+        "unit": "1 kg"
       },
       {
         "product_id": 26842,
@@ -2857,7 +3421,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 3067,
         "product_reorder_rate": 0.482,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 37642,
@@ -2872,7 +3439,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 2632,
         "product_reorder_rate": 0.307,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 35233,
@@ -2887,7 +3457,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 6274,
         "product_reorder_rate": 0.499,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 110,
+        "mrp": 137,
+        "unit": "1 kg"
       },
       {
         "product_id": 42356,
@@ -2902,7 +3475,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 15253,
         "product_reorder_rate": 0.492,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 140,
+        "mrp": 175,
+        "unit": "250 g"
       },
       {
         "product_id": 44422,
@@ -2917,7 +3493,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 20140,
         "product_reorder_rate": 0.54,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 130,
+        "mrp": 162,
+        "unit": "350 g"
       },
       {
         "product_id": 19706,
@@ -2932,7 +3511,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 13101,
         "product_reorder_rate": 0.607,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 100,
+        "mrp": 125,
+        "unit": "1 kg"
       },
       {
         "product_id": 10017,
@@ -2947,7 +3529,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 14707,
         "product_reorder_rate": 0.614,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 340,
+        "mrp": 425,
+        "unit": "500 g"
       },
       {
         "product_id": 30406,
@@ -2962,7 +3547,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 9458,
         "product_reorder_rate": 0.409,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 50,
+        "mrp": 62,
+        "unit": "1 kg"
       },
       {
         "product_id": 4367,
@@ -2977,7 +3565,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 8082,
         "product_reorder_rate": 0.523,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 75,
+        "mrp": 93,
+        "unit": "250 g"
       },
       {
         "product_id": 11782,
@@ -2992,7 +3583,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 14618,
         "product_reorder_rate": 0.54,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 80,
+        "mrp": 100,
+        "unit": "1 kg"
       },
       {
         "product_id": 2314,
@@ -3007,7 +3601,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 10434,
         "product_reorder_rate": 0.386,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 85,
+        "mrp": 106,
+        "unit": "1 L"
       },
       {
         "product_id": 22849,
@@ -3022,7 +3619,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 10347,
         "product_reorder_rate": 0.464,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 81,
+        "unit": "400 g"
       },
       {
         "product_id": 39462,
@@ -3037,7 +3637,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 1440,
         "product_reorder_rate": 0.342,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 18761,
@@ -3052,7 +3655,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 2941,
         "product_reorder_rate": 0.174,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 48697,
@@ -3067,7 +3673,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 9783,
         "product_reorder_rate": 0.358,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 120,
+        "mrp": 150,
+        "unit": "500 g"
       },
       {
         "product_id": 6348,
@@ -3082,7 +3691,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 15377,
         "product_reorder_rate": 0.672,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 80,
+        "mrp": 100,
+        "unit": "500 ml"
       },
       {
         "product_id": 5621,
@@ -3097,7 +3709,10 @@
         "user_avg_order_gap": 7.2,
         "product_popularity": 4626,
         "product_reorder_rate": 0.155,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       }
     ]
   },
@@ -3121,7 +3736,10 @@
         "user_avg_order_gap": 27.2,
         "product_popularity": 367,
         "product_reorder_rate": 0.687,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 46088,
@@ -3136,7 +3754,10 @@
         "user_avg_order_gap": 27.2,
         "product_popularity": 5844,
         "product_reorder_rate": 0.67,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 490,
+        "mrp": 612,
+        "unit": "750 ml"
       },
       {
         "product_id": 16683,
@@ -3151,7 +3772,10 @@
         "user_avg_order_gap": 27.2,
         "product_popularity": 1223,
         "product_reorder_rate": 0.601,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 30036,
@@ -3166,7 +3790,10 @@
         "user_avg_order_gap": 27.2,
         "product_popularity": 1267,
         "product_reorder_rate": 0.526,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 20195,
@@ -3181,7 +3808,10 @@
         "user_avg_order_gap": 27.2,
         "product_popularity": 192,
         "product_reorder_rate": 0.469,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 41131,
@@ -3196,7 +3826,10 @@
         "user_avg_order_gap": 27.2,
         "product_popularity": 4245,
         "product_reorder_rate": 0.731,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 17487,
@@ -3211,7 +3844,10 @@
         "user_avg_order_gap": 27.2,
         "product_popularity": 4441,
         "product_reorder_rate": 0.71,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 37075,
@@ -3226,7 +3862,10 @@
         "user_avg_order_gap": 27.2,
         "product_popularity": 105,
         "product_reorder_rate": 0.457,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 39581,
@@ -3241,7 +3880,10 @@
         "user_avg_order_gap": 27.2,
         "product_popularity": 8987,
         "product_reorder_rate": 0.704,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 120,
+        "mrp": 150,
+        "unit": "500 ml"
       },
       {
         "product_id": 10851,
@@ -3256,7 +3898,10 @@
         "user_avg_order_gap": 27.2,
         "product_popularity": 1688,
         "product_reorder_rate": 0.794,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 16696,
@@ -3271,7 +3916,10 @@
         "user_avg_order_gap": 27.2,
         "product_popularity": 10772,
         "product_reorder_rate": 0.656,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 60,
+        "mrp": 75,
+        "unit": "1 L"
       },
       {
         "product_id": 1398,
@@ -3286,7 +3934,10 @@
         "user_avg_order_gap": 27.2,
         "product_popularity": 4244,
         "product_reorder_rate": 0.708,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 2120,
@@ -3301,7 +3952,10 @@
         "user_avg_order_gap": 27.2,
         "product_popularity": 8246,
         "product_reorder_rate": 0.681,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 475,
+        "mrp": 593,
+        "unit": "750 ml"
       },
       {
         "product_id": 18973,
@@ -3316,7 +3970,10 @@
         "user_avg_order_gap": 27.2,
         "product_popularity": 91,
         "product_reorder_rate": 0.484,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 43100,
@@ -3331,7 +3988,10 @@
         "user_avg_order_gap": 27.2,
         "product_popularity": 1196,
         "product_reorder_rate": 0.503,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 20175,
@@ -3346,7 +4006,10 @@
         "user_avg_order_gap": 27.2,
         "product_popularity": 824,
         "product_reorder_rate": 0.489,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 10702,
@@ -3361,7 +4024,10 @@
         "user_avg_order_gap": 27.2,
         "product_popularity": 1259,
         "product_reorder_rate": 0.565,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 6378,
@@ -3376,7 +4042,10 @@
         "user_avg_order_gap": 27.2,
         "product_popularity": 21,
         "product_reorder_rate": 0.286,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 39002,
@@ -3391,7 +4060,10 @@
         "user_avg_order_gap": 27.2,
         "product_popularity": 948,
         "product_reorder_rate": 0.28,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 22763,
@@ -3406,7 +4078,10 @@
         "user_avg_order_gap": 27.2,
         "product_popularity": 96,
         "product_reorder_rate": 0.458,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 33448,
@@ -3421,7 +4096,10 @@
         "user_avg_order_gap": 27.2,
         "product_popularity": 13,
         "product_reorder_rate": 0.0,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       }
     ]
   },
@@ -3445,7 +4123,10 @@
         "user_avg_order_gap": 30.0,
         "product_popularity": 84255,
         "product_reorder_rate": 0.656,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 100,
+        "mrp": 125,
+        "unit": "1 kg"
       },
       {
         "product_id": 13176,
@@ -3460,7 +4141,10 @@
         "user_avg_order_gap": 30.0,
         "product_popularity": 379450,
         "product_reorder_rate": 0.833,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 75,
+        "mrp": 93,
+        "unit": "1 kg"
       },
       {
         "product_id": 46979,
@@ -3475,7 +4159,10 @@
         "user_avg_order_gap": 30.0,
         "product_popularity": 67283,
         "product_reorder_rate": 0.618,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 115,
+        "mrp": 143,
+        "unit": "1 kg"
       },
       {
         "product_id": 41117,
@@ -3490,7 +4177,10 @@
         "user_avg_order_gap": 30.0,
         "product_popularity": 648,
         "product_reorder_rate": 0.327,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 47766,
@@ -3505,7 +4195,10 @@
         "user_avg_order_gap": 30.0,
         "product_popularity": 176815,
         "product_reorder_rate": 0.758,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 75,
+        "mrp": 93,
+        "unit": "1 kg"
       },
       {
         "product_id": 11182,
@@ -3520,7 +4213,10 @@
         "user_avg_order_gap": 30.0,
         "product_popularity": 23129,
         "product_reorder_rate": 0.603,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 80,
+        "mrp": 100,
+        "unit": "250 g"
       },
       {
         "product_id": 34358,
@@ -3535,7 +4231,10 @@
         "user_avg_order_gap": 30.0,
         "product_popularity": 36617,
         "product_reorder_rate": 0.587,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 85,
+        "mrp": 106,
+        "unit": "1 kg"
       },
       {
         "product_id": 28985,
@@ -3550,7 +4249,10 @@
         "user_avg_order_gap": 30.0,
         "product_popularity": 67449,
         "product_reorder_rate": 0.694,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 70,
+        "mrp": 87,
+        "unit": "1 kg"
       },
       {
         "product_id": 22935,
@@ -3565,7 +4267,10 @@
         "user_avg_order_gap": 30.0,
         "product_popularity": 113426,
         "product_reorder_rate": 0.697,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 45,
+        "mrp": 56,
+        "unit": "1 kg"
       },
       {
         "product_id": 45007,
@@ -3580,7 +4285,10 @@
         "user_avg_order_gap": 30.0,
         "product_popularity": 104823,
         "product_reorder_rate": 0.688,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 80,
+        "mrp": 100,
+        "unit": "1 kg"
       },
       {
         "product_id": 22959,
@@ -3595,7 +4303,10 @@
         "user_avg_order_gap": 30.0,
         "product_popularity": 10130,
         "product_reorder_rate": 0.741,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 110,
+        "mrp": 137,
+        "unit": "1 L"
       },
       {
         "product_id": 28204,
@@ -3610,7 +4321,10 @@
         "user_avg_order_gap": 30.0,
         "product_popularity": 89632,
         "product_reorder_rate": 0.712,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 65,
+        "mrp": 81,
+        "unit": "1 kg"
       },
       {
         "product_id": 21137,
@@ -3625,7 +4339,10 @@
         "user_avg_order_gap": 30.0,
         "product_popularity": 264683,
         "product_reorder_rate": 0.778,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 55,
+        "mrp": 68,
+        "unit": "250 g"
       },
       {
         "product_id": 48162,
@@ -3640,7 +4357,10 @@
         "user_avg_order_gap": 30.0,
         "product_popularity": 506,
         "product_reorder_rate": 0.634,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 2086,
@@ -3655,7 +4375,10 @@
         "user_avg_order_gap": 30.0,
         "product_popularity": 18231,
         "product_reorder_rate": 0.599,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 125,
+        "mrp": 156,
+        "unit": "1 pc"
       },
       {
         "product_id": 40898,
@@ -3670,7 +4393,10 @@
         "user_avg_order_gap": 30.0,
         "product_popularity": 1207,
         "product_reorder_rate": 0.553,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 22124,
@@ -3685,7 +4411,10 @@
         "user_avg_order_gap": 30.0,
         "product_popularity": 12153,
         "product_reorder_rate": 0.724,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 135,
+        "mrp": 168,
+        "unit": "250 g"
       },
       {
         "product_id": 46906,
@@ -3700,7 +4429,10 @@
         "user_avg_order_gap": 30.0,
         "product_popularity": 38971,
         "product_reorder_rate": 0.666,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 50,
+        "mrp": 62,
+        "unit": "1 kg"
       },
       {
         "product_id": 13909,
@@ -3715,7 +4447,10 @@
         "user_avg_order_gap": 30.0,
         "product_popularity": 2509,
         "product_reorder_rate": 0.397,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 11777,
@@ -3730,7 +4465,10 @@
         "user_avg_order_gap": 30.0,
         "product_popularity": 26220,
         "product_reorder_rate": 0.643,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 55,
+        "mrp": 68,
+        "unit": "250 g"
       },
       {
         "product_id": 28553,
@@ -3745,7 +4483,10 @@
         "user_avg_order_gap": 30.0,
         "product_popularity": 8822,
         "product_reorder_rate": 0.569,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 180,
+        "mrp": 225,
+        "unit": "250 g"
       },
       {
         "product_id": 21174,
@@ -3760,7 +4501,10 @@
         "user_avg_order_gap": 30.0,
         "product_popularity": 12361,
         "product_reorder_rate": 0.554,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 90,
+        "mrp": 112,
+        "unit": "1 kg"
       },
       {
         "product_id": 18531,
@@ -3775,7 +4519,10 @@
         "user_avg_order_gap": 30.0,
         "product_popularity": 24664,
         "product_reorder_rate": 0.597,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 95,
+        "mrp": 118,
+        "unit": "500 ml"
       },
       {
         "product_id": 44142,
@@ -3790,7 +4537,10 @@
         "user_avg_order_gap": 30.0,
         "product_popularity": 43009,
         "product_reorder_rate": 0.549,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 105,
+        "mrp": 131,
+        "unit": "1 kg"
       },
       {
         "product_id": 22247,
@@ -3805,7 +4555,10 @@
         "user_avg_order_gap": 30.0,
         "product_popularity": 4771,
         "product_reorder_rate": 0.361,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 55,
+        "mrp": 68,
+        "unit": "1 kg"
       },
       {
         "product_id": 13780,
@@ -3820,7 +4573,10 @@
         "user_avg_order_gap": 30.0,
         "product_popularity": 5136,
         "product_reorder_rate": 0.333,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 95,
+        "mrp": 118,
+        "unit": "1 kg"
       },
       {
         "product_id": 49323,
@@ -3835,7 +4591,10 @@
         "user_avg_order_gap": 30.0,
         "product_popularity": 640,
         "product_reorder_rate": 0.275,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 48235,
@@ -3850,7 +4609,10 @@
         "user_avg_order_gap": 30.0,
         "product_popularity": 427,
         "product_reorder_rate": 0.382,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       }
     ]
   },
@@ -3874,7 +4636,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 35633,
         "product_reorder_rate": 0.779,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 115,
+        "mrp": 143,
+        "unit": "1 L"
       },
       {
         "product_id": 44292,
@@ -3889,7 +4654,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 6242,
         "product_reorder_rate": 0.703,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 115,
+        "mrp": 143,
+        "unit": "1 L"
       },
       {
         "product_id": 21903,
@@ -3904,7 +4672,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 241921,
         "product_reorder_rate": 0.773,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 60,
+        "mrp": 75,
+        "unit": "250 g"
       },
       {
         "product_id": 31257,
@@ -3919,7 +4690,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 1640,
         "product_reorder_rate": 0.75,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 4605,
@@ -3934,7 +4708,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 73167,
         "product_reorder_rate": 0.591,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 45,
+        "mrp": 56,
+        "unit": "1 kg"
       },
       {
         "product_id": 45066,
@@ -3949,7 +4726,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 79769,
         "product_reorder_rate": 0.725,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 75,
+        "mrp": 93,
+        "unit": "1 kg"
       },
       {
         "product_id": 28985,
@@ -3964,7 +4744,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 67449,
         "product_reorder_rate": 0.694,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 70,
+        "mrp": 87,
+        "unit": "1 kg"
       },
       {
         "product_id": 40199,
@@ -3979,7 +4762,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 14148,
         "product_reorder_rate": 0.602,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 110,
+        "mrp": 137,
+        "unit": "150 g"
       },
       {
         "product_id": 5456,
@@ -3994,7 +4780,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 11079,
         "product_reorder_rate": 0.591,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 175,
+        "mrp": 218,
+        "unit": "250 g"
       },
       {
         "product_id": 26384,
@@ -4009,7 +4798,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 11655,
         "product_reorder_rate": 0.624,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 135,
+        "mrp": 168,
+        "unit": "6 pcs"
       },
       {
         "product_id": 4920,
@@ -4024,7 +4816,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 82689,
         "product_reorder_rate": 0.667,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 45,
+        "mrp": 56,
+        "unit": "1 kg"
       },
       {
         "product_id": 2210,
@@ -4039,7 +4834,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 4325,
         "product_reorder_rate": 0.735,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 16757,
@@ -4054,7 +4852,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 3201,
         "product_reorder_rate": 0.715,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 38772,
@@ -4069,7 +4870,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 8337,
         "product_reorder_rate": 0.564,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 125,
+        "mrp": 156,
+        "unit": "500 ml"
       },
       {
         "product_id": 21137,
@@ -4084,7 +4888,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 264683,
         "product_reorder_rate": 0.778,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 55,
+        "mrp": 68,
+        "unit": "250 g"
       },
       {
         "product_id": 15399,
@@ -4099,7 +4906,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 5431,
         "product_reorder_rate": 0.665,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 110,
+        "mrp": 137,
+        "unit": "1 L"
       },
       {
         "product_id": 33731,
@@ -4114,7 +4924,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 45238,
         "product_reorder_rate": 0.611,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 120,
+        "mrp": 150,
+        "unit": "500 ml"
       },
       {
         "product_id": 31635,
@@ -4129,7 +4942,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 5444,
         "product_reorder_rate": 0.7,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 81,
+        "unit": "1 L"
       },
       {
         "product_id": 33043,
@@ -4144,7 +4960,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 8150,
         "product_reorder_rate": 0.524,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 150,
+        "mrp": 187,
+        "unit": "500 g"
       },
       {
         "product_id": 37766,
@@ -4159,7 +4978,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 15740,
         "product_reorder_rate": 0.615,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 100,
+        "mrp": 125,
+        "unit": "1 kg"
       },
       {
         "product_id": 25890,
@@ -4174,7 +4996,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 50281,
         "product_reorder_rate": 0.662,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 280,
+        "mrp": 350,
+        "unit": "500 g"
       },
       {
         "product_id": 41220,
@@ -4189,7 +5014,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 34874,
         "product_reorder_rate": 0.618,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 45,
+        "mrp": 56,
+        "unit": "1 kg"
       },
       {
         "product_id": 33279,
@@ -4204,7 +5032,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 5116,
         "product_reorder_rate": 0.501,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 325,
+        "mrp": 406,
+        "unit": "500 g"
       },
       {
         "product_id": 33705,
@@ -4219,7 +5050,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 1863,
         "product_reorder_rate": 0.602,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 24184,
@@ -4234,7 +5068,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 55280,
         "product_reorder_rate": 0.633,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 81,
+        "unit": "1 kg"
       },
       {
         "product_id": 16797,
@@ -4249,7 +5086,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 142951,
         "product_reorder_rate": 0.698,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 105,
+        "mrp": 131,
+        "unit": "250 g"
       },
       {
         "product_id": 3952,
@@ -4264,7 +5104,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 18341,
         "product_reorder_rate": 0.666,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 80,
+        "mrp": 100,
+        "unit": "1 kg"
       },
       {
         "product_id": 5991,
@@ -4279,7 +5122,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 6165,
         "product_reorder_rate": 0.422,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 75,
+        "mrp": 93,
+        "unit": "1 kg"
       },
       {
         "product_id": 17902,
@@ -4294,7 +5140,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 6763,
         "product_reorder_rate": 0.696,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 100,
+        "mrp": 125,
+        "unit": "6 pcs"
       },
       {
         "product_id": 45007,
@@ -4309,7 +5158,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 104823,
         "product_reorder_rate": 0.688,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 80,
+        "mrp": 100,
+        "unit": "1 kg"
       },
       {
         "product_id": 19794,
@@ -4324,7 +5176,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 418,
         "product_reorder_rate": 0.361,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 15984,
@@ -4339,7 +5194,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 4716,
         "product_reorder_rate": 0.717,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 110,
+        "mrp": 137,
+        "unit": "1 L"
       },
       {
         "product_id": 48647,
@@ -4354,7 +5212,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 1000,
         "product_reorder_rate": 0.663,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 49026,
@@ -4369,7 +5230,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 4160,
         "product_reorder_rate": 0.694,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 39040,
@@ -4384,7 +5248,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 7812,
         "product_reorder_rate": 0.609,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 95,
+        "mrp": 118,
+        "unit": "1 kg"
       },
       {
         "product_id": 18389,
@@ -4399,7 +5266,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 3411,
         "product_reorder_rate": 0.602,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 30391,
@@ -4414,7 +5284,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 80392,
         "product_reorder_rate": 0.697,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 50,
+        "mrp": 62,
+        "unit": "1 kg"
       },
       {
         "product_id": 46979,
@@ -4429,7 +5302,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 67283,
         "product_reorder_rate": 0.618,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 115,
+        "mrp": 143,
+        "unit": "1 kg"
       },
       {
         "product_id": 21295,
@@ -4444,7 +5320,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 13637,
         "product_reorder_rate": 0.463,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 95,
+        "mrp": 118,
+        "unit": "1 kg"
       },
       {
         "product_id": 23375,
@@ -4459,7 +5338,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 19998,
         "product_reorder_rate": 0.626,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 100,
+        "mrp": 125,
+        "unit": "500 g"
       },
       {
         "product_id": 15518,
@@ -4474,7 +5356,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 517,
         "product_reorder_rate": 0.662,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 35951,
@@ -4489,7 +5374,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 57895,
         "product_reorder_rate": 0.758,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 120,
+        "mrp": 150,
+        "unit": "1 L"
       },
       {
         "product_id": 46279,
@@ -4504,7 +5392,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 666,
         "product_reorder_rate": 0.713,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 8518,
@@ -4519,7 +5410,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 66986,
         "product_reorder_rate": 0.617,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 110,
+        "mrp": 137,
+        "unit": "1 kg"
       },
       {
         "product_id": 43961,
@@ -4534,7 +5428,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 55371,
         "product_reorder_rate": 0.631,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 100,
+        "mrp": 125,
+        "unit": "1 kg"
       },
       {
         "product_id": 17600,
@@ -4549,7 +5446,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 19611,
         "product_reorder_rate": 0.698,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 90,
+        "mrp": 112,
+        "unit": "250 g"
       },
       {
         "product_id": 7740,
@@ -4564,7 +5464,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 112,
         "product_reorder_rate": 0.304,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 7344,
@@ -4579,7 +5482,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 548,
         "product_reorder_rate": 0.465,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 32734,
@@ -4594,7 +5500,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 15813,
         "product_reorder_rate": 0.513,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 95,
+        "mrp": 118,
+        "unit": "500 g"
       },
       {
         "product_id": 7090,
@@ -4609,7 +5518,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 2705,
         "product_reorder_rate": 0.634,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 25659,
@@ -4624,7 +5536,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 27255,
         "product_reorder_rate": 0.531,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 110,
+        "mrp": 137,
+        "unit": "1 L"
       },
       {
         "product_id": 48220,
@@ -4639,7 +5554,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 4707,
         "product_reorder_rate": 0.712,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 115,
+        "mrp": 143,
+        "unit": "1 L"
       },
       {
         "product_id": 46822,
@@ -4654,7 +5572,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 2726,
         "product_reorder_rate": 0.661,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 28745,
@@ -4669,7 +5590,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 11684,
         "product_reorder_rate": 0.748,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 145,
+        "mrp": 181,
+        "unit": "250 g"
       },
       {
         "product_id": 20345,
@@ -4684,7 +5608,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 10386,
         "product_reorder_rate": 0.639,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 165,
+        "mrp": 206,
+        "unit": "1 pack"
       },
       {
         "product_id": 46355,
@@ -4699,7 +5626,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 472,
         "product_reorder_rate": 0.729,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 18224,
@@ -4714,7 +5644,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 1812,
         "product_reorder_rate": 0.674,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 4697,
@@ -4729,7 +5662,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 1722,
         "product_reorder_rate": 0.657,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 9741,
@@ -4744,7 +5680,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 7010,
         "product_reorder_rate": 0.563,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 170,
+        "mrp": 212,
+        "unit": "1 pack"
       },
       {
         "product_id": 36766,
@@ -4759,7 +5698,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 1377,
         "product_reorder_rate": 0.52,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 24859,
@@ -4774,7 +5716,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 406,
         "product_reorder_rate": 0.355,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 40883,
@@ -4789,7 +5734,10 @@
         "user_avg_order_gap": 11.3,
         "product_popularity": 164,
         "product_reorder_rate": 0.274,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       }
     ]
   },
@@ -4813,7 +5761,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 5719,
         "product_reorder_rate": 0.713,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 75,
+        "mrp": 93,
+        "unit": "1 L"
       },
       {
         "product_id": 5575,
@@ -4828,7 +5779,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 2285,
         "product_reorder_rate": 0.667,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 46820,
@@ -4843,7 +5797,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 11455,
         "product_reorder_rate": 0.693,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 90,
+        "mrp": 112,
+        "unit": "1 L"
       },
       {
         "product_id": 27695,
@@ -4858,7 +5815,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 14577,
         "product_reorder_rate": 0.674,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 305,
+        "mrp": 381,
+        "unit": "500 g"
       },
       {
         "product_id": 16142,
@@ -4873,7 +5833,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 756,
         "product_reorder_rate": 0.675,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 15984,
@@ -4888,7 +5851,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 4716,
         "product_reorder_rate": 0.717,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 110,
+        "mrp": 137,
+        "unit": "1 L"
       },
       {
         "product_id": 20178,
@@ -4903,7 +5869,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 2849,
         "product_reorder_rate": 0.668,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 49005,
@@ -4918,7 +5887,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 1487,
         "product_reorder_rate": 0.608,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 41007,
@@ -4933,7 +5905,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 3068,
         "product_reorder_rate": 0.61,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 48287,
@@ -4948,7 +5923,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 5225,
         "product_reorder_rate": 0.568,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 150,
+        "mrp": 187,
+        "unit": "1 pack"
       },
       {
         "product_id": 32792,
@@ -4963,7 +5941,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 1370,
         "product_reorder_rate": 0.577,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 39519,
@@ -4978,7 +5959,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 768,
         "product_reorder_rate": 0.559,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 21739,
@@ -4993,7 +5977,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 218,
         "product_reorder_rate": 0.532,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 31433,
@@ -5008,7 +5995,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 8073,
         "product_reorder_rate": 0.534,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 135,
+        "mrp": 168,
+        "unit": "350 g"
       },
       {
         "product_id": 13176,
@@ -5023,7 +6013,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 379450,
         "product_reorder_rate": 0.833,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 75,
+        "mrp": 93,
+        "unit": "1 kg"
       },
       {
         "product_id": 9703,
@@ -5038,7 +6031,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 1117,
         "product_reorder_rate": 0.603,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 11520,
@@ -5053,7 +6049,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 40376,
         "product_reorder_rate": 0.776,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 65,
+        "mrp": 81,
+        "unit": "6 pcs"
       },
       {
         "product_id": 17017,
@@ -5068,7 +6067,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 541,
         "product_reorder_rate": 0.455,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 42265,
@@ -5083,7 +6085,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 76896,
         "product_reorder_rate": 0.656,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 95,
+        "mrp": 118,
+        "unit": "1 kg"
       },
       {
         "product_id": 2611,
@@ -5098,7 +6103,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 7083,
         "product_reorder_rate": 0.65,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 245,
+        "mrp": 306,
+        "unit": "250 g"
       },
       {
         "product_id": 5445,
@@ -5113,7 +6121,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 1309,
         "product_reorder_rate": 0.59,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 8324,
@@ -5128,7 +6139,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 2700,
         "product_reorder_rate": 0.639,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 18881,
@@ -5143,7 +6157,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 1509,
         "product_reorder_rate": 0.582,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 44201,
@@ -5158,7 +6175,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 3876,
         "product_reorder_rate": 0.586,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 93,
@@ -5173,7 +6193,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 1843,
         "product_reorder_rate": 0.631,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 7559,
@@ -5188,7 +6211,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 12102,
         "product_reorder_rate": 0.594,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 155,
+        "mrp": 193,
+        "unit": "500 g"
       },
       {
         "product_id": 37103,
@@ -5203,7 +6229,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 2339,
         "product_reorder_rate": 0.554,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 21783,
@@ -5218,7 +6247,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 2571,
         "product_reorder_rate": 0.525,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 16290,
@@ -5233,7 +6265,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 6301,
         "product_reorder_rate": 0.546,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 55,
+        "mrp": 68,
+        "unit": "1 L"
       },
       {
         "product_id": 47766,
@@ -5248,7 +6283,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 176815,
         "product_reorder_rate": 0.758,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 75,
+        "mrp": 93,
+        "unit": "1 kg"
       },
       {
         "product_id": 45364,
@@ -5263,7 +6301,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 4647,
         "product_reorder_rate": 0.49,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 26209,
@@ -5278,7 +6319,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 140627,
         "product_reorder_rate": 0.681,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 81,
+        "unit": "1 kg"
       },
       {
         "product_id": 23334,
@@ -5293,7 +6337,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 887,
         "product_reorder_rate": 0.514,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 47848,
@@ -5308,7 +6355,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 827,
         "product_reorder_rate": 0.502,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 22159,
@@ -5323,7 +6373,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 1295,
         "product_reorder_rate": 0.515,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 27714,
@@ -5338,7 +6391,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 1394,
         "product_reorder_rate": 0.513,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 11794,
@@ -5353,7 +6409,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 307,
         "product_reorder_rate": 0.463,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 38734,
@@ -5368,7 +6427,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 1816,
         "product_reorder_rate": 0.74,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 48220,
@@ -5383,7 +6445,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 4707,
         "product_reorder_rate": 0.712,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 115,
+        "mrp": 143,
+        "unit": "1 L"
       },
       {
         "product_id": 40146,
@@ -5398,7 +6463,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 2806,
         "product_reorder_rate": 0.652,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 42828,
@@ -5413,7 +6481,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 31192,
         "product_reorder_rate": 0.69,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 80,
+        "mrp": 100,
+        "unit": "500 ml"
       },
       {
         "product_id": 37691,
@@ -5428,7 +6499,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 1159,
         "product_reorder_rate": 0.679,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 31635,
@@ -5443,7 +6517,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 5444,
         "product_reorder_rate": 0.7,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 81,
+        "unit": "1 L"
       },
       {
         "product_id": 27344,
@@ -5458,7 +6535,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 41473,
         "product_reorder_rate": 0.66,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 190,
+        "mrp": 237,
+        "unit": "250 g"
       },
       {
         "product_id": 39448,
@@ -5473,7 +6553,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 2538,
         "product_reorder_rate": 0.61,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 36695,
@@ -5488,7 +6571,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 23892,
         "product_reorder_rate": 0.675,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 70,
+        "mrp": 87,
+        "unit": "1 kg"
       },
       {
         "product_id": 4472,
@@ -5503,7 +6589,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 12749,
         "product_reorder_rate": 0.722,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 75,
+        "mrp": 93,
+        "unit": "1 L"
       },
       {
         "product_id": 25435,
@@ -5518,7 +6607,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 1457,
         "product_reorder_rate": 0.584,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 22474,
@@ -5533,7 +6625,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 10557,
         "product_reorder_rate": 0.53,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 60,
+        "mrp": 75,
+        "unit": "400 g"
       },
       {
         "product_id": 12674,
@@ -5548,7 +6643,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 1174,
         "product_reorder_rate": 0.546,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 42160,
@@ -5563,7 +6661,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 87,
         "product_reorder_rate": 0.632,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 30450,
@@ -5578,7 +6679,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 21490,
         "product_reorder_rate": 0.567,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 85,
+        "mrp": 106,
+        "unit": "500 g"
       },
       {
         "product_id": 19208,
@@ -5593,7 +6697,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 2258,
         "product_reorder_rate": 0.714,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 8478,
@@ -5608,7 +6715,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 880,
         "product_reorder_rate": 0.555,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 36994,
@@ -5623,7 +6733,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 2952,
         "product_reorder_rate": 0.482,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 7806,
@@ -5638,7 +6751,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 6513,
         "product_reorder_rate": 0.652,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 75,
+        "mrp": 93,
+        "unit": "400 g"
       },
       {
         "product_id": 31577,
@@ -5653,7 +6769,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 2674,
         "product_reorder_rate": 0.582,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 27509,
@@ -5668,7 +6787,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 5413,
         "product_reorder_rate": 0.563,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 210,
+        "mrp": 262,
+        "unit": "1 kg"
       },
       {
         "product_id": 18594,
@@ -5683,7 +6805,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 8215,
         "product_reorder_rate": 0.541,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 110,
+        "mrp": 137,
+        "unit": "500 ml"
       },
       {
         "product_id": 30175,
@@ -5698,7 +6823,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 220,
         "product_reorder_rate": 0.345,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 9203,
@@ -5713,7 +6841,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 2453,
         "product_reorder_rate": 0.621,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 41860,
@@ -5728,7 +6859,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 2670,
         "product_reorder_rate": 0.639,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 16617,
@@ -5743,7 +6877,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 7709,
         "product_reorder_rate": 0.668,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 125,
+        "mrp": 156,
+        "unit": "500 ml"
       },
       {
         "product_id": 14579,
@@ -5758,7 +6895,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 1073,
         "product_reorder_rate": 0.475,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 33527,
@@ -5773,7 +6913,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 4028,
         "product_reorder_rate": 0.61,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 48736,
@@ -5788,7 +6931,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 834,
         "product_reorder_rate": 0.626,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 37208,
@@ -5803,7 +6949,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 1294,
         "product_reorder_rate": 0.476,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 37141,
@@ -5818,7 +6967,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 3456,
         "product_reorder_rate": 0.576,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 26177,
@@ -5833,7 +6985,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 5216,
         "product_reorder_rate": 0.508,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 105,
+        "mrp": 131,
+        "unit": "350 g"
       },
       {
         "product_id": 45681,
@@ -5848,7 +7003,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 6155,
         "product_reorder_rate": 0.491,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 170,
+        "mrp": 212,
+        "unit": "1 pack"
       },
       {
         "product_id": 8710,
@@ -5863,7 +7021,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 2584,
         "product_reorder_rate": 0.595,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 32240,
@@ -5878,7 +7039,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 466,
         "product_reorder_rate": 0.453,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 48301,
@@ -5893,7 +7057,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 955,
         "product_reorder_rate": 0.576,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 13554,
@@ -5908,7 +7075,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 1417,
         "product_reorder_rate": 0.565,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 14553,
@@ -5923,7 +7093,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 3510,
         "product_reorder_rate": 0.504,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 46531,
@@ -5938,7 +7111,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 445,
         "product_reorder_rate": 0.56,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 26282,
@@ -5953,7 +7129,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 3702,
         "product_reorder_rate": 0.516,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 2081,
@@ -5968,7 +7147,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 1416,
         "product_reorder_rate": 0.474,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 36333,
@@ -5983,7 +7165,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 749,
         "product_reorder_rate": 0.37,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 48341,
@@ -5998,7 +7183,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 1170,
         "product_reorder_rate": 0.504,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 7952,
@@ -6013,7 +7201,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 5730,
         "product_reorder_rate": 0.538,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 290,
+        "mrp": 362,
+        "unit": "1 kg"
       },
       {
         "product_id": 18382,
@@ -6028,7 +7219,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 6871,
         "product_reorder_rate": 0.41,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 75,
+        "mrp": 93,
+        "unit": "200 g"
       },
       {
         "product_id": 18770,
@@ -6043,7 +7237,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 2074,
         "product_reorder_rate": 0.568,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 32099,
@@ -6058,7 +7255,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 1887,
         "product_reorder_rate": 0.523,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 34635,
@@ -6073,7 +7273,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 1833,
         "product_reorder_rate": 0.555,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 10699,
@@ -6088,7 +7291,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 970,
         "product_reorder_rate": 0.459,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 33871,
@@ -6103,7 +7309,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 563,
         "product_reorder_rate": 0.458,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 4486,
@@ -6118,7 +7327,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 817,
         "product_reorder_rate": 0.53,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 38925,
@@ -6133,7 +7345,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 305,
         "product_reorder_rate": 0.472,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 7762,
@@ -6148,7 +7363,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 1652,
         "product_reorder_rate": 0.441,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 29952,
@@ -6163,7 +7381,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 544,
         "product_reorder_rate": 0.425,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 41063,
@@ -6178,7 +7399,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 504,
         "product_reorder_rate": 0.391,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 32843,
@@ -6193,7 +7417,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 1269,
         "product_reorder_rate": 0.526,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 22281,
@@ -6208,7 +7435,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 4196,
         "product_reorder_rate": 0.462,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 38197,
@@ -6223,7 +7453,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 141,
         "product_reorder_rate": 0.34,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 13193,
@@ -6238,7 +7471,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 313,
         "product_reorder_rate": 0.319,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 21542,
@@ -6253,7 +7489,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 227,
         "product_reorder_rate": 0.361,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 37478,
@@ -6268,7 +7507,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 1104,
         "product_reorder_rate": 0.386,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 5933,
@@ -6283,7 +7525,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 2941,
         "product_reorder_rate": 0.26,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 37454,
@@ -6298,7 +7543,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 169,
         "product_reorder_rate": 0.462,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 15478,
@@ -6313,7 +7561,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 395,
         "product_reorder_rate": 0.329,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 16462,
@@ -6328,7 +7579,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 3027,
         "product_reorder_rate": 0.264,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 8136,
@@ -6343,7 +7597,10 @@
         "user_avg_order_gap": 27.3,
         "product_popularity": 933,
         "product_reorder_rate": 0.198,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       }
     ]
   },
@@ -6367,7 +7624,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 42934,
         "product_reorder_rate": 0.734,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 70,
+        "mrp": 87,
+        "unit": "1 L"
       },
       {
         "product_id": 8615,
@@ -6382,7 +7642,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 3534,
         "product_reorder_rate": 0.484,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 5077,
@@ -6397,7 +7660,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 60816,
         "product_reorder_rate": 0.737,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 80,
+        "mrp": 100,
+        "unit": "400 g"
       },
       {
         "product_id": 5785,
@@ -6412,7 +7678,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 47839,
         "product_reorder_rate": 0.806,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 115,
+        "mrp": 143,
+        "unit": "1 L"
       },
       {
         "product_id": 46979,
@@ -6427,7 +7696,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 67283,
         "product_reorder_rate": 0.618,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 115,
+        "mrp": 143,
+        "unit": "1 kg"
       },
       {
         "product_id": 24184,
@@ -6442,7 +7714,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 55280,
         "product_reorder_rate": 0.633,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 81,
+        "unit": "1 kg"
       },
       {
         "product_id": 1463,
@@ -6457,7 +7732,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 27992,
         "product_reorder_rate": 0.811,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 105,
+        "mrp": 131,
+        "unit": "1 L"
       },
       {
         "product_id": 20738,
@@ -6472,7 +7750,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 10274,
         "product_reorder_rate": 0.675,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 85,
+        "mrp": 106,
+        "unit": "400 g"
       },
       {
         "product_id": 44352,
@@ -6487,7 +7768,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 420,
         "product_reorder_rate": 0.543,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 13176,
@@ -6502,7 +7786,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 379450,
         "product_reorder_rate": 0.833,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 75,
+        "mrp": 93,
+        "unit": "1 kg"
       },
       {
         "product_id": 46654,
@@ -6517,7 +7804,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 15703,
         "product_reorder_rate": 0.584,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 85,
+        "mrp": 106,
+        "unit": "6 pcs"
       },
       {
         "product_id": 15527,
@@ -6532,7 +7822,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 940,
         "product_reorder_rate": 0.515,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 24852,
@@ -6547,7 +7840,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 472565,
         "product_reorder_rate": 0.844,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 105,
+        "mrp": 131,
+        "unit": "1 kg"
       },
       {
         "product_id": 34243,
@@ -6562,7 +7858,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 31792,
         "product_reorder_rate": 0.649,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 110,
+        "mrp": 137,
+        "unit": "1 kg"
       },
       {
         "product_id": 37687,
@@ -6577,7 +7876,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 31768,
         "product_reorder_rate": 0.67,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 80,
+        "mrp": 100,
+        "unit": "1 kg"
       },
       {
         "product_id": 43086,
@@ -6592,7 +7894,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 15298,
         "product_reorder_rate": 0.639,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 75,
+        "mrp": 93,
+        "unit": "1 kg"
       },
       {
         "product_id": 21903,
@@ -6607,7 +7912,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 241921,
         "product_reorder_rate": 0.773,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 60,
+        "mrp": 75,
+        "unit": "250 g"
       },
       {
         "product_id": 21137,
@@ -6622,7 +7930,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 264683,
         "product_reorder_rate": 0.778,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 55,
+        "mrp": 68,
+        "unit": "250 g"
       },
       {
         "product_id": 41950,
@@ -6637,7 +7948,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 64289,
         "product_reorder_rate": 0.657,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 95,
+        "mrp": 118,
+        "unit": "1 kg"
       },
       {
         "product_id": 24964,
@@ -6652,7 +7966,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 109778,
         "product_reorder_rate": 0.68,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 81,
+        "unit": "1 kg"
       },
       {
         "product_id": 14766,
@@ -6667,7 +7984,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 2894,
         "product_reorder_rate": 0.522,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 16290,
@@ -6682,7 +8002,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 6301,
         "product_reorder_rate": 0.546,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 55,
+        "mrp": 68,
+        "unit": "1 L"
       },
       {
         "product_id": 8362,
@@ -6697,7 +8020,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 2011,
         "product_reorder_rate": 0.413,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 39475,
@@ -6712,7 +8038,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 26443,
         "product_reorder_rate": 0.706,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 115,
+        "mrp": 143,
+        "unit": "500 ml"
       },
       {
         "product_id": 27663,
@@ -6727,7 +8056,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 5158,
         "product_reorder_rate": 0.567,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 110,
+        "mrp": 137,
+        "unit": "350 g"
       },
       {
         "product_id": 22935,
@@ -6742,7 +8074,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 113426,
         "product_reorder_rate": 0.697,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 45,
+        "mrp": 56,
+        "unit": "1 kg"
       },
       {
         "product_id": 34969,
@@ -6757,7 +8092,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 54409,
         "product_reorder_rate": 0.64,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 81,
+        "unit": "1 kg"
       },
       {
         "product_id": 23594,
@@ -6772,7 +8110,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 4161,
         "product_reorder_rate": 0.518,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 15290,
@@ -6787,7 +8128,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 39188,
         "product_reorder_rate": 0.602,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 70,
+        "mrp": 87,
+        "unit": "1 kg"
       },
       {
         "product_id": 37646,
@@ -6802,7 +8146,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 72846,
         "product_reorder_rate": 0.733,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 100,
+        "mrp": 125,
+        "unit": "1 kg"
       },
       {
         "product_id": 31663,
@@ -6817,7 +8164,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 6122,
         "product_reorder_rate": 0.547,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 160,
+        "mrp": 200,
+        "unit": "250 g"
       },
       {
         "product_id": 17872,
@@ -6832,7 +8182,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 16246,
         "product_reorder_rate": 0.601,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 100,
+        "mrp": 125,
+        "unit": "500 ml"
       },
       {
         "product_id": 5876,
@@ -6847,7 +8200,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 87746,
         "product_reorder_rate": 0.69,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 100,
+        "mrp": 125,
+        "unit": "1 kg"
       },
       {
         "product_id": 31506,
@@ -6862,7 +8218,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 50255,
         "product_reorder_rate": 0.477,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 115,
+        "mrp": 143,
+        "unit": "500 g"
       },
       {
         "product_id": 8174,
@@ -6877,7 +8236,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 42721,
         "product_reorder_rate": 0.64,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 115,
+        "mrp": 143,
+        "unit": "1 kg"
       },
       {
         "product_id": 2825,
@@ -6892,7 +8254,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 13340,
         "product_reorder_rate": 0.651,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 145,
+        "mrp": 181,
+        "unit": "250 g"
       },
       {
         "product_id": 28851,
@@ -6907,7 +8272,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 5860,
         "product_reorder_rate": 0.62,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 95,
+        "mrp": 118,
+        "unit": "6 pcs"
       },
       {
         "product_id": 41540,
@@ -6922,7 +8290,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 6515,
         "product_reorder_rate": 0.574,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 70,
+        "mrp": 87,
+        "unit": "1 kg"
       },
       {
         "product_id": 37552,
@@ -6937,7 +8308,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 4799,
         "product_reorder_rate": 0.547,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 90,
+        "mrp": 112,
+        "unit": "1 L"
       },
       {
         "product_id": 8872,
@@ -6952,7 +8326,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 298,
         "product_reorder_rate": 0.339,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 14086,
@@ -6967,7 +8344,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 2348,
         "product_reorder_rate": 0.569,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 1529,
@@ -6982,7 +8362,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 8736,
         "product_reorder_rate": 0.439,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 115,
+        "mrp": 143,
+        "unit": "1 kg"
       },
       {
         "product_id": 34590,
@@ -6997,7 +8380,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 4931,
         "product_reorder_rate": 0.392,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 40,
+        "mrp": 50,
+        "unit": "200 g"
       },
       {
         "product_id": 35568,
@@ -7012,7 +8398,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 723,
         "product_reorder_rate": 0.52,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 11576,
@@ -7027,7 +8416,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 8566,
         "product_reorder_rate": 0.762,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 95,
+        "mrp": 118,
+        "unit": "150 g"
       },
       {
         "product_id": 31130,
@@ -7042,7 +8434,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 2264,
         "product_reorder_rate": 0.289,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 15649,
@@ -7057,7 +8452,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 9881,
         "product_reorder_rate": 0.705,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 81,
+        "unit": "1 kg"
       },
       {
         "product_id": 22504,
@@ -7072,7 +8470,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 7358,
         "product_reorder_rate": 0.391,
-        "actual_reordered_in_next": true
+        "actual_reordered_in_next": true,
+        "price": 105,
+        "mrp": 131,
+        "unit": "500 g"
       },
       {
         "product_id": 14183,
@@ -7087,7 +8488,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 2794,
         "product_reorder_rate": 0.615,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 34450,
@@ -7102,7 +8506,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 2334,
         "product_reorder_rate": 0.359,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 42633,
@@ -7117,7 +8524,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 4233,
         "product_reorder_rate": 0.611,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 10644,
@@ -7132,7 +8542,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 12318,
         "product_reorder_rate": 0.412,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 130,
+        "mrp": 162,
+        "unit": "500 g"
       },
       {
         "product_id": 47993,
@@ -7147,7 +8560,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 4283,
         "product_reorder_rate": 0.512,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 12714,
@@ -7162,7 +8578,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 858,
         "product_reorder_rate": 0.51,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 65,
+        "mrp": 85,
+        "unit": "1 pack"
       },
       {
         "product_id": 19468,
@@ -7177,7 +8596,10 @@
         "user_avg_order_gap": 11.1,
         "product_popularity": 5158,
         "product_reorder_rate": 0.215,
-        "actual_reordered_in_next": false
+        "actual_reordered_in_next": false,
+        "price": 150,
+        "mrp": 187,
+        "unit": "500 g"
       }
     ]
   }
