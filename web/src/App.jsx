@@ -67,18 +67,9 @@ export default function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDept, setSelectedDept] = useState('all');
-  const [showGroundTruth, setShowGroundTruth] = useState(false);
   const [checkoutCelebration, setCheckoutCelebration] = useState(false);
   const [dynamicPredictions, setDynamicPredictions] = useState([]);
-  const [isPredicting, setIsPredicting] = useState(false);
-
-  // Side Recommendation Popup state for EVERY product added!
-  const [sideRecPopup, setSideRecPopup] = useState({
-    isOpen: false,
-    triggerProduct: null,
-    recommendations: []
-  });
-  const popupTimeoutRef = useRef(null);
+  const [lastAddedProduct, setLastAddedProduct] = useState(null);
 
   // Current active customer profile
   const currentUser = useMemo(() => {
@@ -107,126 +98,91 @@ export default function App() {
 
   // Dynamic next purchase prediction algorithm (runs live when user or cart changes)
   useEffect(() => {
-    setIsPredicting(true);
     const cartPids = Object.keys(cart).map(Number);
+    const cartSet = new Set(cartPids);
+    const cartBoosts = {};
     
-    // Attempt FastAPI endpoint first, fallback to browser model scoring
-    fetch('/api/predict', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ user_id: selectedUserId, cart_product_ids: cartPids })
-    })
-      .then(res => {
-        if (!res.ok) throw new Error('API offline');
-        return res.json();
-      })
-      .then(data => {
-        setDynamicPredictions(data.predictions || []);
-        setIsPredicting(false);
-      })
-      .catch(() => {
-        // High-fidelity client fallback matching exact model logic
-        const cartSet = new Set(cartPids);
-        const cartBoosts = {};
-        
-        cartPids.forEach(cpid => {
-          const affList = initialAffinities[cpid] || [];
-          affList.forEach(item => {
-            cartBoosts[item.product_id] = (cartBoosts[item.product_id] || 0) + item.affinity;
-          });
-        });
-
-        const scored = currentUser.candidates.map(c => {
-          const boost = cartBoosts[c.product_id] || 0;
-          const dynamicProb = Math.min(0.99, c.pred_prob * (1.0 + boost * 1.5));
-          
-          const reasons = [];
-          if (c.purchase_count >= 5) reasons.push(`Regular Habit: Bought ${c.purchase_count}x`);
-          else if (c.purchase_count >= 2) reasons.push(`Bought ${c.purchase_count} times`);
-          if (c.orders_since_last_purchase === 1) reasons.push('Bought in last order');
-          if (boost > 0.05) reasons.push(`Pairs with items in cart (+${Math.round(boost * 100)}% synergy)`);
-
-          const cat = initialCatalog.find(p => p.product_id === c.product_id) || {};
-
-          return {
-            product_id: c.product_id,
-            product_name: c.product_name,
-            department: c.department,
-            price: cat.price || 49,
-            mrp: cat.mrp || Math.round((cat.price || 49) * 1.25),
-            unit: cat.unit || '1 pack',
-            base_prob: c.pred_prob,
-            dynamic_prob: Number(dynamicProb.toFixed(4)),
-            cart_synergy: Number(boost.toFixed(3)),
-            in_cart: cartSet.has(c.product_id),
-            reasons: reasons,
-            purchase_count: c.purchase_count,
-            orders_since_last: c.orders_since_last_purchase,
-            actual_reordered: c.actual_reordered_in_next
-          };
-        });
-
-        scored.sort((a, b) => b.dynamic_prob - a.dynamic_prob);
-        setDynamicPredictions(scored.slice(0, 10));
-        setIsPredicting(false);
+    cartPids.forEach(cpid => {
+      const affList = initialAffinities[cpid] || [];
+      affList.forEach(item => {
+        cartBoosts[item.product_id] = (cartBoosts[item.product_id] || 0) + item.affinity;
       });
-  }, [selectedUserId, cart, currentUser]);
-
-  // Trigger Side Recommendation Popup whenever a product is added
-  const triggerSideRecommendation = (product) => {
-    // Find market basket complements for this specific product
-    const affList = initialAffinities[product.product_id] || [];
-    const compIds = new Set(affList.map(a => a.product_id));
-    
-    // Score recommendations: candidates matching this product's affinities or high habit next-purchases
-    const recs = [];
-    
-    // 1. Direct affinities from market basket rules
-    affList.slice(0, 4).forEach(aff => {
-      const p = initialCatalog.find(item => item.product_id === aff.product_id);
-      if (p && p.product_id !== product.product_id && !cart[p.product_id]) {
-        recs.push({
-          ...p,
-          affinityScore: aff.affinity,
-          reason: `Frequently bought with ${product.product_name.slice(0, 18)}`
-        });
-      }
     });
 
-    // 2. If fewer than 3, supplement with customer's top habitual predictions not yet in cart
-    if (recs.length < 3) {
-      dynamicPredictions.forEach(pred => {
-        if (pred.product_id !== product.product_id && !cart[pred.product_id] && !recs.find(r => r.product_id === pred.product_id)) {
+    const scored = currentUser.candidates.map(c => {
+      const boost = cartBoosts[c.product_id] || 0;
+      const dynamicProb = Math.min(0.99, c.pred_prob * (1.0 + boost * 1.5));
+      const cat = initialCatalog.find(p => p.product_id === c.product_id) || {};
+
+      return {
+        product_id: c.product_id,
+        product_name: c.product_name,
+        department: c.department,
+        price: cat.price || 49,
+        mrp: cat.mrp || Math.round((cat.price || 49) * 1.25),
+        unit: cat.unit || '1 pack',
+        dynamic_prob: Number(dynamicProb.toFixed(4)),
+        cart_synergy: Number(boost.toFixed(3)),
+        in_cart: cartSet.has(c.product_id),
+        purchase_count: c.purchase_count,
+        orders_since_last: c.orders_since_last_purchase,
+        actual_reordered: c.actual_reordered_in_next
+      };
+    });
+
+    scored.sort((a, b) => b.dynamic_prob - a.dynamic_prob);
+    setDynamicPredictions(scored.slice(0, 10));
+  }, [selectedUserId, cart, currentUser]);
+
+  // Compute side recommendations (ALWAYS available and updates when lastAddedProduct changes)
+  const sideRecommendations = useMemo(() => {
+    const recs = [];
+    
+    if (lastAddedProduct) {
+      const affList = initialAffinities[lastAddedProduct.product_id] || [];
+      affList.forEach(aff => {
+        const p = initialCatalog.find(item => item.product_id === aff.product_id);
+        if (p && p.product_id !== lastAddedProduct.product_id && !cart[p.product_id]) {
           recs.push({
-            ...pred,
-            affinityScore: pred.dynamic_prob,
-            reason: pred.reasons?.[0] || 'Predicted next purchase'
+            ...p,
+            matchScore: Math.round(aff.affinity * 100),
+            reason: `Frequently bought with ${lastAddedProduct.product_name.slice(0, 16)}`
           });
         }
       });
     }
 
-    const finalRecs = recs.slice(0, 3);
-
-    // If cart drawer is open, don't overlap, otherwise open side recommendation drawer
-    if (!isCartOpen && finalRecs.length > 0) {
-      setSideRecPopup({
-        isOpen: true,
-        triggerProduct: product,
-        recommendations: finalRecs
+    // Supplement with top customer predictions
+    if (recs.length < 3) {
+      dynamicPredictions.forEach(pred => {
+        if (!cart[pred.product_id] && (!lastAddedProduct || pred.product_id !== lastAddedProduct.product_id) && !recs.find(r => r.product_id === pred.product_id)) {
+          recs.push({
+            ...pred,
+            matchScore: Math.round(pred.dynamic_prob * 100),
+            reason: 'Frequent Next Purchase'
+          });
+        }
       });
-
-      // Clear any previous auto-dismiss timeout
-      if (popupTimeoutRef.current) clearTimeout(popupTimeoutRef.current);
-      // Auto-keep open for 10 seconds or until user dismisses
-      popupTimeoutRef.current = setTimeout(() => {
-        setSideRecPopup(prev => ({ ...prev, isOpen: false }));
-      }, 10000);
     }
-  };
+
+    // Fallback to top catalog items
+    if (recs.length < 3) {
+      initialCatalog.slice(0, 6).forEach(cat => {
+        if (!cart[cat.product_id] && !recs.find(r => r.product_id === cat.product_id)) {
+          recs.push({
+            ...cat,
+            matchScore: 88,
+            reason: 'Trending Daily Grocery'
+          });
+        }
+      });
+    }
+
+    return recs.slice(0, 3);
+  }, [lastAddedProduct, dynamicPredictions, cart]);
 
   // Cart operations
-  const addToCart = (product, suppressPopup = false) => {
+  const addToCart = (product) => {
     setCart(prev => {
       const existing = prev[product.product_id];
       const count = existing ? existing.quantity + 1 : 1;
@@ -235,10 +191,7 @@ export default function App() {
         [product.product_id]: { product, quantity: count }
       };
     });
-
-    if (!suppressPopup) {
-      triggerSideRecommendation(product);
-    }
+    setLastAddedProduct(product);
   };
 
   const removeFromCart = (productId) => {
@@ -263,26 +216,6 @@ export default function App() {
     });
   };
 
-  const addAllPredictionsToCart = () => {
-    setCart(prev => {
-      const next = { ...prev };
-      dynamicPredictions.forEach(pred => {
-        const fullProd = initialCatalog.find(p => p.product_id === pred.product_id) || {
-          product_id: pred.product_id,
-          product_name: pred.product_name,
-          department: pred.department,
-          price: pred.price || 49,
-          mrp: pred.mrp || 65,
-          unit: pred.unit || '1 pack'
-        };
-        if (!next[pred.product_id]) {
-          next[pred.product_id] = { product: fullProd, quantity: 1 };
-        }
-      });
-      return next;
-    });
-  };
-
   const totalCartCount = useMemo(() => {
     return Object.values(cart).reduce((sum, item) => sum + item.quantity, 0);
   }, [cart]);
@@ -300,6 +233,7 @@ export default function App() {
     });
     setCheckoutCelebration(true);
     setCart({});
+    setLastAddedProduct(null);
     setTimeout(() => {
       setCheckoutCelebration(false);
       setIsCartOpen(false);
@@ -309,7 +243,7 @@ export default function App() {
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#f4f6f8' }}>
       
-      {/* NORMAL SHOPPING APP TOP NAVBAR (Blinkit / Zepto / BigBasket style) */}
+      {/* NAVBAR */}
       <header style={{
         backgroundColor: '#ffffff',
         borderBottom: '1px solid #e5e7eb',
@@ -318,13 +252,12 @@ export default function App() {
         zIndex: 40,
         boxShadow: '0 2px 4px rgba(0,0,0,0.04)'
       }}>
-        {/* Top Announcement Bar */}
         <div style={{
           backgroundColor: '#0c831f',
           color: '#ffffff',
           padding: '0.35rem 1rem',
-          fontSize: '0.75rem',
-          fontWeight: 700,
+          fontSize: '0.78rem',
+          fontWeight: 800,
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
@@ -403,20 +336,17 @@ export default function App() {
                     outline: 'none'
                   }}
                 >
-                  {initialDemoUsers.map((u) => {
-                    const topCand = u.candidates[0] ? u.candidates[0].product_name : 'Groceries';
-                    return (
-                      <option key={u.user_id} value={u.user_id}>
-                        Shopper #{u.user_id} ({u.total_prior_orders} orders)
-                      </option>
-                    );
-                  })}
+                  {initialDemoUsers.map((u) => (
+                    <option key={u.user_id} value={u.user_id}>
+                      Shopper #{u.user_id} ({u.total_prior_orders} orders)
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
           </div>
 
-          {/* Prominent Search Bar in Navbar */}
+          {/* Prominent Search Bar */}
           <div style={{
             position: 'relative',
             flex: '1 1 380px',
@@ -436,11 +366,8 @@ export default function App() {
                 backgroundColor: '#f9fafb',
                 fontSize: '0.875rem',
                 outline: 'none',
-                transition: 'all 0.2s ease',
-                boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.03)'
+                transition: 'all 0.2s ease'
               }}
-              onFocus={(e) => e.target.style.borderColor = '#0c831f'}
-              onBlur={(e) => e.target.style.borderColor = '#e5e7eb'}
             />
             {searchQuery && (
               <button
@@ -452,7 +379,7 @@ export default function App() {
             )}
           </div>
 
-          {/* Nav Links & Indian Grocery Cart Button */}
+          {/* Nav Links & Cart Button */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexShrink: 0 }}>
             <button
               onClick={() => setActiveTab(activeTab === 'shop' ? 'dataset' : 'shop')}
@@ -472,7 +399,6 @@ export default function App() {
               {activeTab === 'shop' ? 'Dataset & AI Stats' : 'Back to Shop'}
             </button>
 
-            {/* Cart Button: Displays Item Count and ₹ Total */}
             <button
               onClick={() => setIsCartOpen(true)}
               style={{
@@ -485,8 +411,7 @@ export default function App() {
                 borderRadius: '10px',
                 fontWeight: 800,
                 fontSize: '0.9rem',
-                boxShadow: '0 4px 6px -1px rgba(12, 131, 31, 0.3)',
-                transition: 'all 0.15s ease'
+                boxShadow: '0 4px 6px -1px rgba(12, 131, 31, 0.3)'
               }}
             >
               <ShoppingCart size={18} />
@@ -502,9 +427,15 @@ export default function App() {
       {/* MAIN VIEW */}
       <main style={{ maxWidth: '1380px', margin: '0 auto', padding: '1.25rem', width: '100%', flex: 1 }}>
         {activeTab === 'shop' ? (
-          <div>
-            {/* NORMAL SHOPPING APP CATEGORY TABS & PRODUCT GRID */}
-            <section>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'minmax(0, 1fr) 350px',
+            gap: '1.5rem',
+            alignItems: 'start'
+          }}>
+            
+            {/* LEFT COLUMN: CATEGORIES & PRODUCT GRID */}
+            <div>
               {/* Category Chips Bar */}
               <div style={{
                 backgroundColor: '#ffffff',
@@ -524,7 +455,7 @@ export default function App() {
                   {departments.map(dept => {
                     const isSelected = selectedDept === dept;
                     const icon = dept === 'all' ? '✨' : (deptIcons[dept.toLowerCase()] || '🛒');
-                    const label = dept === 'all' ? 'All Products' : (deptDisplayName[dept.toLowerCase()] || dept);
+                    const label = dept === 'all' ? 'All Categories' : (deptDisplayName[dept.toLowerCase()] || dept);
 
                     return (
                       <button
@@ -555,18 +486,18 @@ export default function App() {
 
               {/* Product Listing Header */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#111827' }}>
-                  {selectedDept === 'all' ? 'Popular Daily Groceries' : (deptDisplayName[selectedDept.toLowerCase()] || selectedDept)}
+                <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#111827', margin: 0 }}>
+                  {selectedDept === 'all' ? 'Daily Fresh Groceries' : (deptDisplayName[selectedDept.toLowerCase()] || selectedDept)}
                 </h3>
                 <span style={{ fontSize: '0.8rem', color: '#6b7280', fontWeight: 600 }}>
                   Showing {filteredProducts.length} items
                 </span>
               </div>
 
-              {/* Product Cards Grid (Indian E-Commerce Style) */}
+              {/* Product Cards Grid */}
               <div style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(195px, 1fr))',
                 gap: '1rem'
               }}>
                 {filteredProducts.map(product => {
@@ -585,11 +516,9 @@ export default function App() {
                         display: 'flex',
                         flexDirection: 'column',
                         justifyContent: 'space-between',
-                        boxShadow: '0 1px 3px rgba(0,0,0,0.03)',
-                        position: 'relative'
+                        boxShadow: '0 1px 3px rgba(0,0,0,0.03)'
                       }}
                     >
-                      {/* Top Badges */}
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.5rem' }}>
                         <span style={{
                           backgroundColor: '#ecfdf5',
@@ -605,7 +534,6 @@ export default function App() {
                         <span style={{ fontSize: '1.4rem' }}>{deptIcons[product.department.toLowerCase()] || '🛒'}</span>
                       </div>
 
-                      {/* Product Name & Pack Size */}
                       <div>
                         <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#6b7280' }}>
                           {product.unit || '1 pack'}
@@ -629,7 +557,6 @@ export default function App() {
                         </p>
                       </div>
 
-                      {/* Bottom Pricing & ADD Button */}
                       <div style={{
                         display: 'flex',
                         alignItems: 'center',
@@ -683,8 +610,7 @@ export default function App() {
                               borderRadius: '8px',
                               fontSize: '0.775rem',
                               fontWeight: 800,
-                              textTransform: 'uppercase',
-                              transition: 'all 0.15s ease'
+                              textTransform: 'uppercase'
                             }}
                           >
                             + ADD
@@ -695,11 +621,209 @@ export default function App() {
                   );
                 })}
               </div>
-            </section>
+            </div>
+
+            {/* RIGHT COLUMN: DYNAMIC RECOMMENDATION CARD & CART CARD (ALWAYS VISIBLE!) */}
+            <div style={{ position: 'sticky', top: '95px', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+              
+              {/* 1. DYNAMIC AI RECOMMENDATIONS CARD */}
+              <div style={{
+                backgroundColor: '#ffffff',
+                border: '1.5px solid #0c831f',
+                borderRadius: '16px',
+                overflow: 'hidden',
+                boxShadow: '0 4px 15px rgba(12, 131, 31, 0.1)'
+              }}>
+                <div style={{
+                  background: 'linear-gradient(135deg, #0c831f 0%, #065f46 100%)',
+                  color: '#ffffff',
+                  padding: '0.75rem 1rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.45rem'
+                }}>
+                  <Sparkles size={16} color="#f7c32e" />
+                  <div>
+                    <div style={{ fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.03em' }}>
+                      {lastAddedProduct ? 'Frequently Bought Together' : 'AI Smart Recommendations'}
+                    </div>
+                    <div style={{ fontSize: '0.68rem', color: '#bbf7d0' }}>
+                      {lastAddedProduct ? `Pairs with ${lastAddedProduct.product_name.slice(0, 18)}` : `Top picks for Shopper #${currentUser.user_id}`}
+                    </div>
+                  </div>
+                </div>
+
+                <div style={{ padding: '0.85rem', display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+                  {sideRecommendations.map(item => {
+                    const inCart = Boolean(cart[item.product_id]);
+                    return (
+                      <div
+                        key={item.product_id}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          padding: '0.55rem 0.65rem',
+                          borderRadius: '10px',
+                          border: '1px solid #f3f4f6',
+                          backgroundColor: '#fafafa'
+                        }}
+                      >
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flex: 1, minWidth: 0 }}>
+                          <span style={{ fontSize: '1.2rem' }}>{deptIcons[item.department?.toLowerCase()] || '🛒'}</span>
+                          <div style={{ minWidth: 0 }}>
+                            <h5 style={{
+                              fontSize: '0.8rem',
+                              fontWeight: 700,
+                              color: '#111827',
+                              margin: 0,
+                              whiteSpace: 'nowrap',
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis'
+                            }}>
+                              {item.product_name}
+                            </h5>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', marginTop: '0.1rem' }}>
+                              <span style={{ fontSize: '0.8rem', fontWeight: 800, color: '#111827' }}>
+                                ₹{item.price || 49}
+                              </span>
+                              <span style={{ fontSize: '0.62rem', color: '#0c831f', fontWeight: 700, backgroundColor: '#ecfdf5', padding: '0.05rem 0.3rem', borderRadius: '4px' }}>
+                                {item.matchScore}% Match
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <button
+                          onClick={() => addToCart(item)}
+                          style={{
+                            marginLeft: '0.4rem',
+                            border: inCart ? '1px solid #0c831f' : 'none',
+                            backgroundColor: inCart ? '#ecfdf5' : '#0c831f',
+                            color: inCart ? '#0c831f' : '#ffffff',
+                            padding: '0.35rem 0.65rem',
+                            borderRadius: '6px',
+                            fontSize: '0.72rem',
+                            fontWeight: 800,
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '0.2rem'
+                          }}
+                        >
+                          {inCart ? `Added (${cart[item.product_id].quantity})` : '+ Add'}
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* 2. ACTIVE SHOPPING BASKET CARD (ALWAYS VISIBLE RIGHT HERE!) */}
+              <div style={{
+                backgroundColor: '#ffffff',
+                border: '1px solid #e5e7eb',
+                borderRadius: '16px',
+                padding: '1rem',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem', paddingBottom: '0.5rem', borderBottom: '1px solid #f3f4f6' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                    <ShoppingCart size={18} color="#0c831f" />
+                    <h4 style={{ fontSize: '0.95rem', fontWeight: 800, margin: 0, color: '#111827' }}>
+                      My Basket ({totalCartCount})
+                    </h4>
+                  </div>
+                  {totalCartCount > 0 && (
+                    <button
+                      onClick={() => { setCart({}); setLastAddedProduct(null); }}
+                      style={{ fontSize: '0.72rem', color: '#ef4444', fontWeight: 700 }}
+                    >
+                      Clear
+                    </button>
+                  )}
+                </div>
+
+                {totalCartCount === 0 ? (
+                  <div style={{ textAlign: 'center', padding: '1.5rem 0.5rem', color: '#9ca3af' }}>
+                    <ShoppingCart size={32} style={{ margin: '0 auto 0.5rem', opacity: 0.5 }} />
+                    <p style={{ fontSize: '0.8rem', fontWeight: 600, color: '#6b7280', margin: 0 }}>Your basket is empty</p>
+                    <p style={{ fontSize: '0.7rem', margin: '0.25rem 0 0' }}>Add items from the catalog or suggestions above!</p>
+                  </div>
+                ) : (
+                  <div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', maxHeight: '220px', overflowY: 'auto', marginBottom: '0.85rem' }}>
+                      {Object.values(cart).map(({ product, quantity }) => (
+                        <div key={product.product_id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.8rem' }}>
+                          <div style={{ flex: 1, minWidth: 0, paddingRight: '0.5rem' }}>
+                            <div style={{ fontWeight: 700, color: '#111827', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                              {product.product_name}
+                            </div>
+                            <span style={{ fontSize: '0.7rem', color: '#6b7280' }}>₹{product.price} × {quantity}</span>
+                          </div>
+
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', backgroundColor: '#0c831f', borderRadius: '5px', padding: '0.1rem 0.25rem' }}>
+                              <button onClick={() => removeFromCart(product.product_id)} style={{ color: '#ffffff', width: '16px', height: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                <Minus size={10} />
+                              </button>
+                              <span style={{ color: '#ffffff', fontSize: '0.75rem', fontWeight: 800, minWidth: '14px', textAlign: 'center' }}>{quantity}</span>
+                              <button onClick={() => addToCart(product)} style={{ color: '#ffffff', width: '16px', height: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                <Plus size={10} />
+                              </button>
+                            </div>
+                            <button onClick={() => deleteItem(product.product_id)} style={{ color: '#ef4444', padding: '0.1rem' }}>
+                              <Trash2 size={13} />
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div style={{ borderTop: '1px solid #f3f4f6', paddingTop: '0.65rem', marginBottom: '0.75rem', fontSize: '0.78rem', color: '#6b7280' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.25rem' }}>
+                        <span>Subtotal</span>
+                        <span>₹{cartSubtotal}</span>
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.25rem' }}>
+                        <span>Delivery</span>
+                        <span style={{ color: '#0c831f', fontWeight: 700 }}>FREE</span>
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1rem', fontWeight: 900, color: '#111827', marginTop: '0.4rem' }}>
+                        <span>Total</span>
+                        <span>₹{Math.round(cartSubtotal * 1.05)}</span>
+                      </div>
+                    </div>
+
+                    <button
+                      onClick={handleCheckout}
+                      disabled={checkoutCelebration}
+                      style={{
+                        width: '100%',
+                        backgroundColor: checkoutCelebration ? '#059669' : '#0c831f',
+                        color: '#ffffff',
+                        padding: '0.65rem',
+                        borderRadius: '8px',
+                        fontWeight: 800,
+                        fontSize: '0.85rem',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '0.4rem',
+                        boxShadow: '0 2px 6px rgba(12, 131, 31, 0.3)'
+                      }}
+                    >
+                      {checkoutCelebration ? 'Order Placed! 10 Mins Arrival' : `Pay ₹${Math.round(cartSubtotal * 1.05)}`}
+                    </button>
+                  </div>
+                )}
+              </div>
+
+            </div>
+
           </div>
         ) : (
-          /* DATASET AND MODEL ANALYTICS PAGE (WITH INR LABELS) */
-          <div style={{ animation: 'fadeIn 0.3s ease-out' }}>
+          /* DATASET AND MODEL ANALYTICS PAGE */
+          <div>
             <div style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
@@ -741,18 +865,9 @@ export default function App() {
 
             {/* Charts Grid */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(450px, 1fr))', gap: '1.5rem', marginBottom: '2rem' }}>
-              
-              {/* Chart 1: Orders by Weekday */}
               <div style={{ backgroundColor: '#ffffff', padding: '1.5rem', borderRadius: '14px', border: '1px solid #e5e7eb' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
-                  <Calendar size={18} color="#0c831f" />
-                  <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#111827' }}>Orders by Day of Week</h3>
-                </div>
-                <p style={{ fontSize: '0.8rem', color: '#6b7280', marginBottom: '1.25rem' }}>
-                  Peak grocery ordering occurs on Sunday (Day 0) and Monday (Day 1).
-                </p>
-
-                <div style={{ display: 'flex', alignItems: 'flex-end', gap: '1rem', height: '170px', paddingBottom: '2rem', position: 'relative' }}>
+                <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#111827', marginBottom: '0.5rem' }}>Orders by Day of Week</h3>
+                <div style={{ display: 'flex', alignItems: 'flex-end', gap: '1rem', height: '170px', paddingBottom: '1.5rem', position: 'relative' }}>
                   {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((dayName, idx) => {
                     const count = initialStats.orders_by_weekday[idx] || 0;
                     const maxVal = Math.max(...Object.values(initialStats.orders_by_weekday));
@@ -764,12 +879,7 @@ export default function App() {
                         <span style={{ fontSize: '0.7rem', fontWeight: 700, color: isPeak ? '#0c831f' : '#6b7280', marginBottom: '4px' }}>
                           {(count / 1000).toFixed(0)}k
                         </span>
-                        <div style={{
-                          width: '100%',
-                          height: `${heightPct}%`,
-                          backgroundColor: isPeak ? '#0c831f' : '#cbd5e1',
-                          borderRadius: '6px 6px 0 0'
-                        }} />
+                        <div style={{ width: '100%', height: `${heightPct}%`, backgroundColor: isPeak ? '#0c831f' : '#cbd5e1', borderRadius: '6px 6px 0 0' }} />
                         <span style={{ position: 'absolute', bottom: '0px', fontSize: '0.75rem', fontWeight: 700, color: '#4b5563' }}>
                           {dayName}
                         </span>
@@ -779,50 +889,8 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Chart 2: Orders by Hour of Day */}
               <div style={{ backgroundColor: '#ffffff', padding: '1.5rem', borderRadius: '14px', border: '1px solid #e5e7eb' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
-                  <Clock size={18} color="#0284c7" />
-                  <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#111827' }}>Orders by Hour of Day (0 - 23)</h3>
-                </div>
-                <p style={{ fontSize: '0.8rem', color: '#6b7280', marginBottom: '1.25rem' }}>
-                  Traffic surges between 9:00 AM and 5:00 PM with peak at 10:00 AM.
-                </p>
-
-                <div style={{ display: 'flex', alignItems: 'flex-end', gap: '3px', height: '170px', paddingBottom: '2rem', position: 'relative' }}>
-                  {Array.from({ length: 24 }).map((_, h) => {
-                    const count = initialStats.orders_by_hour[h] || 0;
-                    const maxVal = Math.max(...Object.values(initialStats.orders_by_hour));
-                    const heightPct = Math.round((count / maxVal) * 100);
-                    const isPeak = h >= 10 && h <= 15;
-
-                    return (
-                      <div key={h} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%', justifyContent: 'flex-end' }}>
-                        <div
-                          style={{
-                            width: '100%',
-                            height: `${heightPct}%`,
-                            backgroundColor: isPeak ? '#0284c7' : '#e5e7eb',
-                            borderRadius: '2px 2px 0 0'
-                          }}
-                        />
-                        {h % 4 === 0 && (
-                          <span style={{ position: 'absolute', bottom: '0px', fontSize: '0.65rem', fontWeight: 600, color: '#6b7280' }}>
-                            {h}h
-                          </span>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Chart 3: Top 10 Products */}
-              <div style={{ backgroundColor: '#ffffff', padding: '1.5rem', borderRadius: '14px', border: '1px solid #e5e7eb' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
-                  <TrendingUp size={18} color="#ea580c" />
-                  <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#111827' }}>Top 10 Products in Instacart</h3>
-                </div>
+                <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#111827', marginBottom: '0.5rem' }}>Top 10 Products in Instacart</h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
                   {initialStats.top_10_products.map((p, idx) => {
                     const maxCount = initialStats.top_10_products[0].order_count;
@@ -830,12 +898,8 @@ export default function App() {
                     return (
                       <div key={p.product_id}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', fontWeight: 700, marginBottom: '2px' }}>
-                          <span style={{ color: '#1f2937' }}>
-                            {idx + 1}. {p.product_name}
-                          </span>
-                          <span style={{ color: '#6b7280' }}>
-                            {p.order_count.toLocaleString()} orders
-                          </span>
+                          <span style={{ color: '#1f2937' }}>{idx + 1}. {p.product_name}</span>
+                          <span style={{ color: '#6b7280' }}>{p.order_count.toLocaleString()} orders</span>
                         </div>
                         <div style={{ width: '100%', height: '7px', backgroundColor: '#f3f4f6', borderRadius: '9999px', overflow: 'hidden' }}>
                           <div style={{ width: `${pct}%`, height: '100%', backgroundColor: idx === 0 ? '#0c831f' : '#38bdf8', borderRadius: '9999px' }} />
@@ -845,380 +909,10 @@ export default function App() {
                   })}
                 </div>
               </div>
-
-              {/* Chart 4: LightGBM Feature Importance */}
-              <div style={{ backgroundColor: '#ffffff', padding: '1.5rem', borderRadius: '14px', border: '1px solid #e5e7eb' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
-                  <Layers size={18} color="#7c3aed" />
-                  <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#111827' }}>Feature Importance (Gain)</h3>
-                </div>
-                <p style={{ fontSize: '0.8rem', color: '#6b7280', marginBottom: '1rem' }}>
-                  Recency (<code style={{ backgroundColor: '#f3f4f6', padding: '2px 4px', borderRadius: '4px' }}>orders_since_last_purchase</code>) and repeat habit (<code style={{ backgroundColor: '#f3f4f6', padding: '2px 4px', borderRadius: '4px' }}>reorder_rate</code>) drive predictions.
-                </p>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
-                  {Object.entries(initialStats.feature_importance)
-                    .sort((a, b) => b[1] - a[1])
-                    .map(([name, score]) => {
-                      const maxScore = Math.max(...Object.values(initialStats.feature_importance));
-                      const pct = Math.round((score / maxScore) * 100);
-                      return (
-                        <div key={name}>
-                          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', fontWeight: 700, marginBottom: '2px' }}>
-                            <span style={{ fontFamily: 'monospace', color: '#374151' }}>{name}</span>
-                            <span style={{ color: '#7c3aed' }}>{Math.round(score).toLocaleString()}</span>
-                          </div>
-                          <div style={{ width: '100%', height: '7px', backgroundColor: '#f3f4f6', borderRadius: '9999px', overflow: 'hidden' }}>
-                            <div style={{ width: `${pct}%`, height: '100%', backgroundColor: '#8b5cf6', borderRadius: '9999px' }} />
-                          </div>
-                        </div>
-                      );
-                    })}
-                </div>
-              </div>
-
             </div>
           </div>
         )}
       </main>
-
-      {/* DYNAMIC SIDE RECOMMENDATION POPUP FOR EVERY PRODUCT ADDED */}
-      {sideRecPopup.isOpen && sideRecPopup.triggerProduct && (
-        <div style={{
-          position: 'fixed',
-          bottom: '24px',
-          right: '24px',
-          width: '360px',
-          maxWidth: 'calc(100vw - 32px)',
-          backgroundColor: '#ffffff',
-          borderRadius: '16px',
-          boxShadow: '0 12px 35px -5px rgba(0, 0, 0, 0.22), 0 0 0 1px rgba(0,0,0,0.06)',
-          zIndex: 45,
-          overflow: 'hidden',
-          animation: 'slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
-        }}>
-          {/* Header */}
-          <div style={{
-            background: 'linear-gradient(135deg, #0c831f 0%, #065f46 100%)',
-            color: '#ffffff',
-            padding: '0.85rem 1rem',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between'
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
-              <div style={{ backgroundColor: '#f7c32e', color: '#0c831f', borderRadius: '6px', width: '22px', height: '22px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Sparkles size={14} />
-              </div>
-              <div>
-                <div style={{ fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                  Frequently Bought Together
-                </div>
-                <div style={{ fontSize: '0.7rem', color: '#bbf7d0' }}>
-                  Pairs with <strong>{sideRecPopup.triggerProduct.product_name.slice(0, 20)}</strong>
-                </div>
-              </div>
-            </div>
-            <button
-              onClick={() => setSideRecPopup(prev => ({ ...prev, isOpen: false }))}
-              style={{ color: '#ffffff', opacity: 0.8, padding: '0.2rem' }}
-            >
-              <X size={18} />
-            </button>
-          </div>
-
-          {/* Recommended items list */}
-          <div style={{ padding: '0.85rem', display: 'flex', flexDirection: 'column', gap: '0.65rem', maxHeight: '340px', overflowY: 'auto' }}>
-            {sideRecPopup.recommendations.map(item => {
-              const inCart = Boolean(cart[item.product_id]);
-              return (
-                <div
-                  key={item.product_id}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    padding: '0.6rem 0.75rem',
-                    borderRadius: '10px',
-                    border: '1px solid #f3f4f6',
-                    backgroundColor: '#fafafa'
-                  }}
-                >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', flex: 1, minWidth: 0 }}>
-                    <span style={{ fontSize: '1.3rem' }}>{deptIcons[item.department?.toLowerCase()] || '🛒'}</span>
-                    <div style={{ minWidth: 0 }}>
-                      <h5 style={{
-                        fontSize: '0.8rem',
-                        fontWeight: 700,
-                        color: '#111827',
-                        margin: 0,
-                        whiteSpace: 'nowrap',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis'
-                      }}>
-                        {item.product_name}
-                      </h5>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginTop: '0.15rem' }}>
-                        <span style={{ fontSize: '0.825rem', fontWeight: 800, color: '#111827' }}>
-                          ₹{item.price || 49}
-                        </span>
-                        <span style={{ fontSize: '0.65rem', color: '#0c831f', fontWeight: 700, backgroundColor: '#ecfdf5', padding: '0.1rem 0.35rem', borderRadius: '4px' }}>
-                          {item.affinityScore ? `${Math.round(item.affinityScore * 100)}% Match` : 'Recommended'}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <button
-                    onClick={() => {
-                      addToCart(item, true); // add without re-triggering popup
-                    }}
-                    style={{
-                      marginLeft: '0.5rem',
-                      border: inCart ? '1px solid #0c831f' : 'none',
-                      backgroundColor: inCart ? '#ecfdf5' : '#0c831f',
-                      color: inCart ? '#0c831f' : '#ffffff',
-                      padding: '0.35rem 0.65rem',
-                      borderRadius: '6px',
-                      fontSize: '0.725rem',
-                      fontWeight: 800,
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.25rem'
-                    }}
-                  >
-                    {inCart ? `Added (${cart[item.product_id].quantity})` : '+ Add'}
-                  </button>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Popup Footer */}
-          <div style={{
-            padding: '0.65rem 0.85rem',
-            backgroundColor: '#f9fafb',
-            borderTop: '1px solid #f3f4f6',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between'
-          }}>
-            <button
-              onClick={() => {
-                sideRecPopup.recommendations.forEach(r => addToCart(r, true));
-                setSideRecPopup(prev => ({ ...prev, isOpen: false }));
-              }}
-              style={{
-                fontSize: '0.75rem',
-                fontWeight: 800,
-                color: '#0c831f',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.25rem'
-              }}
-            >
-              <Plus size={14} /> Add all ({sideRecPopup.recommendations.length})
-            </button>
-            <button
-              onClick={() => {
-                setSideRecPopup(prev => ({ ...prev, isOpen: false }));
-                setIsCartOpen(true);
-              }}
-              style={{
-                fontSize: '0.75rem',
-                fontWeight: 700,
-                color: '#4b5563',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.2rem'
-              }}
-            >
-              View Basket <ChevronRight size={14} />
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* SHOPPING BASKET DRAWER (INR) */}
-      {isCartOpen && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          right: 0,
-          bottom: 0,
-          left: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.45)',
-          zIndex: 50,
-          display: 'flex',
-          justifyContent: 'flex-end',
-          backdropFilter: 'blur(3px)'
-        }}>
-          <div style={{
-            width: '100%',
-            maxWidth: '420px',
-            backgroundColor: '#ffffff',
-            height: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            boxShadow: '-4px 0 25px rgba(0,0,0,0.15)',
-            animation: 'slideInRight 0.25s ease-out'
-          }}>
-            {/* Drawer Header */}
-            <div style={{
-              padding: '1.15rem 1.25rem',
-              borderBottom: '1px solid #e5e7eb',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <ShoppingCart size={20} color="#0c831f" />
-                <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#111827', margin: 0 }}>
-                  My Cart ({totalCartCount} items)
-                </h3>
-              </div>
-              <button
-                onClick={() => setIsCartOpen(false)}
-                style={{ color: '#9ca3af', padding: '0.25rem', borderRadius: '6px' }}
-              >
-                <X size={20} />
-              </button>
-            </div>
-
-            {/* Cart Items List */}
-            <div style={{ flex: 1, overflowY: 'auto', padding: '1.25rem' }}>
-              {totalCartCount === 0 ? (
-                <div style={{ textAlign: 'center', padding: '3.5rem 1rem', color: '#9ca3af' }}>
-                  <ShoppingCart size={48} strokeWidth={1.5} style={{ margin: '0 auto 1rem', color: '#d1d5db' }} />
-                  <p style={{ fontWeight: 700, color: '#374151', fontSize: '0.95rem' }}>Your basket is empty</p>
-                  <p style={{ fontSize: '0.8rem', marginTop: '0.25rem' }}>
-                    Browse fresh groceries or check AI recommendations!
-                  </p>
-                </div>
-              ) : (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                  {Object.values(cart).map(({ product, quantity }) => (
-                    <div
-                      key={product.product_id}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        padding: '0.75rem',
-                        borderRadius: '10px',
-                        border: '1px solid #e5e7eb',
-                        backgroundColor: '#ffffff'
-                      }}
-                    >
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', flex: 1, minWidth: 0 }}>
-                        <span style={{ fontSize: '1.4rem' }}>{deptIcons[product.department.toLowerCase()] || '🛒'}</span>
-                        <div style={{ minWidth: 0 }}>
-                          <h5 style={{
-                            fontSize: '0.825rem',
-                            fontWeight: 700,
-                            color: '#111827',
-                            whiteSpace: 'nowrap',
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            margin: 0
-                          }}>
-                            {product.product_name}
-                          </h5>
-                          <span style={{ fontSize: '0.75rem', color: '#6b7280' }}>
-                            ₹{product.price} × {quantity} = <strong>₹{product.price * quantity}</strong>
-                          </span>
-                        </div>
-                      </div>
-
-                      {/* Quantity Stepper */}
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', marginLeft: '0.5rem' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', backgroundColor: '#0c831f', borderRadius: '6px', padding: '0.15rem' }}>
-                          <button
-                            onClick={() => removeFromCart(product.product_id)}
-                            style={{ width: '22px', height: '22px', color: '#ffffff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                          >
-                            <Minus size={11} />
-                          </button>
-                          <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#ffffff', minWidth: '16px', textAlign: 'center' }}>
-                            {quantity}
-                          </span>
-                          <button
-                            onClick={() => addToCart(product, true)}
-                            style={{ width: '22px', height: '22px', color: '#ffffff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                          >
-                            <Plus size={11} />
-                          </button>
-                        </div>
-                        <button
-                          onClick={() => deleteItem(product.product_id)}
-                          style={{ color: '#ef4444', padding: '0.2rem', marginLeft: '0.2rem' }}
-                        >
-                          <Trash2 size={15} />
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {/* Drawer Footer & Indian Rupee Checkout */}
-            {totalCartCount > 0 && (
-              <div style={{
-                padding: '1.25rem',
-                borderTop: '1px solid #e5e7eb',
-                backgroundColor: '#f9fafb'
-              }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.35rem', fontSize: '0.825rem', color: '#6b7280' }}>
-                  <span>Items Subtotal</span>
-                  <span>₹{cartSubtotal}</span>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.35rem', fontSize: '0.825rem', color: '#6b7280' }}>
-                  <span>Delivery Fee (10 Mins)</span>
-                  <span style={{ color: '#0c831f', fontWeight: 700 }}>FREE</span>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.75rem', fontSize: '0.825rem', color: '#6b7280' }}>
-                  <span>Govt. GST (5%)</span>
-                  <span>₹{Math.round(cartSubtotal * 0.05)}</span>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem', fontSize: '1.15rem', fontWeight: 900, color: '#111827' }}>
-                  <span>Grand Total</span>
-                  <span>₹{Math.round(cartSubtotal * 1.05)}</span>
-                </div>
-
-                <button
-                  onClick={handleCheckout}
-                  disabled={checkoutCelebration}
-                  style={{
-                    width: '100%',
-                    backgroundColor: checkoutCelebration ? '#059669' : '#0c831f',
-                    color: '#ffffff',
-                    padding: '0.85rem',
-                    borderRadius: '10px',
-                    fontWeight: 800,
-                    fontSize: '0.95rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '0.5rem',
-                    boxShadow: '0 4px 10px rgba(12, 131, 31, 0.35)',
-                    transition: 'all 0.2s ease'
-                  }}
-                >
-                  {checkoutCelebration ? (
-                    <>
-                      <CheckCircle2 size={20} /> Order Placed! Delivered in 10 Mins!
-                    </>
-                  ) : (
-                    <>
-                      Proceed to Pay ₹{Math.round(cartSubtotal * 1.05)}
-                    </>
-                  )}
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
 
       {/* FOOTER */}
       <footer style={{
