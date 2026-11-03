@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import confetti from 'canvas-confetti';
-import { 
+import {
   ShoppingBag, Sparkles, Search, Trash2, Plus, Minus, X, Check,
-  BarChart3, Store, User, ArrowRight, TrendingUp, Info, Clock, 
+  BarChart3, Store, User, ArrowRight, TrendingUp, Info, Clock,
   Calendar, Layers, ShieldCheck, RefreshCw, Zap, MapPin, ChevronRight,
-  Flame, CheckCircle2, ShoppingCart
+  Flame, CheckCircle2, ShoppingCart, Heart, Star, Package, ChevronDown,
+  UserCheck, Hash
 } from 'lucide-react';
 
 // Pre-trained dataset artifacts
@@ -14,115 +15,66 @@ import initialDemoUsers from './data/demo_users.json';
 import initialAffinities from './data/product_affinities.json';
 
 const deptIcons = {
-  produce: '🥦',
-  'dairy eggs': '🥛',
-  bakery: '🍞',
-  beverages: '🧃',
-  snacks: '🥨',
-  'meat seafood': '🥩',
-  frozen: '🧊',
-  pantry: '🥫',
-  deli: '🥪',
-  'canned goods': '🍲',
-  'dry goods pasta': '🍝',
-  breakfast: '🥣',
-  household: '🧹',
-  'personal care': '🧴',
-  babies: '👶',
-  pets: '🐾',
-  alcohol: '🍷',
-  international: '🍜',
-  bulk: '🌾',
-  other: '📦',
-  missing: '🛒'
+  produce: '🥦', 'dairy eggs': '🥛', bakery: '🍞', beverages: '🧃',
+  snacks: '🥨', 'meat seafood': '🥩', frozen: '🧊', pantry: '🥫',
+  deli: '🥪', 'canned goods': '🍲', 'dry goods pasta': '🍝',
+  breakfast: '🥣', household: '🧹', 'personal care': '🧴',
+  babies: '👶', pets: '🐾', alcohol: '🍷', international: '🍜',
+  bulk: '🌾', other: '📦', missing: '🛒'
 };
 
 const deptDisplayName = {
-  produce: 'Fresh Fruits & Vegetables',
-  'dairy eggs': 'Dairy, Bread & Eggs',
-  bakery: 'Bakery & Breads',
-  beverages: 'Cold Drinks & Juices',
-  snacks: 'Snacks & Munchies',
-  'meat seafood': 'Fresh Meat & Fish',
-  frozen: 'Frozen Food',
-  pantry: 'Atta, Rice & Dals',
-  deli: 'Deli & Breakfast Meats',
-  'canned goods': 'Canned & Soups',
-  'dry goods pasta': 'Pasta & Noodles',
-  breakfast: 'Cereals & Breakfast',
-  household: 'Home & Cleaning',
-  'personal care': 'Personal Care & Hygiene',
-  babies: 'Baby Care',
-  pets: 'Pet Supplies',
-  alcohol: 'Beverages & Wine',
-  international: 'World Foods',
-  bulk: 'Grains & Bulk',
-  other: 'Other Groceries'
+  produce: 'Fresh Fruits & Vegetables', 'dairy eggs': 'Dairy, Bread & Eggs',
+  bakery: 'Bakery & Breads', beverages: 'Cold Drinks & Juices',
+  snacks: 'Snacks & Munchies', 'meat seafood': 'Fresh Meat & Fish',
+  frozen: 'Frozen Food', pantry: 'Atta, Rice & Dals',
+  deli: 'Deli & Breakfast Meats', 'canned goods': 'Canned & Soups',
+  'dry goods pasta': 'Pasta & Noodles', breakfast: 'Cereals & Breakfast',
+  household: 'Home & Cleaning', 'personal care': 'Personal Care & Hygiene',
+  babies: 'Baby Care', pets: 'Pet Supplies', alcohol: 'Beverages & Wine',
+  international: 'World Foods', bulk: 'Grains & Bulk', other: 'Other Groceries'
 };
 
+/* ─── Build user lookup map for typed user ID search ─── */
+const demoUsersMap = {};
+initialDemoUsers.forEach(u => { demoUsersMap[u.user_id] = u; });
+
 export default function App() {
-  const [activeTab, setActiveTab] = useState('shop'); // 'shop' | 'dataset'
+  const [activeTab, setActiveTab] = useState('shop');
   const [selectedUserId, setSelectedUserId] = useState(initialDemoUsers[0].user_id);
-  const [cart, setCart] = useState({}); // { [productId]: { product, quantity } }
+  const [cart, setCart] = useState({});
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDept, setSelectedDept] = useState('all');
   const [checkoutCelebration, setCheckoutCelebration] = useState(false);
   const [dynamicPredictions, setDynamicPredictions] = useState([]);
-  const [personalRecs, setPersonalRecs] = useState([]);
   const [lastAddedProduct, setLastAddedProduct] = useState(null);
 
-  // Fetch personal recommendations when user changes
-useEffect(() => {
-  fetch(`${process.env.REACT_APP_API_URL || ''}/api/personal_recommendations?user_id=${selectedUserId}`)
-    .then(r => r.json())
-    .then(data => {
-      setPersonalRecs(data.recommendations || []);
-    })
-    .catch(err => console.error('Personal recs error', err));
-}, [selectedUserId]);
-  const currentUser = useMemo(() => {
-    return initialDemoUsers.find(u => u.user_id === selectedUserId) || initialDemoUsers[0];
-  }, [selectedUserId]);
+  /* ─── NEW: Personalized Recommendation by User ID ─── */
+  const [showPersonalRec, setShowPersonalRec] = useState(false);
+  const [personalRecInput, setPersonalRecInput] = useState('');
+  const [personalRecResults, setPersonalRecResults] = useState([]);
+  const [personalRecUserId, setPersonalRecUserId] = useState(null);
+  const [personalRecError, setPersonalRecError] = useState('');
 
-  // Departments list
-  const departments = useMemo(() => {
-    const set = new Set();
-    initialCatalog.forEach(p => {
-      if (p.department) set.add(p.department);
-    });
-    return ['all', ...Array.from(set).sort()];
-  }, []);
-
-  // Filtered products for shop grid
-  const filteredProducts = useMemo(() => {
-    return initialCatalog.filter(p => {
-      const matchDept = selectedDept === 'all' || p.department.toLowerCase() === selectedDept.toLowerCase();
-      const matchSearch = !searchQuery || 
-        p.product_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        p.aisle.toLowerCase().includes(searchQuery.toLowerCase());
-      return matchDept && matchSearch;
-    });
-  }, [selectedDept, searchQuery]);
-
-  // Dynamic next purchase prediction algorithm (runs live when user or cart changes)
-  useEffect(() => {
-    const cartPids = Object.keys(cart).map(Number);
-    const cartSet = new Set(cartPids);
-    const cartBoosts = {};
-    
-    cartPids.forEach(cpid => {
-      const affList = initialAffinities[cpid] || [];
-      affList.forEach(item => {
-        cartBoosts[item.product_id] = (cartBoosts[item.product_id] || 0) + item.affinity;
-      });
-    });
-
-    const scored = currentUser.candidates.map(c => {
-      const boost = cartBoosts[c.product_id] || 0;
-      const dynamicProb = Math.min(0.99, c.pred_prob * (1.0 + boost * 1.5));
+  const handleFetchPersonalRecs = () => {
+    const uid = Number(personalRecInput.trim());
+    if (!uid || isNaN(uid)) {
+      setPersonalRecError('Please enter a valid numeric User ID');
+      setPersonalRecResults([]);
+      return;
+    }
+    const userData = demoUsersMap[uid];
+    if (!userData) {
+      setPersonalRecError(`User #${uid} not found. Try: ${initialDemoUsers.slice(0, 5).map(u => u.user_id).join(', ')}`);
+      setPersonalRecResults([]);
+      return;
+    }
+    setPersonalRecError('');
+    setPersonalRecUserId(uid);
+    const candidates = userData.candidates || [];
+    const scored = candidates.map(c => {
       const cat = initialCatalog.find(p => p.product_id === c.product_id) || {};
-
       return {
         product_id: c.product_id,
         product_name: c.product_name,
@@ -130,75 +82,96 @@ useEffect(() => {
         price: cat.price || 49,
         mrp: cat.mrp || Math.round((cat.price || 49) * 1.25),
         unit: cat.unit || '1 pack',
-        dynamic_prob: Number(dynamicProb.toFixed(4)),
-        cart_synergy: Number(boost.toFixed(3)),
-        in_cart: cartSet.has(c.product_id),
+        aisle: cat.aisle || '',
+        dynamic_prob: c.pred_prob,
         purchase_count: c.purchase_count,
         orders_since_last: c.orders_since_last_purchase,
         actual_reordered: c.actual_reordered_in_next
       };
-    });
+    }).sort((a, b) => b.dynamic_prob - a.dynamic_prob);
+    setPersonalRecResults(scored.slice(0, 10));
+  };
 
+  const currentUser = useMemo(() => {
+    return initialDemoUsers.find(u => u.user_id === selectedUserId) || initialDemoUsers[0];
+  }, [selectedUserId]);
+
+  const departments = useMemo(() => {
+    const set = new Set();
+    initialCatalog.forEach(p => { if (p.department) set.add(p.department); });
+    return ['all', ...Array.from(set).sort()];
+  }, []);
+
+  const filteredProducts = useMemo(() => {
+    return initialCatalog.filter(p => {
+      const matchDept = selectedDept === 'all' || p.department.toLowerCase() === selectedDept.toLowerCase();
+      const matchSearch = !searchQuery ||
+        p.product_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        p.aisle.toLowerCase().includes(searchQuery.toLowerCase());
+      return matchDept && matchSearch;
+    });
+  }, [selectedDept, searchQuery]);
+
+  useEffect(() => {
+    const cartPids = Object.keys(cart).map(Number);
+    const cartSet = new Set(cartPids);
+    const cartBoosts = {};
+    cartPids.forEach(cpid => {
+      const affList = initialAffinities[cpid] || [];
+      affList.forEach(item => {
+        cartBoosts[item.product_id] = (cartBoosts[item.product_id] || 0) + item.affinity;
+      });
+    });
+    const scored = currentUser.candidates.map(c => {
+      const boost = cartBoosts[c.product_id] || 0;
+      const dynamicProb = Math.min(0.99, c.pred_prob * (1.0 + boost * 1.5));
+      const cat = initialCatalog.find(p => p.product_id === c.product_id) || {};
+      return {
+        product_id: c.product_id, product_name: c.product_name,
+        department: c.department, price: cat.price || 49,
+        mrp: cat.mrp || Math.round((cat.price || 49) * 1.25),
+        unit: cat.unit || '1 pack', dynamic_prob: Number(dynamicProb.toFixed(4)),
+        cart_synergy: Number(boost.toFixed(3)), in_cart: cartSet.has(c.product_id),
+        purchase_count: c.purchase_count, orders_since_last: c.orders_since_last_purchase,
+        actual_reordered: c.actual_reordered_in_next
+      };
+    });
     scored.sort((a, b) => b.dynamic_prob - a.dynamic_prob);
     setDynamicPredictions(scored.slice(0, 10));
   }, [selectedUserId, cart, currentUser]);
 
-  // Compute side recommendations (ALWAYS available and updates when lastAddedProduct changes)
   const sideRecommendations = useMemo(() => {
     const recs = [];
-    
     if (lastAddedProduct) {
       const affList = initialAffinities[lastAddedProduct.product_id] || [];
       affList.forEach(aff => {
         const p = initialCatalog.find(item => item.product_id === aff.product_id);
         if (p && p.product_id !== lastAddedProduct.product_id && !cart[p.product_id]) {
-          recs.push({
-            ...p,
-            matchScore: Math.round(aff.affinity * 100),
-            reason: `Frequently bought with ${lastAddedProduct.product_name.slice(0, 16)}`
-          });
+          recs.push({ ...p, matchScore: Math.round(aff.affinity * 100), reason: `Pairs with ${lastAddedProduct.product_name.slice(0, 18)}` });
         }
       });
     }
-
-    // Supplement with top customer predictions
-    if (recs.length < 3) {
+    if (recs.length < 4) {
       dynamicPredictions.forEach(pred => {
         if (!cart[pred.product_id] && (!lastAddedProduct || pred.product_id !== lastAddedProduct.product_id) && !recs.find(r => r.product_id === pred.product_id)) {
-          recs.push({
-            ...pred,
-            matchScore: Math.round(pred.dynamic_prob * 100),
-            reason: 'Frequent Next Purchase'
-          });
+          recs.push({ ...pred, matchScore: Math.round(pred.dynamic_prob * 100), reason: 'AI Predicted Next Buy' });
         }
       });
     }
-
-    // Fallback to top catalog items
-    if (recs.length < 3) {
-      initialCatalog.slice(0, 6).forEach(cat => {
+    if (recs.length < 4) {
+      initialCatalog.slice(0, 8).forEach(cat => {
         if (!cart[cat.product_id] && !recs.find(r => r.product_id === cat.product_id)) {
-          recs.push({
-            ...cat,
-            matchScore: 88,
-            reason: 'Trending Daily Grocery'
-          });
+          recs.push({ ...cat, matchScore: 88, reason: 'Trending Now' });
         }
       });
     }
-
-    return recs.slice(0, 3);
+    return recs.slice(0, 4);
   }, [lastAddedProduct, dynamicPredictions, cart]);
 
-  // Cart operations
   const addToCart = (product) => {
     setCart(prev => {
       const existing = prev[product.product_id];
-      const count = existing ? existing.quantity + 1 : 1;
-      return {
-        ...prev,
-        [product.product_id]: { product, quantity: count }
-      };
+      return { ...prev, [product.product_id]: { product, quantity: (existing ? existing.quantity + 1 : 1) } };
     });
     setLastAddedProduct(product);
   };
@@ -207,285 +180,315 @@ useEffect(() => {
     setCart(prev => {
       const next = { ...prev };
       if (next[productId]) {
-        if (next[productId].quantity > 1) {
-          next[productId].quantity -= 1;
-        } else {
-          delete next[productId];
-        }
+        if (next[productId].quantity > 1) next[productId].quantity -= 1;
+        else delete next[productId];
       }
       return next;
     });
   };
 
   const deleteItem = (productId) => {
-    setCart(prev => {
-      const next = { ...prev };
-      delete next[productId];
-      return next;
-    });
+    setCart(prev => { const next = { ...prev }; delete next[productId]; return next; });
   };
 
-  const totalCartCount = useMemo(() => {
-    return Object.values(cart).reduce((sum, item) => sum + item.quantity, 0);
-  }, [cart]);
-
-  const cartSubtotal = useMemo(() => {
-    return Object.values(cart).reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
-  }, [cart]);
+  const totalCartCount = useMemo(() => Object.values(cart).reduce((sum, item) => sum + item.quantity, 0), [cart]);
+  const cartSubtotal = useMemo(() => Object.values(cart).reduce((sum, item) => sum + (item.product.price * item.quantity), 0), [cart]);
+  const cartTotal = Math.round(cartSubtotal * 1.05);
 
   const handleCheckout = () => {
     if (totalCartCount === 0) return;
-    confetti({
-      particleCount: 120,
-      spread: 75,
-      origin: { y: 0.6 }
-    });
+    confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
     setCheckoutCelebration(true);
     setCart({});
     setLastAddedProduct(null);
-    setTimeout(() => {
-      setCheckoutCelebration(false);
-      setIsCartOpen(false);
-    }, 2800);
+    setTimeout(() => { setCheckoutCelebration(false); setIsCartOpen(false); }, 2800);
   };
 
+  /* ─────────────────── RENDER ─────────────────── */
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#f4f6f8' }}>
-      
-      {/* NAVBAR */}
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#f8fafc', fontFamily: "'Inter', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" }}>
+
+      {/* ═══════════ TOP PROMO BAR ═══════════ */}
+      <div style={{
+        background: 'linear-gradient(90deg, #0f172a 0%, #1e293b 100%)',
+        color: '#94a3b8', padding: '0.4rem 1rem', fontSize: '0.72rem',
+        fontWeight: 600, display: 'flex', justifyContent: 'center',
+        alignItems: 'center', gap: '1.5rem', letterSpacing: '0.03em'
+      }}>
+        <span><Zap size={11} style={{ verticalAlign: '-1px' }} /> Free delivery on orders above <span style={{ color: '#fbbf24' }}>₹199</span></span>
+        <span style={{ color: '#334155' }}>|</span>
+        <span><Clock size={11} style={{ verticalAlign: '-1px' }} /> Express 10-min delivery available</span>
+        <span style={{ color: '#334155' }}>|</span>
+        <span><ShieldCheck size={11} style={{ verticalAlign: '-1px' }} /> 100% Genuine Products</span>
+      </div>
+
+      {/* ═══════════ HEADER / NAVBAR ═══════════ */}
       <header style={{
-        backgroundColor: '#ffffff',
-        borderBottom: '1px solid #e5e7eb',
-        position: 'sticky',
-        top: 0,
-        zIndex: 40,
-        boxShadow: '0 2px 4px rgba(0,0,0,0.04)'
+        backgroundColor: '#ffffff', borderBottom: '1px solid #e2e8f0',
+        position: 'sticky', top: 0, zIndex: 50,
+        boxShadow: '0 1px 3px rgba(0,0,0,0.06)'
       }}>
         <div style={{
-          backgroundColor: '#0c831f',
-          color: '#ffffff',
-          padding: '0.35rem 1rem',
-          fontSize: '0.78rem',
-          fontWeight: 800,
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          gap: '0.5rem',
-          letterSpacing: '0.02em'
+          maxWidth: '1440px', margin: '0 auto', padding: '0.65rem 1.5rem',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          gap: '1.5rem'
         }}>
-          <span>⚡ freshcart-grocery-ai • FREE EXPRESS DELIVERY OVER ₹199</span>
-          <span style={{ opacity: 0.6 }}>•</span>
-          <span>⚡ 10 MINUTES DELIVERY TO HOME</span>
-        </div>
-
-        <div style={{
-          maxWidth: '1380px',
-          margin: '0 auto',
-          padding: '0.75rem 1.25rem',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: '1.25rem',
-          flexWrap: 'nowrap'
-        }}>
-          {/* Brand Logo & Location */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', flexShrink: 0 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }} onClick={() => setActiveTab('shop')}>
-              <div style={{
-                width: '42px',
-                height: '42px',
-                borderRadius: '10px',
-                backgroundColor: '#f7c32e',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#0c831f',
-                fontSize: '1.45rem',
-                fontWeight: 900,
-                boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-              }}>
-                🛒
-              </div>
-              <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-                  <span style={{ fontSize: '1.35rem', fontWeight: 900, color: '#0c831f', letterSpacing: '-0.02em', fontFamily: 'var(--font-display)' }}>
-                    freshcart<span style={{ color: '#f7c32e' }}>-grocery-ai</span>
-                  </span>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', fontSize: '0.75rem', color: '#1f2937', fontWeight: 700 }}>
-                  <span>10 minutes delivery</span>
-                  <span style={{ color: '#0c831f' }}>• Mumbai 400001</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Shopper / Customer Switcher Pill */}
+          {/* Brand */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', cursor: 'pointer', flexShrink: 0 }} onClick={() => setActiveTab('shop')}>
             <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.4rem',
-              backgroundColor: '#f0fdf4',
-              padding: '0.35rem 0.65rem',
-              borderRadius: '8px',
-              border: '1px solid #bbf7d0'
-            }}>
-              <User size={14} color="#0c831f" />
-              <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <span style={{ fontSize: '0.62rem', fontWeight: 700, color: '#166534', textTransform: 'uppercase' }}>Account Profile</span>
-                <select
-                  value={selectedUserId}
-                  onChange={(e) => setSelectedUserId(Number(e.target.value))}
-                  style={{
-                    backgroundColor: 'transparent',
-                    border: 'none',
-                    fontWeight: 700,
-                    fontSize: '0.775rem',
-                    color: '#064e3b',
-                    cursor: 'pointer',
-                    outline: 'none'
-                  }}
-                >
-                  {initialDemoUsers.map((u) => (
-                    <option key={u.user_id} value={u.user_id}>
-                      Shopper #{u.user_id} ({u.total_prior_orders} orders)
-                    </option>
-                  ))}
-                </select>
+              width: 40, height: 40, borderRadius: 12,
+              background: 'linear-gradient(135deg, #22c55e, #16a34a)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              color: '#fff', fontSize: '1.2rem', fontWeight: 900,
+              boxShadow: '0 2px 8px rgba(34,197,94,0.35)'
+            }}>🛒</div>
+            <div>
+              <div style={{ fontSize: '1.15rem', fontWeight: 800, color: '#0f172a', lineHeight: 1.1, letterSpacing: '-0.02em' }}>
+                fresh<span style={{ color: '#16a34a' }}>cart</span>
               </div>
+              <div style={{ fontSize: '0.62rem', fontWeight: 600, color: '#94a3b8', letterSpacing: '0.06em', textTransform: 'uppercase' }}>grocery-ai</div>
             </div>
           </div>
 
-          {/* Prominent Search Bar */}
-          <div style={{
-            position: 'relative',
-            flex: '1 1 380px',
-            maxWidth: '560px'
-          }}>
-            <Search size={18} color="#9ca3af" style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)' }} />
+          {/* Search */}
+          <div style={{ position: 'relative', flex: '1 1 420px', maxWidth: '580px' }}>
+            <Search size={17} color="#94a3b8" style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)' }} />
             <input
-              type="text"
-              placeholder="Search 'milk', 'bananas', 'bread', 'chips'..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              type="text" placeholder="Search for groceries, fruits, snacks..."
+              value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
               style={{
-                width: '100%',
-                padding: '0.7rem 0.85rem 0.7rem 2.6rem',
-                borderRadius: '12px',
-                border: '1px solid #e5e7eb',
-                backgroundColor: '#f9fafb',
-                fontSize: '0.875rem',
-                outline: 'none',
-                transition: 'all 0.2s ease'
+                width: '100%', padding: '0.65rem 2.5rem 0.65rem 2.6rem',
+                borderRadius: 50, border: '1.5px solid #e2e8f0', backgroundColor: '#f8fafc',
+                fontSize: '0.85rem', fontWeight: 500, outline: 'none',
+                transition: 'all 0.2s', color: '#1e293b'
               }}
+              onFocus={e => { e.target.style.borderColor = '#22c55e'; e.target.style.backgroundColor = '#fff'; e.target.style.boxShadow = '0 0 0 3px rgba(34,197,94,0.12)'; }}
+              onBlur={e => { e.target.style.borderColor = '#e2e8f0'; e.target.style.backgroundColor = '#f8fafc'; e.target.style.boxShadow = 'none'; }}
             />
             {searchQuery && (
-              <button
-                onClick={() => setSearchQuery('')}
-                style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', color: '#9ca3af' }}
-              >
-                <X size={16} />
+              <button onClick={() => setSearchQuery('')} style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }}>
+                <X size={15} />
               </button>
             )}
           </div>
 
-          {/* Nav Links & Cart Button */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexShrink: 0 }}>
+          {/* Right nav actions */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexShrink: 0 }}>
+            {/* User Switcher */}
+            <div style={{
+              display: 'flex', alignItems: 'center', gap: '0.4rem',
+              backgroundColor: '#f0fdf4', padding: '0.4rem 0.7rem',
+              borderRadius: 50, border: '1px solid #dcfce7'
+            }}>
+              <User size={14} color="#16a34a" />
+              <select
+                value={selectedUserId}
+                onChange={(e) => setSelectedUserId(Number(e.target.value))}
+                style={{
+                  backgroundColor: 'transparent', border: 'none',
+                  fontWeight: 700, fontSize: '0.78rem', color: '#15803d',
+                  cursor: 'pointer', outline: 'none', maxWidth: 160
+                }}
+              >
+                {initialDemoUsers.map((u) => (
+                  <option key={u.user_id} value={u.user_id}>
+                    User #{u.user_id} ({u.total_prior_orders} orders)
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Personalized Rec Button */}
+            <button
+              onClick={() => setShowPersonalRec(!showPersonalRec)}
+              style={{
+                display: 'flex', alignItems: 'center', gap: '0.35rem',
+                backgroundColor: showPersonalRec ? '#7c3aed' : '#f5f3ff',
+                color: showPersonalRec ? '#fff' : '#7c3aed',
+                padding: '0.5rem 0.85rem', borderRadius: 50,
+                fontSize: '0.78rem', fontWeight: 700,
+                border: '1.5px solid ' + (showPersonalRec ? '#7c3aed' : '#ddd6fe'),
+                transition: 'all 0.2s'
+              }}
+              title="Get personalized recommendations by User ID"
+            >
+              <Sparkles size={14} />
+              AI Recs
+            </button>
+
+            {/* Nav Links */}
             <button
               onClick={() => setActiveTab(activeTab === 'shop' ? 'dataset' : 'shop')}
               style={{
-                fontSize: '0.85rem',
-                fontWeight: 700,
-                color: activeTab === 'dataset' ? '#0c831f' : '#4b5563',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.35rem',
-                padding: '0.5rem 0.75rem',
-                borderRadius: '8px',
-                backgroundColor: activeTab === 'dataset' ? '#f0fdf4' : 'transparent'
+                fontSize: '0.8rem', fontWeight: 700,
+                color: activeTab === 'dataset' ? '#16a34a' : '#64748b',
+                display: 'flex', alignItems: 'center', gap: '0.3rem',
+                padding: '0.5rem 0.7rem', borderRadius: 50,
+                backgroundColor: activeTab === 'dataset' ? '#f0fdf4' : 'transparent',
+                transition: 'all 0.15s'
               }}
             >
-              <BarChart3 size={16} />
-              {activeTab === 'shop' ? 'Dataset & AI Stats' : 'Back to Shop'}
+              <BarChart3 size={15} />
+              {activeTab === 'shop' ? 'Analytics' : 'Shop'}
             </button>
 
+            {/* Cart Button */}
             <button
               onClick={() => setIsCartOpen(true)}
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.65rem',
-                backgroundColor: '#0c831f',
-                color: '#ffffff',
-                padding: '0.65rem 1.15rem',
-                borderRadius: '10px',
-                fontWeight: 800,
-                fontSize: '0.9rem',
-                boxShadow: '0 4px 6px -1px rgba(12, 131, 31, 0.3)'
+                display: 'flex', alignItems: 'center', gap: '0.5rem',
+                background: 'linear-gradient(135deg, #16a34a, #15803d)',
+                color: '#fff', padding: '0.55rem 1.1rem', borderRadius: 50,
+                fontWeight: 800, fontSize: '0.85rem',
+                boxShadow: '0 2px 10px rgba(22,163,74,0.3)',
+                transition: 'all 0.2s'
               }}
             >
-              <ShoppingCart size={18} />
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', lineHeight: 1.1 }}>
-                <span style={{ fontSize: '0.72rem', opacity: 0.9 }}>{totalCartCount} {totalCartCount === 1 ? 'item' : 'items'}</span>
-                <span>₹{Math.round(cartSubtotal * 1.05)}</span>
-              </div>
+              <ShoppingCart size={17} />
+              <span>{totalCartCount} · ₹{cartTotal}</span>
             </button>
           </div>
         </div>
       </header>
 
-      {/* MAIN VIEW */}
-      <main style={{ maxWidth: '1380px', margin: '0 auto', padding: '1.25rem', width: '100%', flex: 1 }}>
+      {/* ═══════════ PERSONALIZED REC PANEL (slide down) ═══════════ */}
+      {showPersonalRec && (
+        <div style={{
+          backgroundColor: '#faf5ff', borderBottom: '1px solid #e9d5ff',
+          padding: '1rem 1.5rem', animation: 'slideDown 0.3s ease'
+        }}>
+          <div style={{ maxWidth: '1440px', margin: '0 auto' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
+              <Sparkles size={18} color="#7c3aed" />
+              <h3 style={{ fontSize: '1rem', fontWeight: 800, color: '#581c87', margin: 0 }}>
+                Personalized Recommendations by User ID
+              </h3>
+              <button onClick={() => setShowPersonalRec(false)} style={{ marginLeft: 'auto', color: '#a78bfa' }}><X size={18} /></button>
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '0.75rem' }}>
+              <div style={{ position: 'relative', flex: '0 1 300px' }}>
+                <Hash size={15} color="#a78bfa" style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)' }} />
+                <input
+                  type="number" placeholder="Enter User ID (e.g. 12640)"
+                  value={personalRecInput}
+                  onChange={(e) => setPersonalRecInput(e.target.value)}
+                  onKeyDown={(e) => { if (e.key === 'Enter') handleFetchPersonalRecs(); }}
+                  style={{
+                    width: '100%', padding: '0.6rem 0.85rem 0.6rem 2.3rem',
+                    borderRadius: 50, border: '1.5px solid #d8b4fe', backgroundColor: '#fff',
+                    fontSize: '0.85rem', fontWeight: 600, outline: 'none', color: '#3b0764'
+                  }}
+                />
+              </div>
+              <button
+                onClick={handleFetchPersonalRecs}
+                style={{
+                  background: 'linear-gradient(135deg, #7c3aed, #6d28d9)',
+                  color: '#fff', padding: '0.6rem 1.25rem', borderRadius: 50,
+                  fontWeight: 800, fontSize: '0.85rem',
+                  boxShadow: '0 2px 8px rgba(124,58,237,0.3)',
+                  display: 'flex', alignItems: 'center', gap: '0.35rem'
+                }}
+              >
+                <UserCheck size={15} /> Get Recommendations
+              </button>
+              <span style={{ fontSize: '0.72rem', color: '#7c3aed', fontWeight: 600 }}>
+                Available IDs: {initialDemoUsers.slice(0, 6).map(u => u.user_id).join(', ')}...
+              </span>
+            </div>
+
+            {personalRecError && (
+              <div style={{ color: '#dc2626', fontSize: '0.8rem', fontWeight: 600, marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+                <Info size={14} /> {personalRecError}
+              </div>
+            )}
+
+            {personalRecResults.length > 0 && (
+              <div>
+                <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#6b21a8', marginBottom: '0.5rem' }}>
+                  🎯 Top 10 predicted products for User #{personalRecUserId}
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '0.65rem' }}>
+                  {personalRecResults.map((item, idx) => {
+                    const inCart = Boolean(cart[item.product_id]);
+                    return (
+                      <div key={item.product_id} style={{
+                        display: 'flex', alignItems: 'center', gap: '0.6rem',
+                        backgroundColor: '#fff', padding: '0.65rem 0.85rem',
+                        borderRadius: 14, border: inCart ? '1.5px solid #22c55e' : '1px solid #e9d5ff',
+                        boxShadow: '0 1px 4px rgba(124,58,237,0.06)',
+                        transition: 'all 0.15s'
+                      }}>
+                        <div style={{
+                          width: 32, height: 32, borderRadius: 8,
+                          backgroundColor: '#f5f3ff', display: 'flex',
+                          alignItems: 'center', justifyContent: 'center',
+                          fontSize: '0.75rem', fontWeight: 900, color: '#7c3aed', flexShrink: 0
+                        }}>#{idx + 1}</div>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{
+                            fontSize: '0.78rem', fontWeight: 700, color: '#1e293b',
+                            whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'
+                          }}>{item.product_name}</div>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginTop: '0.15rem' }}>
+                            <span style={{ fontSize: '0.78rem', fontWeight: 800, color: '#0f172a' }}>₹{item.price}</span>
+                            <span style={{
+                              fontSize: '0.62rem', fontWeight: 700,
+                              backgroundColor: '#f0fdf4', color: '#16a34a',
+                              padding: '0.05rem 0.4rem', borderRadius: 50
+                            }}>{Math.round(item.dynamic_prob * 100)}% likely</span>
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => addToCart(item)}
+                          style={{
+                            backgroundColor: inCart ? '#f0fdf4' : '#7c3aed',
+                            color: inCart ? '#16a34a' : '#fff',
+                            border: inCart ? '1px solid #bbf7d0' : 'none',
+                            padding: '0.35rem 0.65rem', borderRadius: 8,
+                            fontSize: '0.7rem', fontWeight: 800, flexShrink: 0
+                          }}
+                        >{inCart ? '✓ Added' : '+ Add'}</button>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* ═══════════ MAIN CONTENT ═══════════ */}
+      <main style={{ maxWidth: '1440px', margin: '0 auto', padding: '1.25rem 1.5rem', width: '100%', flex: 1 }}>
         {activeTab === 'shop' ? (
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'minmax(0, 1fr) 350px',
-            gap: '1.5rem',
-            alignItems: 'start'
-          }}>
-            
-            {/* LEFT COLUMN: CATEGORIES & PRODUCT GRID */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 340px', gap: '1.5rem', alignItems: 'start' }}>
+
+            {/* ──── LEFT: Categories + Products ──── */}
             <div>
-              {/* Category Chips Bar */}
+              {/* Category chips */}
               <div style={{
-                backgroundColor: '#ffffff',
-                padding: '0.85rem 1rem',
-                borderRadius: '12px',
-                border: '1px solid #e5e7eb',
-                marginBottom: '1.25rem',
-                boxShadow: '0 1px 2px rgba(0,0,0,0.02)'
+                backgroundColor: '#fff', padding: '0.75rem 1rem', borderRadius: 16,
+                border: '1px solid #e2e8f0', marginBottom: '1.25rem',
+                boxShadow: '0 1px 2px rgba(0,0,0,0.03)'
               }}>
-                <div style={{
-                  display: 'flex',
-                  gap: '0.6rem',
-                  overflowX: 'auto',
-                  scrollbarWidth: 'none',
-                  paddingBottom: '0.2rem'
-                }}>
+                <div style={{ display: 'flex', gap: '0.45rem', overflowX: 'auto', scrollbarWidth: 'none', paddingBottom: '0.15rem' }}>
                   {departments.map(dept => {
                     const isSelected = selectedDept === dept;
                     const icon = dept === 'all' ? '✨' : (deptIcons[dept.toLowerCase()] || '🛒');
-                    const label = dept === 'all' ? 'All Categories' : (deptDisplayName[dept.toLowerCase()] || dept);
-
+                    const label = dept === 'all' ? 'All' : (deptDisplayName[dept.toLowerCase()] || dept);
                     return (
-                      <button
-                        key={dept}
-                        onClick={() => setSelectedDept(dept)}
-                        style={{
-                          whiteSpace: 'nowrap',
-                          padding: '0.5rem 0.9rem',
-                          borderRadius: '8px',
-                          fontSize: '0.8rem',
-                          fontWeight: 700,
-                          backgroundColor: isSelected ? '#0c831f' : '#f3f4f6',
-                          color: isSelected ? '#ffffff' : '#374151',
-                          border: 'none',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '0.4rem',
-                          transition: 'all 0.15s ease'
-                        }}
-                      >
-                        <span style={{ fontSize: '1rem' }}>{icon}</span>
+                      <button key={dept} onClick={() => setSelectedDept(dept)} style={{
+                        whiteSpace: 'nowrap', padding: '0.4rem 0.85rem', borderRadius: 50,
+                        fontSize: '0.78rem', fontWeight: 700,
+                        backgroundColor: isSelected ? '#16a34a' : '#f1f5f9',
+                        color: isSelected ? '#fff' : '#475569',
+                        border: isSelected ? 'none' : '1px solid #e2e8f0',
+                        display: 'flex', alignItems: 'center', gap: '0.35rem',
+                        transition: 'all 0.15s', boxShadow: isSelected ? '0 2px 6px rgba(22,163,74,0.25)' : 'none'
+                      }}>
+                        <span style={{ fontSize: '0.9rem' }}>{icon}</span>
                         <span>{label}</span>
                       </button>
                     );
@@ -493,137 +496,95 @@ useEffect(() => {
                 </div>
               </div>
 
-              {/* Product Listing Header */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#111827', margin: 0 }}>
-                  {selectedDept === 'all' ? 'Daily Fresh Groceries' : (deptDisplayName[selectedDept.toLowerCase()] || selectedDept)}
-                </h3>
-                <span style={{ fontSize: '0.8rem', color: '#6b7280', fontWeight: 600 }}>
-                  Showing {filteredProducts.length} items
+              {/* Section header */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.85rem' }}>
+                <h2 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#0f172a', margin: 0 }}>
+                  {selectedDept === 'all' ? 'All Products' : (deptDisplayName[selectedDept.toLowerCase()] || selectedDept)}
+                </h2>
+                <span style={{
+                  fontSize: '0.75rem', color: '#94a3b8', fontWeight: 600,
+                  backgroundColor: '#f1f5f9', padding: '0.3rem 0.7rem', borderRadius: 50
+                }}>
+                  {filteredProducts.length} items
                 </span>
               </div>
 
-              {/* Product Cards Grid */}
-              <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(195px, 1fr))',
-                gap: '1rem'
-              }}>
+              {/* Product Grid */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '0.85rem' }}>
                 {filteredProducts.map(product => {
                   const cartItem = cart[product.product_id];
                   const inCart = Boolean(cartItem);
                   const discountPct = Math.round(((product.mrp - product.price) / product.mrp) * 100);
-
                   return (
-                    <div
-                      key={product.product_id}
-                      style={{
-                        backgroundColor: '#ffffff',
-                        border: inCart ? '1.5px solid #0c831f' : '1px solid #e5e7eb',
-                        borderRadius: '14px',
-                        padding: '0.9rem',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'space-between',
-                        boxShadow: '0 1px 3px rgba(0,0,0,0.03)'
-                      }}
-                    >
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.5rem' }}>
-                        <span style={{
-                          backgroundColor: '#ecfdf5',
-                          color: '#0c831f',
-                          fontSize: '0.62rem',
-                          fontWeight: 800,
-                          padding: '0.15rem 0.45rem',
-                          borderRadius: '4px',
-                          textTransform: 'uppercase'
-                        }}>
-                          {discountPct > 0 ? `${discountPct}% OFF` : 'FRESH'}
-                        </span>
-                        <span style={{ fontSize: '1.4rem' }}>{deptIcons[product.department.toLowerCase()] || '🛒'}</span>
+                    <div key={product.product_id} style={{
+                      backgroundColor: '#fff', borderRadius: 16,
+                      border: inCart ? '2px solid #22c55e' : '1px solid #e2e8f0',
+                      padding: '0.85rem', display: 'flex', flexDirection: 'column',
+                      justifyContent: 'space-between',
+                      boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+                      transition: 'all 0.2s',
+                      transform: inCart ? 'scale(1.01)' : 'none'
+                    }}>
+                      {/* Top row: badge + emoji */}
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.45rem' }}>
+                        {discountPct > 0 ? (
+                          <span style={{
+                            background: 'linear-gradient(135deg, #22c55e, #16a34a)',
+                            color: '#fff', fontSize: '0.6rem', fontWeight: 800,
+                            padding: '0.15rem 0.5rem', borderRadius: 50
+                          }}>{discountPct}% OFF</span>
+                        ) : (
+                          <span style={{
+                            backgroundColor: '#f0fdf4', color: '#16a34a',
+                            fontSize: '0.6rem', fontWeight: 800,
+                            padding: '0.15rem 0.5rem', borderRadius: 50
+                          }}>FRESH</span>
+                        )}
+                        <span style={{ fontSize: '1.5rem' }}>{deptIcons[product.department.toLowerCase()] || '🛒'}</span>
                       </div>
 
+                      {/* Product info */}
                       <div>
-                        <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#6b7280' }}>
-                          {product.unit || '1 pack'}
-                        </span>
+                        <span style={{ fontSize: '0.68rem', fontWeight: 600, color: '#94a3b8' }}>{product.unit || '1 pack'}</span>
                         <h4 style={{
-                          fontSize: '0.875rem',
-                          fontWeight: 700,
-                          lineHeight: 1.3,
-                          color: '#111827',
-                          margin: '0.2rem 0 0.3rem 0',
-                          height: '2.4rem',
-                          overflow: 'hidden',
-                          display: '-webkit-box',
-                          WebkitLineClamp: 2,
-                          WebkitBoxOrient: 'vertical'
-                        }}>
-                          {product.product_name}
-                        </h4>
-                        <p style={{ fontSize: '0.7rem', color: '#9ca3af', textTransform: 'capitalize', margin: 0 }}>
-                          {product.aisle}
-                        </p>
+                          fontSize: '0.85rem', fontWeight: 700, lineHeight: 1.3,
+                          color: '#1e293b', margin: '0.15rem 0 0.2rem', height: '2.2rem',
+                          overflow: 'hidden', display: '-webkit-box',
+                          WebkitLineClamp: 2, WebkitBoxOrient: 'vertical'
+                        }}>{product.product_name}</h4>
+                        <p style={{ fontSize: '0.68rem', color: '#94a3b8', textTransform: 'capitalize', margin: 0 }}>{product.aisle}</p>
                       </div>
 
+                      {/* Price + Add */}
                       <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        marginTop: '0.85rem',
-                        paddingTop: '0.65rem',
-                        borderTop: '1px solid #f3f4f6'
+                        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                        marginTop: '0.75rem', paddingTop: '0.6rem',
+                        borderTop: '1px solid #f1f5f9'
                       }}>
                         <div>
-                          <div style={{ fontSize: '1rem', fontWeight: 900, color: '#111827' }}>
-                            ₹{product.price}
-                          </div>
-                          <div style={{ fontSize: '0.7rem', color: '#9ca3af', textDecoration: 'line-through' }}>
-                            ₹{product.mrp}
-                          </div>
+                          <div style={{ fontSize: '1.05rem', fontWeight: 900, color: '#0f172a' }}>₹{product.price}</div>
+                          <div style={{ fontSize: '0.68rem', color: '#cbd5e1', textDecoration: 'line-through' }}>₹{product.mrp}</div>
                         </div>
-
                         {inCart ? (
                           <div style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '0.35rem',
-                            backgroundColor: '#0c831f',
-                            borderRadius: '8px',
-                            padding: '0.25rem 0.45rem'
+                            display: 'flex', alignItems: 'center', gap: '0.2rem',
+                            background: 'linear-gradient(135deg, #22c55e, #16a34a)',
+                            borderRadius: 10, padding: '0.2rem 0.35rem'
                           }}>
-                            <button
-                              onClick={() => removeFromCart(product.product_id)}
-                              style={{ width: '20px', height: '20px', color: '#ffffff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                            >
-                              <Minus size={12} />
+                            <button onClick={() => removeFromCart(product.product_id)} style={{ width: 22, height: 22, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                              <Minus size={13} />
                             </button>
-                            <span style={{ fontSize: '0.8rem', fontWeight: 900, color: '#ffffff', minWidth: '16px', textAlign: 'center' }}>
-                              {cartItem.quantity}
-                            </span>
-                            <button
-                              onClick={() => addToCart(product)}
-                              style={{ width: '20px', height: '20px', color: '#ffffff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                            >
-                              <Plus size={12} />
+                            <span style={{ fontSize: '0.82rem', fontWeight: 900, color: '#fff', minWidth: 18, textAlign: 'center' }}>{cartItem.quantity}</span>
+                            <button onClick={() => addToCart(product)} style={{ width: 22, height: 22, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                              <Plus size={13} />
                             </button>
                           </div>
                         ) : (
-                          <button
-                            onClick={() => addToCart(product)}
-                            style={{
-                              border: '1.5px solid #0c831f',
-                              backgroundColor: '#ffffff',
-                              color: '#0c831f',
-                              padding: '0.45rem 1rem',
-                              borderRadius: '8px',
-                              fontSize: '0.775rem',
-                              fontWeight: 800,
-                              textTransform: 'uppercase'
-                            }}
-                          >
-                            + ADD
-                          </button>
+                          <button onClick={() => addToCart(product)} style={{
+                            border: '1.5px solid #22c55e', backgroundColor: '#fff',
+                            color: '#16a34a', padding: '0.4rem 1rem', borderRadius: 10,
+                            fontSize: '0.78rem', fontWeight: 800, transition: 'all 0.15s'
+                          }}>+ ADD</button>
                         )}
                       </div>
                     </div>
@@ -632,286 +593,257 @@ useEffect(() => {
               </div>
             </div>
 
-            {/* RIGHT COLUMN: DYNAMIC RECOMMENDATION CARD & CART CARD (ALWAYS VISIBLE!) */}
-            <div style={{ position: 'sticky', top: '95px', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-              
-              {/* 1. DYNAMIC AI RECOMMENDATIONS CARD */}
+            {/* ──── RIGHT COLUMN: Recs + Cart ──── */}
+            <div style={{ position: 'sticky', top: 105, display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+
+              {/* AI Recommendations Card */}
               <div style={{
-                backgroundColor: '#ffffff',
-                border: '1.5px solid #0c831f',
-                borderRadius: '16px',
-                overflow: 'hidden',
-                boxShadow: '0 4px 15px rgba(12, 131, 31, 0.1)'
+                backgroundColor: '#fff', borderRadius: 20, overflow: 'hidden',
+                border: '1px solid #e2e8f0',
+                boxShadow: '0 4px 15px rgba(0,0,0,0.04)'
               }}>
                 <div style={{
-                  background: 'linear-gradient(135deg, #0c831f 0%, #065f46 100%)',
-                  color: '#ffffff',
-                  padding: '0.75rem 1rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.45rem'
+                  background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
+                  color: '#fff', padding: '0.75rem 1rem',
+                  display: 'flex', alignItems: 'center', gap: '0.5rem'
                 }}>
-                  <Sparkles size={16} color="#f7c32e" />
+                  <div style={{
+                    width: 28, height: 28, borderRadius: 8,
+                    background: 'linear-gradient(135deg, #fbbf24, #f59e0b)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center'
+                  }}>
+                    <Sparkles size={14} color="#0f172a" />
+                  </div>
                   <div>
-                    <div style={{ fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.03em' }}>
-                      {lastAddedProduct ? 'Frequently Bought Together' : 'AI Smart Recommendations'}
+                    <div style={{ fontSize: '0.78rem', fontWeight: 800, letterSpacing: '0.02em' }}>
+                      {lastAddedProduct ? 'Frequently Bought Together' : 'Smart Picks for You'}
                     </div>
-                    <div style={{ fontSize: '0.68rem', color: '#bbf7d0' }}>
-                      {lastAddedProduct ? `Pairs with ${lastAddedProduct.product_name.slice(0, 18)}` : `Top picks for Shopper #${currentUser.user_id}`}
+                    <div style={{ fontSize: '0.65rem', color: '#94a3b8' }}>
+                      {lastAddedProduct ? `Goes well with ${lastAddedProduct.product_name.slice(0, 20)}` : `AI picks for User #${currentUser.user_id}`}
                     </div>
                   </div>
                 </div>
 
-                <div style={{ padding: '0.85rem', display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+                <div style={{ padding: '0.7rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                   {sideRecommendations.map(item => {
                     const inCart = Boolean(cart[item.product_id]);
                     return (
-                      <div
-                        key={item.product_id}
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'space-between',
-                          padding: '0.55rem 0.65rem',
-                          borderRadius: '10px',
-                          border: '1px solid #f3f4f6',
-                          backgroundColor: '#fafafa'
-                        }}
-                      >
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flex: 1, minWidth: 0 }}>
-                          <span style={{ fontSize: '1.2rem' }}>{deptIcons[item.department?.toLowerCase()] || '🛒'}</span>
-                          <div style={{ minWidth: 0 }}>
-                            <h5 style={{
-                              fontSize: '0.8rem',
-                              fontWeight: 700,
-                              color: '#111827',
-                              margin: 0,
-                              whiteSpace: 'nowrap',
-                              overflow: 'hidden',
-                              textOverflow: 'ellipsis'
-                            }}>
-                              {item.product_name}
-                            </h5>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', marginTop: '0.1rem' }}>
-                              <span style={{ fontSize: '0.8rem', fontWeight: 800, color: '#111827' }}>
-                                ₹{item.price || 49}
-                              </span>
-                              <span style={{ fontSize: '0.62rem', color: '#0c831f', fontWeight: 700, backgroundColor: '#ecfdf5', padding: '0.05rem 0.3rem', borderRadius: '4px' }}>
-                                {item.matchScore}% Match
-                              </span>
-                            </div>
+                      <div key={item.product_id} style={{
+                        display: 'flex', alignItems: 'center', gap: '0.55rem',
+                        padding: '0.55rem 0.65rem', borderRadius: 14,
+                        border: '1px solid #f1f5f9', backgroundColor: '#fafafa',
+                        transition: 'all 0.15s'
+                      }}>
+                        <span style={{ fontSize: '1.25rem', flexShrink: 0 }}>{deptIcons[item.department?.toLowerCase()] || '🛒'}</span>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <h5 style={{
+                            fontSize: '0.78rem', fontWeight: 700, color: '#1e293b', margin: 0,
+                            whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'
+                          }}>{item.product_name}</h5>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', marginTop: '0.1rem' }}>
+                            <span style={{ fontSize: '0.8rem', fontWeight: 800, color: '#0f172a' }}>₹{item.price || 49}</span>
+                            <span style={{
+                              fontSize: '0.58rem', fontWeight: 700,
+                              backgroundColor: item.matchScore > 70 ? '#fef3c7' : '#f0fdf4',
+                              color: item.matchScore > 70 ? '#92400e' : '#16a34a',
+                              padding: '0.05rem 0.35rem', borderRadius: 50
+                            }}>{item.matchScore}% match</span>
                           </div>
+                          <div style={{ fontSize: '0.62rem', color: '#94a3b8', marginTop: '0.1rem' }}>{item.reason}</div>
                         </div>
-
-                        <button
-                          onClick={() => addToCart(item)}
-                          style={{
-                            marginLeft: '0.4rem',
-                            border: inCart ? '1px solid #0c831f' : 'none',
-                            backgroundColor: inCart ? '#ecfdf5' : '#0c831f',
-                            color: inCart ? '#0c831f' : '#ffffff',
-                            padding: '0.35rem 0.65rem',
-                            borderRadius: '6px',
-                            fontSize: '0.72rem',
-                            fontWeight: 800,
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '0.2rem'
-                          }}
-                        >
-                          {inCart ? `Added (${cart[item.product_id].quantity})` : '+ Add'}
-                        </button>
+                        <button onClick={() => addToCart(item)} style={{
+                          marginLeft: '0.3rem',
+                          backgroundColor: inCart ? '#f0fdf4' : '#0f172a',
+                          color: inCart ? '#16a34a' : '#fff',
+                          border: inCart ? '1px solid #bbf7d0' : 'none',
+                          padding: '0.35rem 0.6rem', borderRadius: 8,
+                          fontSize: '0.7rem', fontWeight: 800, flexShrink: 0,
+                          transition: 'all 0.15s'
+                        }}>{inCart ? '✓' : '+ Add'}</button>
                       </div>
                     );
                   })}
                 </div>
               </div>
 
-              {/* 2. ACTIVE SHOPPING BASKET CARD (ALWAYS VISIBLE RIGHT HERE!) */}
+              {/* Cart Card */}
               <div style={{
-                backgroundColor: '#ffffff',
-                border: '1px solid #e5e7eb',
-                borderRadius: '16px',
-                padding: '1rem',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+                backgroundColor: '#fff', borderRadius: 20, overflow: 'hidden',
+                border: '1px solid #e2e8f0',
+                boxShadow: '0 4px 15px rgba(0,0,0,0.04)'
               }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem', paddingBottom: '0.5rem', borderBottom: '1px solid #f3f4f6' }}>
+                <div style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                  padding: '0.75rem 1rem', borderBottom: '1px solid #f1f5f9'
+                }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                    <ShoppingCart size={18} color="#0c831f" />
-                    <h4 style={{ fontSize: '0.95rem', fontWeight: 800, margin: 0, color: '#111827' }}>
-                      My Basket ({totalCartCount})
+                    <ShoppingCart size={17} color="#16a34a" />
+                    <h4 style={{ fontSize: '0.95rem', fontWeight: 800, margin: 0, color: '#0f172a' }}>
+                      My Basket <span style={{ color: '#94a3b8', fontWeight: 600 }}>({totalCartCount})</span>
                     </h4>
                   </div>
                   {totalCartCount > 0 && (
-                    <button
-                      onClick={() => { setCart({}); setLastAddedProduct(null); }}
-                      style={{ fontSize: '0.72rem', color: '#ef4444', fontWeight: 700 }}
-                    >
-                      Clear
+                    <button onClick={() => { setCart({}); setLastAddedProduct(null); }}
+                      style={{ fontSize: '0.72rem', color: '#ef4444', fontWeight: 700, padding: '0.2rem 0.5rem', borderRadius: 6, backgroundColor: '#fef2f2' }}>
+                      Clear all
                     </button>
                   )}
                 </div>
 
                 {totalCartCount === 0 ? (
-                  <div style={{ textAlign: 'center', padding: '1.5rem 0.5rem', color: '#9ca3af' }}>
-                    <ShoppingCart size={32} style={{ margin: '0 auto 0.5rem', opacity: 0.5 }} />
-                    <p style={{ fontSize: '0.8rem', fontWeight: 600, color: '#6b7280', margin: 0 }}>Your basket is empty</p>
-                    <p style={{ fontSize: '0.7rem', margin: '0.25rem 0 0' }}>Add items from the catalog or suggestions above!</p>
+                  <div style={{ textAlign: 'center', padding: '2rem 1rem', color: '#94a3b8' }}>
+                    <Package size={36} style={{ margin: '0 auto 0.5rem', opacity: 0.4 }} />
+                    <p style={{ fontSize: '0.82rem', fontWeight: 600, color: '#64748b', margin: 0 }}>Your basket is empty</p>
+                    <p style={{ fontSize: '0.72rem', margin: '0.2rem 0 0', color: '#cbd5e1' }}>Add items to get started!</p>
                   </div>
                 ) : (
-                  <div>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', maxHeight: '220px', overflowY: 'auto', marginBottom: '0.85rem' }}>
+                  <div style={{ padding: '0.65rem 1rem' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem', maxHeight: 200, overflowY: 'auto', marginBottom: '0.75rem' }}>
                       {Object.values(cart).map(({ product, quantity }) => (
-                        <div key={product.product_id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.8rem' }}>
+                        <div key={product.product_id} style={{
+                          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                          fontSize: '0.8rem', padding: '0.3rem 0',
+                          borderBottom: '1px solid #f8fafc'
+                        }}>
                           <div style={{ flex: 1, minWidth: 0, paddingRight: '0.5rem' }}>
-                            <div style={{ fontWeight: 700, color: '#111827', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                              {product.product_name}
-                            </div>
-                            <span style={{ fontSize: '0.7rem', color: '#6b7280' }}>₹{product.price} × {quantity}</span>
+                            <div style={{ fontWeight: 700, color: '#1e293b', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{product.product_name}</div>
+                            <span style={{ fontSize: '0.7rem', color: '#94a3b8' }}>₹{product.price} × {quantity}</span>
                           </div>
-
                           <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', backgroundColor: '#0c831f', borderRadius: '5px', padding: '0.1rem 0.25rem' }}>
-                              <button onClick={() => removeFromCart(product.product_id)} style={{ color: '#ffffff', width: '16px', height: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                <Minus size={10} />
-                              </button>
-                              <span style={{ color: '#ffffff', fontSize: '0.75rem', fontWeight: 800, minWidth: '14px', textAlign: 'center' }}>{quantity}</span>
-                              <button onClick={() => addToCart(product)} style={{ color: '#ffffff', width: '16px', height: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                <Plus size={10} />
-                              </button>
+                            <div style={{
+                              display: 'flex', alignItems: 'center',
+                              background: 'linear-gradient(135deg, #22c55e, #16a34a)',
+                              borderRadius: 6, padding: '0.1rem 0.2rem'
+                            }}>
+                              <button onClick={() => removeFromCart(product.product_id)} style={{ color: '#fff', width: 18, height: 18, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Minus size={10} /></button>
+                              <span style={{ color: '#fff', fontSize: '0.72rem', fontWeight: 800, minWidth: 14, textAlign: 'center' }}>{quantity}</span>
+                              <button onClick={() => addToCart(product)} style={{ color: '#fff', width: 18, height: 18, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Plus size={10} /></button>
                             </div>
-                            <button onClick={() => deleteItem(product.product_id)} style={{ color: '#ef4444', padding: '0.1rem' }}>
-                              <Trash2 size={13} />
-                            </button>
+                            <button onClick={() => deleteItem(product.product_id)} style={{ color: '#ef4444', padding: '0.1rem', opacity: 0.6 }}><Trash2 size={13} /></button>
                           </div>
                         </div>
                       ))}
                     </div>
 
-                    <div style={{ borderTop: '1px solid #f3f4f6', paddingTop: '0.65rem', marginBottom: '0.75rem', fontSize: '0.78rem', color: '#6b7280' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.25rem' }}>
-                        <span>Subtotal</span>
-                        <span>₹{cartSubtotal}</span>
+                    <div style={{ borderTop: '1px solid #f1f5f9', paddingTop: '0.65rem', marginBottom: '0.65rem', fontSize: '0.78rem', color: '#64748b' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.2rem' }}>
+                        <span>Subtotal</span><span>₹{cartSubtotal}</span>
                       </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.25rem' }}>
-                        <span>Delivery</span>
-                        <span style={{ color: '#0c831f', fontWeight: 700 }}>FREE</span>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.2rem' }}>
+                        <span>Delivery</span><span style={{ color: '#16a34a', fontWeight: 700 }}>FREE</span>
                       </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1rem', fontWeight: 900, color: '#111827', marginTop: '0.4rem' }}>
-                        <span>Total</span>
-                        <span>₹{Math.round(cartSubtotal * 1.05)}</span>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.2rem' }}>
+                        <span>GST (5%)</span><span>₹{Math.round(cartSubtotal * 0.05)}</span>
+                      </div>
+                      <div style={{
+                        display: 'flex', justifyContent: 'space-between',
+                        fontSize: '1.05rem', fontWeight: 900, color: '#0f172a',
+                        marginTop: '0.4rem', paddingTop: '0.4rem', borderTop: '2px solid #e2e8f0'
+                      }}>
+                        <span>Total</span><span>₹{cartTotal}</span>
                       </div>
                     </div>
 
-                    <button
-                      onClick={handleCheckout}
-                      disabled={checkoutCelebration}
-                      style={{
-                        width: '100%',
-                        backgroundColor: checkoutCelebration ? '#059669' : '#0c831f',
-                        color: '#ffffff',
-                        padding: '0.65rem',
-                        borderRadius: '8px',
-                        fontWeight: 800,
-                        fontSize: '0.85rem',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        gap: '0.4rem',
-                        boxShadow: '0 2px 6px rgba(12, 131, 31, 0.3)'
-                      }}
-                    >
-                      {checkoutCelebration ? 'Order Placed! 10 Mins Arrival' : `Pay ₹${Math.round(cartSubtotal * 1.05)}`}
+                    <button onClick={handleCheckout} disabled={checkoutCelebration} style={{
+                      width: '100%',
+                      background: checkoutCelebration ? 'linear-gradient(135deg, #059669, #047857)' : 'linear-gradient(135deg, #16a34a, #15803d)',
+                      color: '#fff', padding: '0.7rem', borderRadius: 14,
+                      fontWeight: 800, fontSize: '0.88rem',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem',
+                      boxShadow: '0 4px 12px rgba(22,163,74,0.3)',
+                      transition: 'all 0.2s'
+                    }}>
+                      {checkoutCelebration ? (
+                        <><CheckCircle2 size={16} /> Order Placed! Arriving in 10 min</>
+                      ) : (
+                        <><ShoppingBag size={16} /> Checkout · ₹{cartTotal}</>
+                      )}
                     </button>
                   </div>
                 )}
               </div>
 
             </div>
-
           </div>
         ) : (
-          /* DATASET AND MODEL ANALYTICS PAGE */
+          /* ═══════════ DATASET / ANALYTICS PAGE ═══════════ */
           <div>
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-              gap: '1rem',
-              marginBottom: '2rem'
-            }}>
-              <div style={{ backgroundColor: '#ffffff', padding: '1.25rem', borderRadius: '14px', border: '1px solid #e5e7eb' }}>
-                <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#0c831f', textTransform: 'uppercase' }}>Model Precision@10</span>
-                <div style={{ fontSize: '2rem', fontWeight: 900, color: '#111827', margin: '0.2rem 0' }}>
-                  {initialStats.metrics.precision_at_10_percent}%
-                </div>
-                <p style={{ fontSize: '0.75rem', color: '#6b7280' }}>Tested on {initialStats.metrics.unseen_validation_users.toLocaleString()} unseen users</p>
-              </div>
+            <h2 style={{ fontSize: '1.35rem', fontWeight: 900, color: '#0f172a', marginBottom: '1.25rem' }}>
+              📊 Model & Dataset Analytics
+            </h2>
 
-              <div style={{ backgroundColor: '#ffffff', padding: '1.25rem', borderRadius: '14px', border: '1px solid #e5e7eb' }}>
-                <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#0284c7', textTransform: 'uppercase' }}>Model Recall@10</span>
-                <div style={{ fontSize: '2rem', fontWeight: 900, color: '#111827', margin: '0.2rem 0' }}>
-                  {initialStats.metrics.recall_at_10_percent}%
+            {/* Metric Cards */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '0.85rem', marginBottom: '1.75rem' }}>
+              {[
+                { label: 'Precision@10', value: `${initialStats.metrics.precision_at_10_percent}%`, icon: <TrendingUp size={18} />, color: '#16a34a', bg: '#f0fdf4', border: '#bbf7d0', sub: `${initialStats.metrics.unseen_validation_users.toLocaleString()} unseen users` },
+                { label: 'Recall@10', value: `${initialStats.metrics.recall_at_10_percent}%`, icon: <BarChart3 size={18} />, color: '#0284c7', bg: '#f0f9ff', border: '#bae6fd', sub: 'Coverage of actual basket' },
+                { label: 'Total Orders', value: initialStats.orders.toLocaleString(), icon: <Package size={18} />, color: '#7c3aed', bg: '#f5f3ff', border: '#ddd6fe', sub: '206,209 unique shoppers' },
+                { label: 'Reorder Rate', value: `${(initialStats.reorder_rate * 100).toFixed(1)}%`, icon: <RefreshCw size={18} />, color: '#ea580c', bg: '#fff7ed', border: '#fed7aa', sub: '49,688 unique products' }
+              ].map(m => (
+                <div key={m.label} style={{
+                  backgroundColor: '#fff', padding: '1.25rem', borderRadius: 18,
+                  border: `1px solid ${m.border}`,
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.03)'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.5rem' }}>
+                    <div style={{
+                      width: 32, height: 32, borderRadius: 10,
+                      backgroundColor: m.bg, color: m.color,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center'
+                    }}>{m.icon}</div>
+                    <span style={{ fontSize: '0.72rem', fontWeight: 700, color: m.color, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{m.label}</span>
+                  </div>
+                  <div style={{ fontSize: '2.1rem', fontWeight: 900, color: '#0f172a', lineHeight: 1 }}>{m.value}</div>
+                  <p style={{ fontSize: '0.72rem', color: '#94a3b8', margin: '0.3rem 0 0' }}>{m.sub}</p>
                 </div>
-                <p style={{ fontSize: '0.75rem', color: '#6b7280' }}>Coverage of actual future basket</p>
-              </div>
-
-              <div style={{ backgroundColor: '#ffffff', padding: '1.25rem', borderRadius: '14px', border: '1px solid #e5e7eb' }}>
-                <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#7c3aed', textTransform: 'uppercase' }}>Total Real Orders</span>
-                <div style={{ fontSize: '2rem', fontWeight: 900, color: '#111827', margin: '0.2rem 0' }}>
-                  {initialStats.orders.toLocaleString()}
-                </div>
-                <p style={{ fontSize: '0.75rem', color: '#6b7280' }}>Across 206,209 unique shoppers</p>
-              </div>
-
-              <div style={{ backgroundColor: '#ffffff', padding: '1.25rem', borderRadius: '14px', border: '1px solid #e5e7eb' }}>
-                <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#ea580c', textTransform: 'uppercase' }}>Overall Reorder Rate</span>
-                <div style={{ fontSize: '2rem', fontWeight: 900, color: '#111827', margin: '0.2rem 0' }}>
-                  {(initialStats.reorder_rate * 100).toFixed(1)}%
-                </div>
-                <p style={{ fontSize: '0.75rem', color: '#6b7280' }}>49,688 unique products</p>
-              </div>
+              ))}
             </div>
 
-            {/* Charts Grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(450px, 1fr))', gap: '1.5rem', marginBottom: '2rem' }}>
-              <div style={{ backgroundColor: '#ffffff', padding: '1.5rem', borderRadius: '14px', border: '1px solid #e5e7eb' }}>
-                <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#111827', marginBottom: '0.5rem' }}>Orders by Day of Week</h3>
-                <div style={{ display: 'flex', alignItems: 'flex-end', gap: '1rem', height: '170px', paddingBottom: '1.5rem', position: 'relative' }}>
+            {/* Charts */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))', gap: '1.25rem', marginBottom: '2rem' }}>
+              {/* Orders by Weekday */}
+              <div style={{ backgroundColor: '#fff', padding: '1.5rem', borderRadius: 20, border: '1px solid #e2e8f0', boxShadow: '0 2px 8px rgba(0,0,0,0.03)' }}>
+                <h3 style={{ fontSize: '1rem', fontWeight: 800, color: '#0f172a', marginBottom: '1rem' }}>Orders by Day of Week</h3>
+                <div style={{ display: 'flex', alignItems: 'flex-end', gap: '0.75rem', height: 160, paddingBottom: '1.5rem', position: 'relative' }}>
                   {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((dayName, idx) => {
                     const count = initialStats.orders_by_weekday[idx] || 0;
                     const maxVal = Math.max(...Object.values(initialStats.orders_by_weekday));
                     const heightPct = Math.round((count / maxVal) * 100);
                     const isPeak = idx === 0 || idx === 1;
-
                     return (
                       <div key={dayName} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%', justifyContent: 'flex-end' }}>
-                        <span style={{ fontSize: '0.7rem', fontWeight: 700, color: isPeak ? '#0c831f' : '#6b7280', marginBottom: '4px' }}>
-                          {(count / 1000).toFixed(0)}k
-                        </span>
-                        <div style={{ width: '100%', height: `${heightPct}%`, backgroundColor: isPeak ? '#0c831f' : '#cbd5e1', borderRadius: '6px 6px 0 0' }} />
-                        <span style={{ position: 'absolute', bottom: '0px', fontSize: '0.75rem', fontWeight: 700, color: '#4b5563' }}>
-                          {dayName}
-                        </span>
+                        <span style={{ fontSize: '0.68rem', fontWeight: 700, color: isPeak ? '#16a34a' : '#94a3b8', marginBottom: 4 }}>{(count / 1000).toFixed(0)}k</span>
+                        <div style={{
+                          width: '100%', height: `${heightPct}%`,
+                          background: isPeak ? 'linear-gradient(180deg, #22c55e, #16a34a)' : 'linear-gradient(180deg, #e2e8f0, #cbd5e1)',
+                          borderRadius: '8px 8px 0 0', transition: 'height 0.3s'
+                        }} />
+                        <span style={{ position: 'absolute', bottom: 0, fontSize: '0.72rem', fontWeight: 700, color: '#64748b' }}>{dayName}</span>
                       </div>
                     );
                   })}
                 </div>
               </div>
 
-              <div style={{ backgroundColor: '#ffffff', padding: '1.5rem', borderRadius: '14px', border: '1px solid #e5e7eb' }}>
-                <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#111827', marginBottom: '0.5rem' }}>Top 10 Products in Instacart</h3>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+              {/* Top Products */}
+              <div style={{ backgroundColor: '#fff', padding: '1.5rem', borderRadius: 20, border: '1px solid #e2e8f0', boxShadow: '0 2px 8px rgba(0,0,0,0.03)' }}>
+                <h3 style={{ fontSize: '1rem', fontWeight: 800, color: '#0f172a', marginBottom: '0.75rem' }}>Top 10 Products in Instacart</h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.55rem' }}>
                   {initialStats.top_10_products.map((p, idx) => {
                     const maxCount = initialStats.top_10_products[0].order_count;
                     const pct = Math.round((p.order_count / maxCount) * 100);
                     return (
                       <div key={p.product_id}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', fontWeight: 700, marginBottom: '2px' }}>
-                          <span style={{ color: '#1f2937' }}>{idx + 1}. {p.product_name}</span>
-                          <span style={{ color: '#6b7280' }}>{p.order_count.toLocaleString()} orders</span>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.78rem', fontWeight: 700, marginBottom: 2 }}>
+                          <span style={{ color: '#1e293b' }}>{idx + 1}. {p.product_name}</span>
+                          <span style={{ color: '#94a3b8' }}>{p.order_count.toLocaleString()}</span>
                         </div>
-                        <div style={{ width: '100%', height: '7px', backgroundColor: '#f3f4f6', borderRadius: '9999px', overflow: 'hidden' }}>
-                          <div style={{ width: `${pct}%`, height: '100%', backgroundColor: idx === 0 ? '#0c831f' : '#38bdf8', borderRadius: '9999px' }} />
+                        <div style={{ width: '100%', height: 6, backgroundColor: '#f1f5f9', borderRadius: 50, overflow: 'hidden' }}>
+                          <div style={{
+                            width: `${pct}%`, height: '100%',
+                            background: idx === 0 ? 'linear-gradient(90deg, #22c55e, #16a34a)' : 'linear-gradient(90deg, #93c5fd, #3b82f6)',
+                            borderRadius: 50, transition: 'width 0.5s'
+                          }} />
                         </div>
                       </div>
                     );
@@ -923,18 +855,106 @@ useEffect(() => {
         )}
       </main>
 
-      {/* FOOTER */}
+      {/* ═══════════ FOOTER ═══════════ */}
       <footer style={{
-        backgroundColor: '#ffffff',
-        borderTop: '1px solid #e5e7eb',
-        padding: '1.25rem',
-        marginTop: 'auto',
-        textAlign: 'center',
-        fontSize: '0.8rem',
-        color: '#6b7280'
+        backgroundColor: '#0f172a', borderTop: '1px solid #1e293b',
+        padding: '1.25rem 1.5rem', marginTop: 'auto', textAlign: 'center'
       }}>
-        <p>freshcart-grocery-ai • Instacart Market Basket Next Purchase AI • Prices in Indian Rupees (₹)</p>
+        <div style={{ fontSize: '0.82rem', color: '#94a3b8', fontWeight: 600 }}>
+          <span style={{ color: '#22c55e', fontWeight: 800 }}>freshcart-grocery-ai</span> · Instacart Market Basket Analysis · Powered by LightGBM
+        </div>
+        <div style={{ fontSize: '0.68rem', color: '#475569', marginTop: '0.3rem' }}>
+          Prices in Indian Rupees (₹) · Real Instacart Dataset · © 2026
+        </div>
       </footer>
+
+      {/* ═══════════ CART OVERLAY (mobile / full drawer) ═══════════ */}
+      {isCartOpen && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          zIndex: 100, display: 'flex', justifyContent: 'flex-end'
+        }}>
+          <div onClick={() => setIsCartOpen(false)} style={{
+            position: 'absolute', inset: 0, backgroundColor: 'rgba(0,0,0,0.4)',
+            backdropFilter: 'blur(2px)'
+          }} />
+          <div style={{
+            position: 'relative', width: '100%', maxWidth: 420,
+            backgroundColor: '#fff', boxShadow: '-4px 0 20px rgba(0,0,0,0.1)',
+            animation: 'slideInRight 0.25s ease', display: 'flex', flexDirection: 'column'
+          }}>
+            <div style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+              padding: '1rem 1.25rem', borderBottom: '1px solid #e2e8f0'
+            }}>
+              <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#0f172a', margin: 0 }}>
+                🛒 Cart ({totalCartCount} items)
+              </h3>
+              <button onClick={() => setIsCartOpen(false)} style={{ color: '#64748b', padding: '0.25rem' }}><X size={20} /></button>
+            </div>
+
+            <div style={{ flex: 1, overflowY: 'auto', padding: '1rem 1.25rem' }}>
+              {totalCartCount === 0 ? (
+                <div style={{ textAlign: 'center', padding: '3rem 1rem', color: '#94a3b8' }}>
+                  <Package size={48} style={{ margin: '0 auto 0.75rem', opacity: 0.3 }} />
+                  <p style={{ fontSize: '0.9rem', fontWeight: 600, color: '#64748b' }}>Your cart is empty</p>
+                </div>
+              ) : (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+                  {Object.values(cart).map(({ product, quantity }) => (
+                    <div key={product.product_id} style={{
+                      display: 'flex', alignItems: 'center', gap: '0.75rem',
+                      padding: '0.65rem', borderRadius: 14,
+                      border: '1px solid #f1f5f9', backgroundColor: '#fafafa'
+                    }}>
+                      <span style={{ fontSize: '1.5rem' }}>{deptIcons[product.department?.toLowerCase()] || '🛒'}</span>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ fontWeight: 700, fontSize: '0.85rem', color: '#1e293b', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{product.product_name}</div>
+                        <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>₹{product.price} × {quantity} = ₹{product.price * quantity}</span>
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+                        <div style={{
+                          display: 'flex', alignItems: 'center',
+                          background: 'linear-gradient(135deg, #22c55e, #16a34a)',
+                          borderRadius: 8, padding: '0.15rem 0.3rem'
+                        }}>
+                          <button onClick={() => removeFromCart(product.product_id)} style={{ color: '#fff', width: 22, height: 22, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Minus size={12} /></button>
+                          <span style={{ color: '#fff', fontSize: '0.8rem', fontWeight: 800, minWidth: 18, textAlign: 'center' }}>{quantity}</span>
+                          <button onClick={() => addToCart(product)} style={{ color: '#fff', width: 22, height: 22, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Plus size={12} /></button>
+                        </div>
+                        <button onClick={() => deleteItem(product.product_id)} style={{ color: '#ef4444', padding: '0.15rem' }}><Trash2 size={14} /></button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {totalCartCount > 0 && (
+              <div style={{ padding: '1rem 1.25rem', borderTop: '1px solid #e2e8f0' }}>
+                <div style={{ fontSize: '0.82rem', color: '#64748b', marginBottom: '0.65rem' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.2rem' }}><span>Subtotal</span><span>₹{cartSubtotal}</span></div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.2rem' }}><span>Delivery</span><span style={{ color: '#16a34a', fontWeight: 700 }}>FREE</span></div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>GST (5%)</span><span>₹{Math.round(cartSubtotal * 0.05)}</span></div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.1rem', fontWeight: 900, color: '#0f172a', marginTop: '0.5rem', paddingTop: '0.5rem', borderTop: '2px solid #e2e8f0' }}>
+                    <span>Total</span><span>₹{cartTotal}</span>
+                  </div>
+                </div>
+                <button onClick={handleCheckout} disabled={checkoutCelebration} style={{
+                  width: '100%',
+                  background: checkoutCelebration ? 'linear-gradient(135deg, #059669, #047857)' : 'linear-gradient(135deg, #16a34a, #15803d)',
+                  color: '#fff', padding: '0.8rem', borderRadius: 14,
+                  fontWeight: 800, fontSize: '0.95rem',
+                  boxShadow: '0 4px 12px rgba(22,163,74,0.3)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem'
+                }}>
+                  {checkoutCelebration ? <><CheckCircle2 size={18} /> Order Placed!</> : <><ShoppingBag size={18} /> Pay ₹{cartTotal}</>}
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
