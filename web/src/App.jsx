@@ -69,9 +69,18 @@ export default function App() {
   const [selectedDept, setSelectedDept] = useState('all');
   const [checkoutCelebration, setCheckoutCelebration] = useState(false);
   const [dynamicPredictions, setDynamicPredictions] = useState([]);
+  const [personalRecs, setPersonalRecs] = useState([]);
   const [lastAddedProduct, setLastAddedProduct] = useState(null);
 
-  // Current active customer profile
+  // Fetch personal recommendations when user changes
+useEffect(() => {
+  fetch(`${process.env.REACT_APP_API_URL || ''}/api/personal_recommendations?user_id=${selectedUserId}`)
+    .then(r => r.json())
+    .then(data => {
+      setPersonalRecs(data.recommendations || []);
+    })
+    .catch(err => console.error('Personal recs error', err));
+}, [selectedUserId]);
   const currentUser = useMemo(() => {
     return initialDemoUsers.find(u => u.user_id === selectedUserId) || initialDemoUsers[0];
   }, [selectedUserId]);
