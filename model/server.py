@@ -218,6 +218,46 @@ def predict_next_basket(req: PredictRequest):
     }
 
 
+@app.get("/api/personal_recommendations")
+def get_personal_recommendations(user_id: int = Query(..., description="User ID for personalized recommendations")):
+    """Return top personal recommendations for a given user ID without cart context."""
+    user_data = demo_users_map.get(user_id)
+    if not user_data:
+        # fallback to first demo user if ID not found
+        user_data = demo_users[0]
+    candidates = user_data["candidates"]
+    scored = []
+    for c in candidates:
+        pid = c["product_id"]
+        base_prob = c["pred_prob"]
+        # No cart boost
+        dynamic_prob = min(0.99, base_prob)
+        prod_info = catalog_by_id.get(pid, {
+            "product_id": pid,
+            "product_name": c["product_name"],
+            "department": c["department"],
+            "price": c.get("price", 65),
+            "mrp": c.get("mrp", 85),
+            "unit": c.get("unit", "1 pack"),
+        })
+        scored.append({
+            "product_id": pid,
+            "product_name": prod_info.get("product_name", c["product_name"]),
+            "department": prod_info.get("department", c["department"]),
+            "price": prod_info.get("price", c.get("price", 65)),
+            "mrp": prod_info.get("mrp", c.get("mrp", 85)),
+            "unit": prod_info.get("unit", c.get("unit", "1 pack")),
+            "base_prob": base_prob,
+            "dynamic_prob": round(dynamic_prob, 4),
+            "in_cart": False,
+            "reasons": [],
+            "purchase_count": c["purchase_count"],
+            "orders_since_last": c["orders_since_last_purchase"],
+            "actual_reordered": c.get("actual_reordered_in_next", False),
+        })
+    scored.sort(key=lambda x: x["dynamic_prob"], reverse=True)
+    return {"user_id": user_id, "recommendations": scored[:10]}
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="127.0.0.1", port=8000)
